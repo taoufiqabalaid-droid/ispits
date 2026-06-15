@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ISPITS Marrakech - Portail Professionnel d'Inscription</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;background:#f4f7fb;margin:0}
+header{background:#0b5ed7;color:#fff;padding:20px;text-align:center}
+.container{max-width:1200px;margin:auto;background:#fff;padding:25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+label{font-weight:600}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px}
+textarea{min-height:90px}
+.section{margin-top:25px;border-top:1px solid #ddd;padding-top:20px}
+.btn{padding:12px 18px;border:none;border-radius:6px;cursor:pointer;margin:4px}
+.primary{background:#0d6efd;color:#fff}
+.success{background:#198754;color:#fff}
+.dark{background:#212529;color:#fff}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ddd;padding:8px}
+@media print{.no-print{display:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>ISPITS Marrakech</h1>
+<h3>Plateforme Professionnelle d'Inscription / Réinscription</h3>
+</header>
+
+<div class="container">
+<form id="inscriptionForm">
+
+<div class="grid">
+<div><label>Nom et prénom *</label><input name="nom" required></div>
+<div><label>Date de naissance *</label><input type="date" name="dateNaissance" required></div>
+<div><label>CNI *</label><input name="cni" required></div>
+<div><label>Code Massar *</label><input name="massar" required></div>
+<div><label>Nationalité *</label><input name="nationalite" required></div>
+<div><label>Adresse *</label><input name="adresse" required></div>
+<div><label>Email *</label><input type="email" name="email" required></div>
+<div><label>Téléphone *</label><input name="telephone" required></div>
+<div><label>Filière *</label><input name="filiere" required></div>
+<div><label>Option</label><input name="option"></div>
+<div><label>Promotion</label><input name="promotion"></div>
+<div><label>Semestre</label><input name="semestre"></div>
+</div>
+
+<div class="section">
+<h3>Modules</h3>
+<div class="grid">
+<input placeholder="Module 1">
+<input placeholder="Module 2">
+<input placeholder="Module 3">
+<input placeholder="Module 4">
+<input placeholder="Module 5">
+<input placeholder="Module 6">
+<input placeholder="Module 7">
+</div>
+</div>
+
+<div class="section">
+<h3>Pièces Jointes</h3>
+<label>Photo d'identité</label>
+<input type="file" accept="image/*">
+<label>Certificat médical scanné</label>
+<input type="file" accept=".pdf,image/*">
+<label>Numéro de dépôt</label>
+<input>
+</div>
+
+<div class="section">
+<h3>Avis Administratifs</h3>
+<textarea placeholder="Coordinateur de l'option"></textarea>
+<textarea placeholder="Coordinateur de la filière"></textarea>
+<textarea placeholder="Directeur adjoint chargé des études"></textarea>
+</div>
+
+<div class="section no-print">
+<button type="button" class="btn success" onclick="window.print()">Imprimer / PDF</button>
+<button type="button" class="btn primary" onclick="saveData()">Sauvegarder</button>
+<button type="button" class="btn dark" onclick="exportExcel()">Exporter CSV</button>
+</div>
+
+</form>
+
+<div class="section">
+<h3>Configuration Google Sheets</h3>
+<p>Remplacez GOOGLE_APPS_SCRIPT_URL par votre URL Apps Script.</p>
+<pre>
+const GOOGLE_APPS_SCRIPT_URL = "COLLER_VOTRE_URL_ICI";
+</pre>
+</div>
+
+<div class="section">
+<h3>Compte Administrateur (démo)</h3>
+<table>
+<tr><th>Identifiant</th><th>Mot de passe</th></tr>
+<tr><td>admin</td><td>admin123</td></tr>
+</table>
+</div>
+
+</div>
+
+<script>
+function saveData(){
+ const data=new FormData(document.getElementById('inscriptionForm'));
+ const obj={};
+ data.forEach((v,k)=>obj[k]=v);
+ localStorage.setItem('ispits_data',JSON.stringify(obj));
+ alert('Données sauvegardées.');
+}
+
+function exportExcel(){
+ let csv="Champ,Valeur\\n";
+ document.querySelectorAll('input[name]').forEach(i=>{
+   csv+=i.name+","+(i.value||"")+"\\n";
+ });
+ const blob=new Blob([csv],{type:'text/csv'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='inscription.csv';
+ a.click();
+}
+</script>
+</body>
+</html>
