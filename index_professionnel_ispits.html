@@ -88,10 +88,47 @@ th,td{border:1px solid #ddd;padding:8px}
 <h3>Configuration Google Sheets</h3>
 <p>Remplacez GOOGLE_APPS_SCRIPT_URL par votre URL Apps Script.</p>
 <pre>
-const GOOGLE_APPS_SCRIPT_URL = ""https://script.google.com/macros/s/AKfycbwBr9t5b21aVGjeiuNk96kzY3Pr8qXYeOunqJjgGDpPndqobYVodtl6YYpKWW1aQGyZSw/exec";";
-</pre>
-</div>
+const GOOGLE_APPS_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwBr9t5b21aVGjeiuNk96kzY3Pr8qXYeOunqJjgGDpPndqobYVodtl6YYpKWW1aQGyZSw/exec";
 
+async function sendToSheets() {
+
+ const form = document.getElementById("inscriptionForm");
+ const data = new FormData(form);
+
+ const payload = {};
+
+ data.forEach((value,key)=>{
+   payload[key] = value;
+ });
+
+ try {
+
+   const response = await fetch(
+      GOOGLE_APPS_SCRIPT_URL,
+      {
+         method:"POST",
+         headers:{
+            "Content-Type":"application/json"
+         },
+         body:JSON.stringify(payload)
+      }
+   );
+
+   const result = await response.json();
+
+   if(result.success){
+      alert("Inscription enregistrée avec succès.");
+   }else{
+      alert("Erreur d'enregistrement.");
+   }
+
+ } catch(err){
+   console.error(err);
+   alert("Connexion impossible.");
+ }
+
+}
 <div class="section">
 <h3>Compte Administrateur (démo)</h3>
 <table>
