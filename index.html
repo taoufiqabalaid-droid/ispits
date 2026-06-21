@@ -151,8 +151,9 @@
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Option <span class="text-cyan-500">*</span></label>
-                    <select id="option" class="inp">
-                         <option value="IP">IP</option>
+                    <select id="option" class="inp" onchange="changerCouleurOption(this)">
+                         <option value="">Sélectionner une option</option>
+                        <option value="IP">IP</option>
                         <option value="ISM">ISM</option>
                         <option value="IAR">IAR</option>
                         <option value="ISUSI">ISUSI</option>
