@@ -3,547 +3,599 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription — Certificat Médical</title>
+    <title>ISPITS — Inscription</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <style>
-        * { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        .file-drop-zone { border: 2px dashed rgba(255,255,255,0.15); transition: all 300ms ease; }
-        .file-drop-zone:hover, .file-drop-zone.dragover { border-color: #06b6d4; background: rgba(6,182,212,0.05); }
-        .file-drop-zone.has-file { border-color: #22c55e; background: rgba(34,197,94,0.05); border-style: solid; }
-        .duration-card { transition: all 300ms ease; cursor: pointer; }
-        .duration-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(6,182,212,0.4); }
-        .duration-card.selected { background: rgba(6,182,212,0.1); border-color: #06b6d4; box-shadow: 0 0 20px rgba(6,182,212,0.15); }
-        .duration-card.selected .check-circle { background: #06b6d4; border-color: #06b6d4; }
-        .duration-card.selected .check-circle .iconify { opacity: 1; }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
-        .toast { transform: translateY(20px); opacity: 0; transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1); }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .progress-step { transition: all 300ms ease; }
-        .progress-step.active { background: #06b6d4; box-shadow: 0 0 15px rgba(6,182,212,0.5); }
-        .progress-step.completed { background: #22c55e; }
-        .progress-line { transition: background 300ms ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .delay-1 { animation-delay: 0.1s; opacity: 0; }
-        .section-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
-        .bg-grid { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
-        .spinner { border: 2px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; width: 18px; height: 18px; animation: spin 0.6s linear infinite; display: inline-block; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .status-dot.connected { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5); }
-        .status-dot.disconnected { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.5); }
-        .status-dot.testing { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.5); animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
-        .upload-progress { height: 3px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .upload-progress-bar { height: 100%; background: linear-gradient(90deg, #06b6d4, #22d3ee); border-radius: 4px; transition: width 300ms ease; }
+        *{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0f172a}::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+        .file-drop-zone{border:2px dashed rgba(255,255,255,0.12);transition:all 300ms ease}
+        .file-drop-zone:hover,.file-drop-zone.dragover{border-color:#06b6d4;background:rgba(6,182,212,0.04)}
+        .file-drop-zone.has-file{border-color:#22c55e;background:rgba(34,197,94,0.04);border-style:solid}
+        .dur-card{transition:all 300ms ease;cursor:pointer}
+        .dur-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(6,182,212,0.35)}
+        .dur-card.sel{background:rgba(6,182,212,0.08);border-color:#06b6d4;box-shadow:0 0 24px rgba(6,182,212,0.12)}
+        .dur-card.sel .chk{background:#06b6d4;border-color:#06b6d4}
+        .dur-card.sel .chk .iconify{opacity:1}
+        input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+        .toast{transform:translateY(20px);opacity:0;transition:all 400ms cubic-bezier(.16,1,.3,1)}
+        .toast.show{transform:translateY(0);opacity:1}
+        .step-dot{transition:all 300ms ease}
+        .step-dot.act{background:#06b6d4;box-shadow:0 0 16px rgba(6,182,212,0.5)}
+        .step-dot.done{background:#22c55e}
+        .step-line{transition:background 300ms ease}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .anim{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) forwards}
+        .d1{animation-delay:.1s;opacity:0}
+        .d2{animation-delay:.2s;opacity:0}
+        .card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px;margin-bottom:20px}
+        .grid-bg{background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);mask-image:linear-gradient(to bottom,black 40%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%)}
+        .spin{border:2px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;width:18px;height:18px;animation:sp .6s linear infinite;display:inline-block}
+        @keyframes sp{to{transform:rotate(360deg)}}
+        .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .sdot.ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,0.5)}
+        .sdot.no{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,0.5)}
+        .sdot.wait{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,0.5);animation:pulse 1s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+        .inp{width:100%;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:14px;outline:none;transition:all 200ms}
+        .inp:focus{border-color:rgba(6,182,212,0.4);box-shadow:0 0 0 3px rgba(6,182,212,0.08)}
+        .inp::placeholder{color:#475569}
+        .sel-btn{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#94a3b8;font-size:14px;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:8px}
+        .sel-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
+        .sel-btn.on{border-color:#06b6d4;background:rgba(6,182,212,0.08);color:#fff}
+        .radio-card{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);cursor:pointer;transition:all 200ms}
+        .radio-card:hover{background:rgba(255,255,255,0.05)}
+        .radio-card:has(input:checked){border-color:rgba(6,182,212,0.4);background:rgba(6,182,212,0.06)}
     </style>
 </head>
 <body class="bg-[#020617] text-white min-h-screen relative overflow-x-hidden">
 
-    <div class="fixed inset-0 bg-grid pointer-events-none"></div>
-    <div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-500/5 rounded-full pointer-events-none" style="filter:blur(120px)"></div>
+<!-- BG -->
+<div class="fixed inset-0 grid-bg pointer-events-none"></div>
+<div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-cyan-500/[0.04] rounded-full pointer-events-none" style="filter:blur(120px)"></div>
+<div class="fixed bottom-[-200px] right-[-100px] w-[600px] h-[400px] bg-cyan-500/[0.03] rounded-full pointer-events-none" style="filter:blur(100px)"></div>
 
-    <!-- NAV -->
-    <nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(2,6,23,0.8);backdrop-filter:blur(12px)">
-        <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
-                    <span class="iconify text-white text-sm" data-icon="mdi:shield-check"></span>
-                </div>
-                <span class="font-medium text-white">Inscription</span>
-            </a>
-            <div class="flex items-center gap-3">
-                <div id="sheetsStatus" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 text-xs cursor-pointer" onclick="toggleConfig()">
-                    <div class="status-dot disconnected" id="statusDot"></div>
-                    <span id="statusText" class="text-slate-500">Sheets non configuré</span>
-                    <span class="iconify text-slate-600 text-sm" data-icon="mdi:chevron-down"></span>
-                </div>
-                <button onclick="showHelp()" class="w-8 h-8 rounded-lg border border-white/10 hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-all" title="Guide de configuration">
-                    <span class="iconify text-sm" data-icon="mdi:help-circle-outline"></span>
-                </button>
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.05)">
+    <div class="max-w-5xl mx-auto w-full flex items-center justify-between">
+        <a href="#" class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <span class="iconify text-white text-base" data-icon="mdi:school-outline"></span>
             </div>
+            <div>
+                <span class="font-semibold text-white text-sm tracking-wide">ISPITS</span>
+                <span class="hidden sm:inline text-slate-600 text-xs ml-2">Inscription</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-2">
+            <div id="statusBadge" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] text-xs cursor-pointer hover:bg-white/[0.06] transition-all" onclick="toggleCfg()">
+                <div class="sdot no" id="sDot"></div>
+                <span id="sTxt" class="text-slate-500 hidden sm:inline">Non configuré</span>
+                <span class="iconify text-slate-600 text-xs" data-icon="mdi:chevron-down"></span>
+            </div>
+            <button onclick="showHelp()" class="w-8 h-8 rounded-lg border border-white/[0.06] hover:bg-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white transition-all">
+                <span class="iconify text-sm" data-icon="mdi:help-circle-outline"></span>
+            </button>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- CONFIG PANEL -->
-    <div id="configPanel" class="fixed top-16 left-0 right-0 z-40 hidden" style="background:rgba(15,23,42,0.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)">
-        <div class="max-w-3xl mx-auto px-6 py-5">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="iconify text-cyan-400" data-icon="mdi:google-spreadsheet"></span>
-                    <h3 class="text-sm font-medium">Configuration Google Sheets</h3>
-                </div>
-                <button onclick="toggleConfig()" class="text-slate-500 hover:text-white transition-colors">
-                    <span class="iconify text-lg" data-icon="mdi:close"></span>
-                </button>
+<!-- CONFIG PANEL -->
+<div id="cfgPanel" class="fixed top-16 left-0 right-0 z-40 hidden" style="background:rgba(15,23,42,0.98);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div class="max-w-5xl mx-auto px-6 py-5">
+        <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+                <span class="iconify text-cyan-400" data-icon="mdi:google-spreadsheet"></span>
+                <span class="text-sm font-medium">Liaison Google Sheets</span>
             </div>
-            <div class="flex gap-3">
-                <input type="url" id="appsScriptUrl" placeholder="https://script.google.com/macros/s/AKfycbyBxoEOpJFH4zqhhy6MJRRColz2x5a68TGbdhmbV-ueaC-gXzhsjoQdVX-vflPyWWN5/exec"
-                    class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all">
-                <button onclick="saveConfig()" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-medium rounded-xl transition-all">Enregistrer</button>
-                <button onclick="testConnection()" id="testBtn" class="px-5 py-2.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white text-sm font-medium rounded-xl transition-all flex items-center gap-2">
+            <button onclick="toggleCfg()" class="text-slate-500 hover:text-white transition-colors"><span class="iconify text-lg" data-icon="mdi:close"></span></button>
+        </div>
+        <p class="text-xs text-slate-600 mb-3">Collez l'URL de votre Web App déployée depuis Apps Script. Cliquez <span class="text-cyan-500 cursor-pointer" onclick="showHelp()">ici pour le guide</span>.</p>
+        <div class="flex flex-col sm:flex-row gap-2">
+            <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/AKfycbyBxoEOpJFH4zqhhy6MJRRColz2x5a68TGbdhmbV-ueaC-gXzhsjoQdVX-vflPyWWN5/exec" class="inp flex-1">
+            <div class="flex gap-2">
+                <button onclick="saveCfg()" class="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-medium rounded-xl transition-all whitespace-nowrap">Enregistrer</button>
+                <button onclick="testConn()" class="px-4 py-2.5 border border-white/[0.08] hover:bg-white/[0.06] text-slate-400 hover:text-white text-sm rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <span class="iconify" data-icon="mdi:connection"></span> Tester
                 </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- PROGRESS -->
-    <div class="fixed top-16 left-0 right-0 z-30 h-1 bg-white/5">
-        <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500 ease-out" style="width:33%"></div>
+<!-- PROGRESS BAR -->
+<div class="fixed top-16 left-0 right-0 z-30 h-[3px] bg-white/[0.03]">
+    <div id="pBar" class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500" style="width:33%"></div>
+</div>
+
+<!-- STEPS -->
+<div class="fixed top-[67px] left-0 right-0 z-30 hidden md:flex justify-center py-3.5" style="background:rgba(2,6,23,0.5);backdrop-filter:blur(8px)">
+    <div class="flex items-center">
+        <button onclick="go(1)" class="flex items-center gap-2 cursor-pointer"><div id="d1" class="step-dot act w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold">1</div><span id="l1" class="text-sm font-medium text-white pr-5">Informations</span></button>
+        <div id="ln1" class="step-line w-12 lg:w-20 h-px bg-white/[0.08] -mt-5"></div>
+        <button onclick="go(2)" class="flex items-center gap-2 cursor-pointer"><div id="d2" class="step-dot w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold text-slate-500">2</div><span id="l2" class="text-sm text-slate-500 pr-5 transition-colors">Certificat</span></button>
+        <div id="ln2" class="step-line w-12 lg:w-20 h-px bg-white/[0.08] -mt-5"></div>
+        <button onclick="go(3)" class="flex items-center gap-2 cursor-pointer"><div id="d3" class="step-dot w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold text-slate-500">3</div><span id="l3" class="text-sm text-slate-500 transition-colors">Confirmation</span></button>
+    </div>
+</div>
+
+<!-- MAIN -->
+<main class="relative z-10 pt-32 md:pt-36 pb-24 px-4">
+<div class="max-w-2xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="text-center mb-10 anim">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.06] bg-white/[0.03] mb-5">
+            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
+            <span class="text-xs font-medium text-slate-400">Inscription ISPITS</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight mb-3" style="background:linear-gradient(to bottom,#fff,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Formulaire d'inscription</h1>
+        <p class="text-base font-light text-slate-500 max-w-lg mx-auto">Complétez chaque étape pour soumettre votre dossier</p>
     </div>
 
-    <!-- STEPS -->
-    <div class="fixed top-[72px] left-0 right-0 z-30 hidden md:flex justify-center py-4 px-6" style="background:rgba(2,6,23,0.6);backdrop-filter:blur(8px)">
-        <div class="flex items-center">
-            <button onclick="goToStep(1)" class="flex items-center gap-3 cursor-pointer">
-                <div id="step1Circle" class="progress-step active w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium">1</div>
-                <span id="step1Label" class="text-sm font-medium text-white pr-6">Informations personnelles</span>
+    <!-- ===== STEP 1 ===== -->
+    <div id="p1" class="anim d1">
+        <div class="card">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:account-outline"></span></div>
+                <div><h2 class="text-lg font-medium">Informations personnelles</h2><p class="text-xs text-slate-600">Étape 1 sur 3</p></div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Nom <span class="text-cyan-500">*</span></label><input type="text" id="fNom" placeholder="Nom de famille" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Prénom <span class="text-cyan-500">*</span></label><input type="text" id="fPrenom" placeholder="Prénom" class="inp"></div>
+                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-1.5">Email <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Filière <span class="text-cyan-500">*</span></label>
+                    <select id="fFiliere" class="inp">
+                        <option value="" class="bg-slate-900">Sélectionner...</option>
+                        <option value="Informatique" class="bg-slate-900">Informatique</option>
+                        <option value="Gestion" class="bg-slate-900">Gestion</option>
+                        <option value="Commerce" class="bg-slate-900">Commerce</option>
+                        <option value="Comptabilité" class="bg-slate-900">Comptabilité</option>
+                        <option value="Autre" class="bg-slate-900">Autre</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-2">Genre <span class="text-cyan-500">*</span></label><div class="flex gap-2">
+                    <button type="button" onclick="pickG(this)" class="sel-btn"><span class="iconify" data-icon="mdi:gender-male"></span> Homme</button>
+                    <button type="button" onclick="pickG(this)" class="sel-btn"><span class="iconify" data-icon="mdi:gender-female"></span> Femme</button>
+                </div></div>
+            </div>
+        </div>
+        <div class="flex justify-end"><button onclick="go(2)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.25)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button></div>
+    </div>
+
+    <!-- ===== STEP 2 ===== -->
+    <div id="p2" class="hidden">
+        <div class="card anim">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:certificate-outline"></span></div>
+                <div><h2 class="text-lg font-medium">Certificat médical</h2><p class="text-xs text-slate-600">Étape 2 sur 3</p></div>
+            </div>
+            <div class="flex items-center gap-2 mb-5 ml-12"><span class="iconify text-amber-400 text-xs" data-icon="mdi:information-outline"></span><p class="text-[11px] text-slate-600">Le fichier sera uploadé sur Google Drive et le lien sera ajouté au Sheet automatiquement</p></div>
+
+            <!-- UPLOAD -->
+            <div class="mb-6">
+                <label class="block text-xs font-medium text-slate-400 mb-2">Insérer le certificat médical <span class="text-cyan-500">*</span></label>
+                <div id="dropZ" class="file-drop-zone rounded-2xl p-7 text-center cursor-pointer" onclick="document.getElementById('fFile').click()" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
+                    <div id="upDef" class="flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mb-3"><span class="iconify text-2xl text-slate-600" data-icon="mdi:cloud-upload-outline"></span></div>
+                        <p class="text-sm font-medium text-slate-300 mb-0.5">Glissez-déposez votre certificat</p>
+                        <p class="text-[11px] text-slate-600 mb-3">ou cliquez pour parcourir</p>
+                        <div class="flex items-center gap-3 text-[11px] text-slate-700"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
+                    </div>
+                    <div id="upOk" class="hidden flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
+                        <p class="text-sm font-medium text-green-400 mb-0.5">Fichier prêt</p>
+                        <p id="fName" class="text-xs text-slate-400 mb-0.5">fichier.pdf</p>
+                        <p id="fSize" class="text-[11px] text-slate-600 mb-3">0 Ko</p>
+                        <button type="button" onclick="rmFile(event)" class="text-[11px] text-slate-600 hover:text-red-400 transition-colors flex items-center gap-1"><span class="iconify" data-icon="mdi:delete-outline"></span> Supprimer</button>
+                    </div>
+                    <input type="file" id="fFile" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="fSel(event)">
+                </div>
+            </div>
+
+            <!-- DURATION -->
+            <div class="mb-5">
+                <label class="block text-xs font-medium text-slate-400 mb-2">Durée du certificat <span class="text-cyan-500">*</span></label>
+                <div class="grid grid-cols-4 gap-2.5 mb-5">
+                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'3 mois')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">3</p><p class="text-[10px] text-slate-600">Mois</p></div>
+                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'6 mois')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">6</p><p class="text-[10px] text-slate-600">Mois</p></div>
+                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'12 mois')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">12</p><p class="text-[10px] text-slate-600">Mois</p></div>
+                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'24 mois')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">24</p><p class="text-[10px] text-slate-600">Mois</p></div>
+                </div>
+                <div class="flex items-center gap-3 mb-3"><div class="flex-1 h-px bg-white/[0.06]"></div><span class="text-[10px] text-slate-700 font-medium uppercase tracking-widest">ou manuellement</span><div class="flex-1 h-px bg-white/[0.06]"></div></div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date de début</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-start"></span><input type="date" id="fDebut" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-end"></span><input type="date" id="fFin" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
+                </div>
+                <div id="calcBox" class="hidden mt-3 p-3 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15 flex items-center gap-2.5"><span class="iconify text-cyan-400" data-icon="mdi:clock-check-outline"></span><p class="text-xs text-cyan-300">Durée : <span id="durTxt" class="font-medium text-white"></span></p></div>
+            </div>
+
+            <!-- TYPE -->
+            <div>
+                <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat</label>
+                <div class="grid sm:grid-cols-2 gap-2.5">
+                    <label class="radio-card"><input type="radio" name="cType" value="aptitude" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Certificat d'aptitude</p><p class="text-[11px] text-slate-600">Aptitude physique et sportive</p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="non-contre-indication" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Non contre-indication</p><p class="text-[11px] text-slate-600">Absence de contre-indication</p></div></label>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between">
+            <button onclick="go(1)" class="px-5 py-3 border border-white/[0.08] hover:bg-white/[0.04] text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
+            <button onclick="go(3)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.25)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button>
+        </div>
+    </div>
+
+    <!-- ===== STEP 3 ===== -->
+    <div id="p3" class="hidden">
+        <div class="card anim">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:check-decagram-outline"></span></div>
+                <div><h2 class="text-lg font-medium">Récapitulatif</h2><p class="text-xs text-slate-600">Étape 3 sur 3 — Vérifiez avant envoi</p></div>
+            </div>
+            <div class="flex items-center gap-2.5 mb-5 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                <span class="iconify text-slate-600" data-icon="mdi:google-spreadsheet"></span>
+                <p class="text-[11px] text-slate-600">Données → Google Sheet &nbsp;•&nbsp; Certificat → Google Drive</p>
+            </div>
+            <div class="space-y-3 mb-6">
+                <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-400 text-sm" data-icon="mdi:account-outline"></span><span class="text-xs font-medium text-slate-400">Informations personnelles</span></div>
+                    <div class="grid grid-cols-2 gap-y-1.5 gap-x-5 text-[13px]">
+                        <div><span class="text-[11px] text-slate-700 block">Nom complet</span><span id="rNom" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Email</span><span id="rEmail" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Téléphone</span><span id="rTel" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Naissance</span><span id="rNaiss" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">CIN</span><span id="rCIN" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Filière</span><span id="rFil" class="text-white font-medium">—</span></div>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-400 text-sm" data-icon="mdi:certificate-outline"></span><span class="text-xs font-medium text-slate-400">Certificat médical</span></div>
+                    <div class="grid grid-cols-2 gap-y-1.5 gap-x-5 text-[13px]">
+                        <div><span class="text-[11px] text-slate-700 block">Fichier</span><span id="rFile" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Durée</span><span id="rDur" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Date début</span><span id="rDeb" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Date fin</span><span id="rFin" class="text-white font-medium">—</span></div>
+                    </div>
+                </div>
+            </div>
+            <label class="flex items-start gap-3 cursor-pointer p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] transition-all has-[:checked]:border-cyan-500/25 has-[:checked]:bg-cyan-500/[0.04]">
+                <input type="checkbox" id="fTerms" class="accent-cyan-500 mt-0.5">
+                <p class="text-xs text-slate-500">J'atteste l'exactitude des informations et j'accepte les <a href="#" class="text-cyan-400 underline underline-offset-2">conditions d'inscription</a> de l'ISPITS.</p>
+            </label>
+        </div>
+        <div class="flex justify-between">
+            <button onclick="go(2)" class="px-5 py-3 border border-white/[0.08] hover:bg-white/[0.04] text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
+            <button id="sendBtn" onclick="send()" class="px-7 py-3 bg-white text-slate-900 hover:bg-cyan-50 font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(255,255,255,0.08)">
+                <span class="iconify" data-icon="mdi:google-spreadsheet"></span> Envoyer vers Sheets
             </button>
-            <div id="line1" class="progress-line w-16 md:w-24 h-px bg-white/10 -mt-6"></div>
-            <button onclick="goToStep(2)" class="flex items-center gap-3 cursor-pointer">
-                <div id="step2Circle" class="progress-step w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium text-slate-400">2</div>
-                <span id="step2Label" class="text-sm text-slate-400 pr-6">Certificat médical</span>
-            </button>
-            <div id="line2" class="progress-line w-16 md:w-24 h-px bg-white/10 -mt-6"></div>
-            <button onclick="goToStep(3)" class="flex items-center gap-3 cursor-pointer">
-                <div id="step3Circle" class="progress-step w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium text-slate-400">3</div>
-                <span id="step3Label" class="text-sm text-slate-400">Confirmation</span>
-            </button>
         </div>
     </div>
 
-    <!-- MAIN -->
-    <main class="relative z-10 pt-36 md:pt-40 pb-20 px-6">
-        <div class="max-w-3xl mx-auto">
+</div>
+</main>
 
-            <div class="text-center mb-12 animate-in">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6">
-                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
-                    <span class="text-xs font-medium text-slate-400">Inscription en cours</span>
-                </div>
-                <h1 class="text-3xl md:text-4xl font-medium tracking-tight mb-4" style="background:linear-gradient(to bottom,#fff,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Créer votre compte</h1>
-                <p class="text-lg font-light text-slate-400 max-w-xl mx-auto">Remplissez les informations ci-dessous pour compléter votre inscription</p>
-            </div>
-
-            <!-- STEP 1 -->
-            <div id="step1Panel" class="animate-in delay-1">
-                <div class="section-card">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-xl" data-icon="mdi:account-outline"></span></div>
-                        <div><h2 class="text-xl font-medium">Informations personnelles</h2><p class="text-sm text-slate-500">Vos données de base</p></div>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div><label class="block text-sm font-medium text-slate-300 mb-2">Nom <span class="text-cyan-500">*</span></label><input type="text" id="lastName" placeholder="Votre nom de famille" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div>
-                        <div><label class="block text-sm font-medium text-slate-300 mb-2">Prénom <span class="text-cyan-500">*</span></label><input type="text" id="firstName" placeholder="Votre prénom" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-medium text-slate-300 mb-2">Adresse e-mail <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" data-icon="mdi:email-outline"></span><input type="email" id="email" placeholder="votre@email.com" class="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div></div>
-                        <div><label class="block text-sm font-medium text-slate-300 mb-2">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" data-icon="mdi:phone-outline"></span><input type="tel" id="phone" placeholder="+212 6XX XXX XXX" class="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div></div>
-                        <div><label class="block text-sm font-medium text-slate-300 mb-2">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="birthDate" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-medium text-slate-300 mb-3">Genre <span class="text-cyan-500">*</span></label><div class="flex gap-3"><button type="button" onclick="selectGender(this)" class="gender-btn flex-1 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-2"><span class="iconify" data-icon="mdi:gender-male"></span> Homme</button><button type="button" onclick="selectGender(this)" class="gender-btn flex-1 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-2"><span class="iconify" data-icon="mdi:gender-female"></span> Femme</button></div></div>
-                    </div>
-                </div>
-                <div class="flex justify-end"><button onclick="goToStep(2)" class="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all" style="box-shadow:0 0 20px rgba(6,182,212,0.3)">Suivant — Certificat médical <span class="iconify inline-block ml-1 -mt-0.5" data-icon="mdi:arrow-right"></span></button></div>
-            </div>
-
-            <!-- STEP 2 -->
-            <div id="step2Panel" class="hidden">
-                <div class="section-card animate-in">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-xl" data-icon="mdi:certificate-outline"></span></div>
-                        <div><h2 class="text-xl font-medium">Certificat médical</h2><p class="text-sm text-slate-500">Téléversez votre certificat et précisez sa durée</p></div>
-                    </div>
-                    <div class="flex items-center gap-2 mb-6 ml-[52px]"><span class="iconify text-amber-400 text-sm" data-icon="mdi:information-outline"></span><p class="text-xs text-slate-500">Le fichier sera sauvegardé dans Google Drive et le lien sera ajouté au Sheet</p></div>
-
-                    <!-- Upload -->
-                    <div class="mb-8">
-                        <label class="block text-sm font-medium text-slate-300 mb-3">Insérer le certificat médical <span class="text-cyan-500">*</span></label>
-                        <div id="dropZone" class="file-drop-zone rounded-2xl p-8 text-center cursor-pointer relative" onclick="document.getElementById('certFile').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                            <div id="uploadDefault" class="flex flex-col items-center">
-                                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4"><span class="iconify text-3xl text-slate-500" data-icon="mdi:cloud-upload-outline"></span></div>
-                                <p class="text-sm font-medium text-slate-300 mb-1">Glissez-déposez votre certificat ici</p>
-                                <p class="text-xs text-slate-500 mb-4">ou cliquez pour parcourir vos fichiers</p>
-                                <div class="flex items-center gap-4 text-xs text-slate-600">
-                                    <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span> PDF</span>
-                                    <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span> JPG/PNG</span>
-                                    <span>Max 5 Mo</span>
-                                </div>
-                            </div>
-                            <div id="uploadSuccess" class="hidden flex flex-col items-center">
-                                <div class="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center mb-4"><span class="iconify text-3xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
-                                <p class="text-sm font-medium text-green-400 mb-1">Fichier sélectionné</p>
-                                <p id="fileName" class="text-xs text-slate-400 mb-1">nom.pdf</p>
-                                <p id="fileSize" class="text-xs text-slate-600 mb-3">0 Ko</p>
-                                <button type="button" onclick="removeFile(event)" class="text-xs text-slate-500 hover:text-red-400 transition-colors flex items-center gap-1"><span class="iconify" data-icon="mdi:delete-outline"></span> Supprimer</button>
-                            </div>
-                            <input type="file" id="certFile" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(event)">
-                        </div>
-                    </div>
-
-                    <!-- Duration -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-300 mb-3">Durée du certificat <span class="text-cyan-500">*</span></label>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '3 mois')"><div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all"><span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-lg font-medium text-white">3</p><p class="text-xs text-slate-500">Mois</p></div>
-                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '6 mois')"><div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all"><span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-lg font-medium text-white">6</p><p class="text-xs text-slate-500">Mois</p></div>
-                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '12 mois')"><div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all"><span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-lg font-medium text-white">12</p><p class="text-xs text-slate-500">Mois</p></div>
-                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '24 mois')"><div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all"><span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-lg font-medium text-white">24</p><p class="text-xs text-slate-500">Mois</p></div>
-                        </div>
-                        <div class="flex items-center gap-4 mb-4"><div class="flex-1 h-px bg-white/10"></div><span class="text-xs text-slate-600 font-medium uppercase tracking-wider">ou définir manuellement</span><div class="flex-1 h-px bg-white/10"></div></div>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div><label class="block text-xs font-medium text-slate-400 mb-2">Date de début</label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" data-icon="mdi:calendar-start"></span><input type="date" id="certStartDate" onchange="autoCalcEndDate()" class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div></div>
-                            <div><label class="block text-xs font-medium text-slate-400 mb-2">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" data-icon="mdi:calendar-end"></span><input type="date" id="certEndDate" onchange="autoCalcEndDate()" class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all"></div></div>
-                        </div>
-                        <div id="calculatedDuration" class="hidden mt-4 p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 flex items-center gap-3"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:clock-check-outline"></span><p class="text-sm text-cyan-300">Durée calculée : <span id="durationText" class="font-medium text-white"></span></p></div>
-                    </div>
-
-                    <!-- Type -->
-                    <div>
-                        <label class="block text-sm font-medium text-slate-300 mb-3">Type de certificat</label>
-                        <div class="grid md:grid-cols-2 gap-3">
-                            <label class="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] cursor-pointer hover:bg-white/[0.06] transition-all has-[:checked]:border-cyan-500/50 has-[:checked]:bg-cyan-500/5"><input type="radio" name="certType" value="aptitude" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Certificat d'aptitude</p><p class="text-xs text-slate-500">Aptitude physique et sportive</p></div></label>
-                            <label class="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] cursor-pointer hover:bg-white/[0.06] transition-all has-[:checked]:border-cyan-500/50 has-[:checked]:bg-cyan-500/5"><input type="radio" name="certType" value="non-contre-indication" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Non contre-indication</p><p class="text-xs text-slate-500">Absence de contre-indication</p></div></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-between">
-                    <button onclick="goToStep(1)" class="px-6 py-3.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
-                    <button onclick="goToStep(3)" class="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.3)">Suivant — Confirmation <span class="iconify" data-icon="mdi:arrow-right"></span></button>
-                </div>
-            </div>
-
-            <!-- STEP 3 -->
-            <div id="step3Panel" class="hidden">
-                <div class="section-card animate-in">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-xl" data-icon="mdi:check-decagram-outline"></span></div>
-                        <div><h2 class="text-xl font-medium">Récapitulatif</h2><p class="text-sm text-slate-500">Vérifiez avant l'envoi vers Google Sheets + Drive</p></div>
-                    </div>
-                    <div id="syncIndicator" class="mb-6 p-3 rounded-xl border flex items-center gap-3" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)">
-                        <span class="iconify text-slate-500 text-lg" data-icon="mdi:google-spreadsheet"></span>
-                        <p class="text-xs text-slate-500">Données → Google Sheet &nbsp;|&nbsp; Fichier → Google Drive (dossier "Certificats Medicaux")</p>
-                    </div>
-                    <div class="space-y-4 mb-8">
-                        <div class="p-4 rounded-xl bg-white/[0.03] border border-white/8">
-                            <div class="flex items-center gap-2 mb-3"><span class="iconify text-cyan-400" data-icon="mdi:account-outline"></span><h3 class="text-sm font-medium text-slate-300">Informations personnelles</h3></div>
-                            <div class="grid grid-cols-2 gap-y-2 gap-x-6">
-                                <div><p class="text-xs text-slate-600">Nom complet</p><p id="sumName" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">E-mail</p><p id="sumEmail" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">Téléphone</p><p id="sumPhone" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">Date de naissance</p><p id="sumBirth" class="text-sm text-white font-medium">—</p></div>
-                            </div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-white/[0.03] border border-white/8">
-                            <div class="flex items-center gap-2 mb-3"><span class="iconify text-cyan-400" data-icon="mdi:certificate-outline"></span><h3 class="text-sm font-medium text-slate-300">Certificat médical</h3></div>
-                            <div class="grid grid-cols-2 gap-y-2 gap-x-6">
-                                <div><p class="text-xs text-slate-600">Fichier</p><p id="sumFile" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">Durée</p><p id="sumDuration" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">Date début</p><p id="sumStartDate" class="text-sm text-white font-medium">—</p></div>
-                                <div><p class="text-xs text-slate-600">Date expiration</p><p id="sumEndDate" class="text-sm text-white font-medium">—</p></div>
-                            </div>
-                        </div>
-                    </div>
-                    <label class="flex items-start gap-3 cursor-pointer mb-6 p-4 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all has-[:checked]:border-cyan-500/30 has-[:checked]:bg-cyan-500/5">
-                        <input type="checkbox" id="termsCheck" class="accent-cyan-500 mt-0.5">
-                        <p class="text-sm text-slate-400">J'atteste que toutes les informations sont exactes et j'accepte les <a href="#" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">conditions générales</a>.</p>
-                    </label>
-                </div>
-                <div class="flex justify-between">
-                    <button onclick="goToStep(2)" class="px-6 py-3.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
-                    <button id="submitBtn" onclick="submitToSheets()" class="px-8 py-3.5 bg-white text-slate-900 hover:bg-cyan-50 font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(255,255,255,0.1)">
-                        <span class="iconify" data-icon="mdi:google-spreadsheet"></span>
-                        Envoyer vers Sheets + Drive
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- TOAST -->
-    <div id="toast" class="toast fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-5 py-4 rounded-xl border max-w-sm" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-color:rgba(255,255,255,0.1)">
-        <div id="toastIcon" class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"></div>
-        <div><p id="toastTitle" class="text-sm font-medium text-white"></p><p id="toastMsg" class="text-xs text-slate-400"></p></div>
-    </div>
-
-    <!-- SUCCESS MODAL -->
-    <div id="successModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(8px)">
-        <div class="bg-[#0f172a] border border-white/10 rounded-2xl p-8 max-w-md w-full text-center" style="animation:fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1)">
-            <div class="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6"><span class="iconify text-4xl text-green-400" data-icon="mdi:check-circle-outline"></span></div>
-            <h3 class="text-2xl font-medium text-white mb-3">Envoyé avec succès !</h3>
-            <p class="text-sm text-slate-400 mb-1">Données enregistrées dans Google Sheets</p>
-            <p class="text-sm text-slate-400 mb-1">Certificat uploadé dans Google Drive</p>
-            <p id="modalTimestamp" class="text-xs text-slate-600 mb-8"></p>
-            <div class="flex gap-3">
-                <button onclick="openSheet()" class="flex-1 px-5 py-3 border border-cyan-500/30 hover:bg-cyan-500/10 text-cyan-400 font-medium text-sm rounded-xl transition-all flex items-center justify-center gap-2"><span class="iconify" data-icon="mdi:open-in-new"></span> Ouvrir Sheet</button>
-                <button onclick="closeModal()" class="flex-1 px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">Nouvelle inscription</button>
-            </div>
+<!-- FOOTER -->
+<footer class="relative z-10 border-t border-white/[0.05] py-6 px-6">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-xs text-slate-700">© 2025 ISPITS — Tous droits réservés</p>
+        <div class="flex items-center gap-1.5 text-xs text-slate-700">
+            <span class="iconify text-cyan-500/50" data-icon="mdi:google-spreadsheet"></span>
+            <span>Lié avec Google Sheets</span>
+            <div id="footDot" class="sdot no ml-1" style="width:6px;height:6px"></div>
         </div>
     </div>
+</footer>
 
-    <!-- HELP MODAL -->
-    <div id="helpModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(8px)">
-        <div class="bg-[#0f172a] border border-white/10 rounded-2xl p-8 max-w-2xl w-full max-h-[85vh] overflow-y-auto" style="animation:fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1)">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-xl" data-icon="mdi:google-spreadsheet"></span></div><h3 class="text-xl font-medium">Guide Google Sheets + Drive</h3></div>
-                <button onclick="closeHelp()" class="text-slate-500 hover:text-white transition-colors"><span class="iconify text-2xl" data-icon="mdi:close"></span></button>
-            </div>
-            <div class="space-y-6 text-sm text-slate-400">
-                <div class="flex gap-4"><div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">1</div><div><h4 class="text-white font-medium mb-1">Créer un Google Sheet</h4><p>Allez sur <a href="https://sheets.google.com" target="_blank" class="text-cyan-400 underline underline-offset-2">sheets.google.com</a>, créez une feuille vide. <strong class="text-white">Les en-têtes seront créés automatiquement</strong> par le script (pas besoin de les ajouter manuellement).</p></div></div>
-                <div class="flex gap-4"><div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">2</div><div><h4 class="text-white font-medium mb-1">Ouvrir Apps Script</h4><p>Dans le Sheet : <strong class="text-white">Extensions → Apps Script</strong></p></div></div>
-                <div class="flex gap-4"><div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">3</div><div><h4 class="text-white font-medium mb-1">Coller le code Apps Script</h4><p>Supprimez tout le contenu existant et collez le code fourni (le bloc Google Apps Script ci-dessus).</p></div></div>
-                <div class="flex gap-4"><div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">4</div><div><h4 class="text-white font-medium mb-1">Déployer</h4><p><strong class="text-white">Déployer → Nouveau déploiement</strong> :</p><ul class="mt-2 space-y-1 text-xs"><li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Type : <strong class="text-white">Application web</strong></li><li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Exécuter en tant que : <strong class="text-white">Moi</strong></li><li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Accès : <strong class="text-white">Toute personne</strong></li></ul><p class="mt-2">Cliquez <strong class="text-white">Déployer</strong>, autorisez, puis <strong class="text-white">copiez l'URL</strong>.</p></div></div>
-                <div class="flex gap-4"><div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">5</div><div><h4 class="text-white font-medium mb-1">Configurer ici</h4><p>Cliquez sur l'indicateur de statut en haut à droite, collez l'URL, <strong class="text-white">Enregistrer</strong> puis <strong class="text-white">Tester</strong>. Le point doit devenir <span class="text-green-400 font-medium">vert</span>.</p></div></div>
-                <div class="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20"><div class="flex items-start gap-3"><span class="iconify text-cyan-400 text-lg flex-shrink-0 mt-0.5" data-icon="mdi:folder-google-drive"></span><div><h4 class="text-cyan-300 font-medium mb-1">Google Drive automatique</h4><p class="text-xs text-slate-400">Un dossier <strong class="text-white">"Certificats Medicaux"</strong> sera créé automatiquement dans votre Drive. Chaque certificat uploadé y sera sauvegardé avec un horodatage, et le lien cliquable sera ajouté dans le Sheet.</p></div></div></div>
-            </div>
-            <button onclick="closeHelp()" class="w-full mt-8 px-6 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">Compris</button>
+<!-- TOAST -->
+<div id="toast" class="toast fixed bottom-5 right-5 z-[100] flex items-center gap-3 px-4 py-3.5 rounded-xl border max-w-xs" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-color:rgba(255,255,255,0.08)">
+    <div id="tIco" class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"></div>
+    <div><p id="tTitle" class="text-xs font-medium text-white"></p><p id="tMsg" class="text-[11px] text-slate-500"></p></div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div id="okModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-5" style="background:rgba(2,6,23,0.88);backdrop-filter:blur(10px)">
+    <div class="bg-[#0f172a] border border-white/[0.08] rounded-2xl p-7 max-w-sm w-full text-center" style="animation:fadeUp .4s cubic-bezier(.16,1,.3,1)">
+        <div class="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-5"><span class="iconify text-3xl text-green-400" data-icon="mdi:check-circle-outline"></span></div>
+        <h3 class="text-xl font-semibold text-white mb-2">Inscription envoyée !</h3>
+        <p class="text-xs text-slate-500 mb-1">✅ Données enregistrées dans Google Sheets</p>
+        <p class="text-xs text-slate-500 mb-1">📎 Certificat uploadé sur Google Drive</p>
+        <p id="mTime" class="text-[11px] text-slate-700 mb-6"></p>
+        <div class="flex gap-2.5">
+            <button onclick="openSheet()" class="flex-1 px-4 py-2.5 border border-cyan-500/25 hover:bg-cyan-500/10 text-cyan-400 text-xs font-medium rounded-xl transition-all flex items-center justify-center gap-1.5"><span class="iconify" data-icon="mdi:open-in-new"></span> Ouvrir Sheet</button>
+            <button onclick="closeOk()" class="flex-1 px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-medium rounded-xl transition-all">Nouvelle inscription</button>
         </div>
     </div>
+</div>
 
-    <script>
-        let currentStep = 1, selectedDuration = '', selectedGender = '', uploadedFile = null, fileBase64 = '';
-        let APPS_SCRIPT_URL = localStorage.getItem('appsScriptUrl') || '';
-        let SHEET_URL = localStorage.getItem('sheetUrl') || '';
-        let isConnected = false;
+<!-- HELP MODAL -->
+<div id="helpMod" class="fixed inset-0 z-[200] hidden items-center justify-center p-5" style="background:rgba(2,6,23,0.88);backdrop-filter:blur(10px)">
+    <div class="bg-[#0f172a] border border-white/[0.08] rounded-2xl p-7 max-w-2xl w-full max-h-[85vh] overflow-y-auto" style="animation:fadeUp .4s cubic-bezier(.16,1,.3,1)">
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:google-spreadsheet"></span></div><h3 class="text-lg font-medium">Guide de configuration</h3></div>
+            <button onclick="closeHelp()" class="text-slate-600 hover:text-white transition-colors"><span class="iconify text-xl" data-icon="mdi:close"></span></button>
+        </div>
+        <div class="space-y-5 text-sm text-slate-400">
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">1</div><div><h4 class="text-white font-medium mb-1">Créer un Google Sheet</h4><p>Allez sur <a href="https://sheets.google.com" target="_blank" class="text-cyan-400 underline underline-offset-2">sheets.google.com</a> et créez une feuille <strong class="text-white">vide</strong>. Les en-têtes seront ajoutés automatiquement par le script.</p></div></div>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">2</div><div><h4 class="text-white font-medium mb-1">Ouvrir Apps Script</h4><p>Dans le Sheet : <strong class="text-white">Extensions → Apps Script</strong></p></div></div>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">3</div><div><h4 class="text-white font-medium mb-1">Coller le code</h4><p>Supprimez tout le contenu et collez le code Apps Script fourni ci-dessous :</p>
+                <div class="mt-2 relative"><button onclick="copyCode()" class="absolute top-2 right-2 px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-[11px] text-slate-300 transition-all flex items-center gap-1"><span class="iconify" data-icon="mdi:content-copy"></span> Copier</button>
+                <pre id="codeBlock" class="p-3.5 rounded-lg bg-white/[0.03] font-mono text-[11px] text-slate-300 overflow-x-auto leading-relaxed">function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var d = JSON.parse(e.postData.contents);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (APPS_SCRIPT_URL) {
-                document.getElementById('appsScriptUrl').value = APPS_SCRIPT_URL;
-                testConnection(true);
-            }
-        });
+    // Créer en-têtes si vide
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Date","Nom","Prénom","Email","Téléphone",
+        "Naissance","CIN","Filière","Genre",
+        "Certificat (lien Drive)","Durée Certificat",
+        "Date Début","Date Fin","Type Certificat"]);
+      var h = sheet.getRange(1,1,1,sheet.getLastColumn());
+      h.setFontWeight("bold").setBackground("#0e7490")
+       .setFontColor("#fff").setFontSize(10);
+      sheet.setFrozenRows(1);
+    }
 
-        // CONFIG
-        function toggleConfig() { document.getElementById('configPanel').classList.toggle('hidden'); }
-        function saveConfig() {
-            const url = document.getElementById('appsScriptUrl').value.trim();
-            if (!url) { showToast('error', 'URL requise', 'Collez l\'URL de votre Apps Script.'); return; }
-            APPS_SCRIPT_URL = url;
-            localStorage.setItem('appsScriptUrl', url);
-            try { const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/); if (m) { SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + m[1]; localStorage.setItem('sheetUrl', SHEET_URL); } } catch(e) {}
-            showToast('success', 'Enregistré', 'URL sauvegardée.');
-            testConnection();
-        }
+    // Upload fichier sur Drive
+    var fileLink = "";
+    if (d.certFileBase64 &amp;&amp; d.certFileName) {
+      var blob = Utilities.newBlob(
+        Utilities.base64Decode(d.certFileBase64),
+        d.certMimeType || "application/pdf",
+        d.certFileName
+      );
+      var folders = DriveApp.getFoldersByName("Certificats ISPITS");
+      var folder = folders.hasNext() ? folders.next()
+        : DriveApp.createFolder("Certificats ISPITS");
+      var ts = Utilities.formatDate(new Date(), "Africa/Casablanca", "yyyy-MM-dd HH:mm");
+      var file = folder.createFile(blob.setName("["+ts+"] "+d.certFileName));
+      fileLink = file.getUrl();
+    }
 
-        async function testConnection(silent) {
-            if (!APPS_SCRIPT_URL) { if (!silent) showToast('error', 'URL manquante', 'Configurez d\'abord l\'URL.'); return; }
-            const dot = document.getElementById('statusDot'), txt = document.getElementById('statusText');
-            if (!silent) { dot.className = 'status-dot testing'; txt.textContent = 'Test en cours…'; txt.className = 'text-amber-400'; }
-            try {
-                const res = await fetch(APPS_SCRIPT_URL, { redirect: 'follow' });
-                const data = await res.json();
-                if (data.status === 'connected') {
-                    isConnected = true; dot.className = 'status-dot connected'; txt.textContent = 'Sheets connecté'; txt.className = 'text-green-400';
-                    if (!silent) showToast('success', 'Connecté !', 'Liaison Google Sheets active.');
-                } else throw new Error('unexpected');
-            } catch(e) {
-                isConnected = false; dot.className = 'status-dot disconnected'; txt.textContent = 'Non connecté'; txt.className = 'text-red-400';
-                if (!silent) showToast('error', 'Échec', 'Vérifiez l\'URL et le déploiement.');
-            }
-        }
+    // Écrire dans le Sheet
+    var row = sheet.appendRow([
+      Utilities.formatDate(new Date(),"Africa/Casablanca","dd/MM/yyyy HH:mm"),
+      d.nom, d.prenom, d.email, d.telephone,
+      d.naissance, d.cin, d.filiere, d.genre,
+      fileLink || d.certFileName || "",
+      d.duree, d.dateDebut, d.dateFin, d.typeCertificat
+    ]);
 
-        // STEPS
-        function goToStep(step) {
-            if (step > currentStep) { if (currentStep === 1 && !validateStep1()) return; if (currentStep === 2 && !validateStep2()) return; }
-            ['step1Panel','step2Panel','step3Panel'].forEach(id => document.getElementById(id).classList.add('hidden'));
-            document.getElementById('step' + step + 'Panel').classList.remove('hidden');
-            const p = document.getElementById('step' + step + 'Panel').querySelector('.section-card');
-            if (p) { p.classList.remove('animate-in'); void p.offsetWidth; p.classList.add('animate-in'); }
-            currentStep = step; updateProgressUI(); updateSummary(); window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    // Lien cliquable
+    var lr = sheet.getLastRow();
+    if (fileLink) {
+      var c = sheet.getRange(lr, 10);
+      c.setFormula('=HYPERLINK("'+fileLink+'";"📄 Ouvrir")')
+       .setFontColor("#06b6d4").setFontUnderline(true);
+    }
 
-        function updateProgressUI() {
-            document.getElementById('progressBar').style.width = {1:'33%',2:'66%',3:'100%'}[currentStep];
-            [1,2,3].forEach(s => {
-                const c = document.getElementById('step'+s+'Circle'), l = document.getElementById('step'+s+'Label');
-                c.classList.remove('active','completed','text-slate-400'); l.classList.remove('text-slate-400','text-white','font-medium');
-                if (s < currentStep) { c.classList.add('completed'); c.innerHTML = '<span class="iconify text-white text-sm" data-icon="mdi:check"></span>'; l.classList.add('text-white'); }
-                else if (s === currentStep) { c.classList.add('active'); c.textContent = s; l.classList.add('text-white','font-medium'); }
-                else { c.textContent = s; c.classList.add('text-slate-400'); l.classList.add('text-slate-400'); }
-            });
-            document.getElementById('line1').style.background = currentStep > 1 ? '#06b6d4' : 'rgba(255,255,255,0.1)';
-            document.getElementById('line2').style.background = currentStep > 2 ? '#06b6d4' : 'rgba(255,255,255,0.1)';
-        }
+    return ContentService.createTextOutput(
+      JSON.stringify({status:"success",row:lr}))
+      .setMimeType(ContentService.MimeType.JSON);
 
-        // VALIDATION
-        function validateStep1() {
-            if (!document.getElementById('lastName').value.trim() || !document.getElementById('firstName').value.trim()) { showToast('error','Champs requis','Nom et prénom obligatoires.'); return false; }
-            if (!document.getElementById('email').value.trim().includes('@')) { showToast('error','E-mail invalide','Adresse e-mail non valide.'); return false; }
-            if (!document.getElementById('phone').value.trim()) { showToast('error','Téléphone requis','Entrez votre numéro.'); return false; }
-            if (!selectedGender) { showToast('error','Genre requis','Sélectionnez votre genre.'); return false; }
-            return true;
-        }
-        function validateStep2() {
-            if (!uploadedFile) { showToast('error','Certificat requis','Insérez votre certificat médical.'); return false; }
-            if (!selectedDuration && !document.getElementById('certStartDate').value) { showToast('error','Durée requise','Sélectionnez une durée ou définissez les dates.'); return false; }
-            return true;
-        }
+  } catch(err) {
+    return ContentService.createTextOutput(
+      JSON.stringify({status:"error",message:err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
 
-        // GENDER
-        function selectGender(btn) {
-            document.querySelectorAll('.gender-btn').forEach(b => { b.classList.remove('border-cyan-500','bg-cyan-500/10','text-white'); b.classList.add('border-white/10','bg-white/5','text-slate-400'); });
-            btn.classList.remove('border-white/10','bg-white/5','text-slate-400'); btn.classList.add('border-cyan-500','bg-cyan-500/10','text-white');
-            selectedGender = btn.textContent.trim();
-        }
+function doGet(e) {
+  return ContentService.createTextOutput(
+    JSON.stringify({status:"connected"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
-        // FILE
-        function handleDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
-        function handleDragLeave(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); }
-        function handleDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]); }
-        function handleFileSelect(e) { if (e.target.files.length) processFile(e.target.files[0]); }
+function doOptions(e) {
+  return ContentService.createTextOutput(
+    JSON.stringify({status:"ok"}))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeaders({"Access-Control-Allow-Origin":"*",
+      "Access-Control-Allow-Methods":"GET,POST,OPTIONS",
+      "Access-Control-Allow-Headers":"Content-Type"});
+}</pre>
+                </div>
+            </div></div>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">4</div><div><h4 class="text-white font-medium mb-1">Déployer</h4><p><strong class="text-white">Déployer → Nouveau déploiement</strong></p><ul class="mt-1.5 space-y-0.5 text-xs"><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Type : <strong class="text-white">Application web</strong></li><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Exécuter : <strong class="text-white">Moi</strong></li><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Accès : <strong class="text-white">Toute personne</strong></li></ul><p class="mt-1.5">Déployez, autorisez, puis <strong class="text-white">copiez l'URL</strong>.</p></div></div>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">5</div><div><h4 class="text-white font-medium mb-1">Configurer ici</h4><p>Cliquez sur le badge de statut en haut à droite → collez l'URL → <strong class="text-white">Enregistrer</strong> puis <strong class="text-white">Tester</strong>. Le point doit devenir <span class="text-green-400 font-medium">vert</span>.</p></div></div>
+            <div class="p-3.5 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15"><div class="flex items-start gap-2.5"><span class="iconify text-cyan-400 flex-shrink-0 mt-0.5" data-icon="mdi:folder-google-drive"></span><div><h4 class="text-cyan-300 font-medium text-sm mb-0.5">Google Drive automatique</h4><p class="text-xs text-slate-500">Un dossier <strong class="text-white">"Certificats ISPITS"</strong> sera créé dans votre Drive. Chaque fichier y sera sauvegardé avec horodatage, et le lien cliquable apparaîtra dans le Sheet.</p></div></div></div>
+        </div>
+        <button onclick="closeHelp()" class="w-full mt-6 px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">Compris</button>
+    </div>
+</div>
 
-        function processFile(file) {
-            if (!['application/pdf','image/jpeg','image/png'].includes(file.type)) { showToast('error','Format non supporté','Utilisez PDF, JPG ou PNG.'); return; }
-            if (file.size > 5*1024*1024) { showToast('error','Fichier trop lourd','Maximum 5 Mo.'); return; }
-            uploadedFile = file;
-            document.getElementById('fileName').textContent = file.name;
-            document.getElementById('fileSize').textContent = formatSize(file.size);
-            document.getElementById('uploadDefault').classList.add('hidden');
-            document.getElementById('uploadSuccess').classList.remove('hidden');
-            document.getElementById('dropZone').classList.add('has-file');
+<script>
+// ===== STATE =====
+let cur=1, dur='', genre='', uFile=null, b64='', MIME='';
+let URL_=localStorage.getItem('aspUrl')||'', SH_URL=localStorage.getItem('shUrl')||'', linked=false;
 
-            // Lire en base64
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Retirer le préfixe "data:xxx;base64,"
-                fileBase64 = e.target.result.split(',')[1];
-            };
-            reader.readAsDataURL(file);
-            showToast('success', 'Fichier ajouté', `"${file.name}" (${formatSize(file.size)})`);
-        }
+document.addEventListener('DOMContentLoaded',()=>{if(URL_){document.getElementById('cfgUrl').value=URL_;testConn(true)}});
 
-        function removeFile(e) {
-            e.stopPropagation(); uploadedFile = null; fileBase64 = '';
-            document.getElementById('certFile').value = '';
-            document.getElementById('uploadDefault').classList.remove('hidden');
-            document.getElementById('uploadSuccess').classList.add('hidden');
-            document.getElementById('dropZone').classList.remove('has-file');
-        }
+// ===== CONFIG =====
+function toggleCfg(){document.getElementById('cfgPanel').classList.toggle('hidden')}
+function saveCfg(){
+    const u=document.getElementById('cfgUrl').value.trim();
+    if(!u){toast('error','URL requise','Collez l\'URL Apps Script.');return}
+    URL_=u;localStorage.setItem('aspUrl',u);
+    try{const m=u.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);if(m){SH_URL='https://docs.google.com/spreadsheets/d/'+m[1];localStorage.setItem('shUrl',SH_URL)}}catch(e){}
+    toast('success','Enregistré','URL sauvegardée localement.');testConn();
+}
+async function testConn(silent){
+    if(!URL_){if(!silent)toast('error','URL manquante','Configurez l\'abord.');return}
+    const dot=document.getElementById('sDot'),txt=document.getElementById('sTxt'),fd=document.getElementById('footDot');
+    if(!silent){dot.className='sdot wait';txt.textContent='Test…';txt.className='text-amber-400';fd.className='sdot wait ml-1';fd.style.width='6px';fd.style.height='6px'}
+    try{
+        const r=await fetch(URL_,{redirect:'follow'}),d=await r.json();
+        if(d.status==='connected'){linked=true;dot.className='sdot ok';txt.textContent='Sheets connecté';txt.className='text-green-400';fd.className='sdot ok ml-1';fd.style.width='6px';fd.style.height='6px';if(!silent)toast('success','Connecté !','Liaison active.')}
+        else throw 0;
+    }catch(e){linked=false;dot.className='sdot no';txt.textContent='Non connecté';txt.className='text-red-400';fd.className='sdot no ml-1';fd.style.width='6px';fd.style.height='6px';if(!silent)toast('error','Échec','Vérifiez l\'URL et le déploiement.')}
+}
+function copyCode(){
+    const c=document.getElementById('codeBlock').textContent.replace(/&amp;/g,'&');
+    navigator.clipboard.writeText(c).then(()=>toast('success','Copié !','Code Apps Script dans le presse-papiers.'));
+}
 
-        function formatSize(bytes) {
-            if (bytes < 1024) return bytes + ' o';
-            if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' Ko';
-            return (bytes/(1024*1024)).toFixed(2) + ' Mo';
-        }
+// ===== NAVIGATION =====
+function go(s){
+    if(s>cur){if(cur===1&&!v1())return;if(cur===2&&!v2())return}
+    ['p1','p2','p3'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+    document.getElementById('p'+s).classList.remove('hidden');
+    const c=document.getElementById('p'+s).querySelector('.card');
+    if(c){c.classList.remove('anim');void c.offsetWidth;c.classList.add('anim')}
+    cur=s;updSteps();updSum();window.scrollTo({top:0,behavior:'smooth'});
+}
+function updSteps(){
+    document.getElementById('pBar').style.width={1:'33%',2:'66%',3:'100%'}[cur];
+    [1,2,3].forEach(s=>{
+        const d=document.getElementById('d'+s),l=document.getElementById('l'+s);
+        d.classList.remove('act','done','text-slate-500');l.classList.remove('text-slate-500','text-white','font-medium');
+        if(s<cur){d.classList.add('done');d.innerHTML='<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';l.classList.add('text-white')}
+        else if(s===cur){d.classList.add('act');d.textContent=s;l.classList.add('text-white','font-medium')}
+        else{d.textContent=s;d.classList.add('text-slate-500');l.classList.add('text-slate-500')}
+    });
+    document.getElementById('ln1').style.background=cur>1?'#06b6d4':'rgba(255,255,255,0.08)';
+    document.getElementById('ln2').style.background=cur>2?'#06b6d4':'rgba(255,255,255,0.08)';
+}
 
-        // DURATION
-        function selectDuration(card, duration) {
-            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected'); selectedDuration = duration;
-            document.getElementById('certStartDate').value = ''; document.getElementById('certEndDate').value = '';
-            document.getElementById('calculatedDuration').classList.add('hidden');
-        }
-        function autoCalcEndDate() {
-            const s = document.getElementById('certStartDate').value, e = document.getElementById('certEndDate').value;
-            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected')); selectedDuration = '';
-            if (s && e) { const start = new Date(s), end = new Date(e); if (end > start) {
-                const days = Math.ceil((end-start)/(1000*60*60*24)), m = Math.floor(days/30), d = days%30;
-                let t = ''; if (m>0) t += m+' mois'; if (d>0) t += (t?' et ':'')+d+' jour'+(d>1?'s':'');
-                if (!t) t = 'Moins d\'un mois';
-                document.getElementById('durationText').textContent = t; document.getElementById('calculatedDuration').classList.remove('hidden'); return;
-            }} document.getElementById('calculatedDuration').classList.add('hidden');
-        }
+// ===== VALIDATION =====
+function v1(){
+    const n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
+    if(!n||!p){toast('error','Champs requis','Nom et prénom obligatoires.');return false}
+    if(!document.getElementById('fEmail').value.trim().includes('@')){toast('error','Email invalide','Adresse non valide.');return false}
+    if(!document.getElementById('fTel').value.trim()){toast('error','Téléphone requis','Entrez votre numéro.');return false}
+    if(!document.getElementById('fFiliere').value){toast('error','Filière requise','Sélectionnez une filière.');return false}
+    if(!genre){toast('error','Genre requis','Sélectionnez votre genre.');return false}
+    return true;
+}
+function v2(){
+    if(!uFile){toast('error','Certificat requis','Insérez votre certificat.');return false}
+    if(!dur&&!document.getElementById('fDebut').value){toast('error','Durée requise','Sélectionnez une durée ou dates.');return false}
+    return true;
+}
 
-        // SUMMARY
-        function updateSummary() {
-            const ln = document.getElementById('lastName').value.trim(), fn = document.getElementById('firstName').value.trim();
-            document.getElementById('sumName').textContent = (fn+' '+ln).trim() || '—';
-            document.getElementById('sumEmail').textContent = document.getElementById('email').value.trim() || '—';
-            document.getElementById('sumPhone').textContent = document.getElementById('phone').value.trim() || '—';
-            const b = document.getElementById('birthDate').value;
-            document.getElementById('sumBirth').textContent = b ? new Date(b).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '—';
-            document.getElementById('sumFile').innerHTML = uploadedFile ? '<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> ' + uploadedFile.name + ' <span class="text-slate-600">(' + formatSize(uploadedFile.size) + ')</span>' : '<span class="text-slate-500">—</span>';
-            document.getElementById('sumDuration').textContent = selectedDuration || document.getElementById('durationText').textContent || '—';
-            const sd = document.getElementById('certStartDate').value, ed = document.getElementById('certEndDate').value;
-            document.getElementById('sumStartDate').textContent = sd ? new Date(sd).toLocaleDateString('fr-FR') : '—';
-            document.getElementById('sumEndDate').textContent = ed ? new Date(ed).toLocaleDateString('fr-FR') : '—';
-        }
+// ===== GENDER =====
+function pickG(b){document.querySelectorAll('.sel-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');genre=b.textContent.trim()}
 
-        // SUBMIT
-        async function submitToSheets() {
-            if (!document.getElementById('termsCheck').checked) { showToast('error','Conditions requises','Acceptez les conditions générales.'); return; }
-            if (!APPS_SCRIPT_URL) { showToast('error','Non configuré','Cliquez sur le statut en haut pour configurer Google Sheets.'); return; }
+// ===== FILE =====
+function dOver(e){e.preventDefault();document.getElementById('dropZ').classList.add('dragover')}
+function dLeave(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover')}
+function dDrop(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover');if(e.dataTransfer.files.length)procFile(e.dataTransfer.files[0])}
+function fSel(e){if(e.target.files.length)procFile(e.target.files[0])}
+function procFile(f){
+    const ok=['application/pdf','image/jpeg','image/png'];
+    if(!ok.includes(f.type)){toast('error','Format','PDF, JPG ou PNG uniquement.');return}
+    if(f.size>5*1024*1024){toast('error','Taille','Maximum 5 Mo.');return}
+    uFile=f;MIME=f.type;
+    document.getElementById('fName').textContent=f.name;
+    document.getElementById('fSize').textContent=fmtS(f.size);
+    document.getElementById('upDef').classList.add('hidden');
+    document.getElementById('upOk').classList.remove('hidden');
+    document.getElementById('dropZ').classList.add('has-file');
+    const r=new FileReader();
+    r.onload=e=>{b64=e.target.result.split(',')[1]};
+    r.readAsDataURL(f);
+    toast('success','Fichier ajouté',f.name+' ('+fmtS(f.size)+')');
+}
+function rmFile(e){e.stopPropagation();uFile=null;b64='';MIME='';document.getElementById('fFile').value='';document.getElementById('upDef').classList.remove('hidden');document.getElementById('upOk').classList.add('hidden');document.getElementById('dropZ').classList.remove('has-file')}
+function fmtS(b){if(b<1024)return b+' o';if(b<1048576)return(b/1024).toFixed(1)+' Ko';return(b/1048576).toFixed(2)+' Mo'}
 
-            const btn = document.getElementById('submitBtn'), orig = btn.innerHTML;
-            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Envoi en cours…'; btn.style.opacity = '0.7';
+// ===== DURATION =====
+function pickDur(c,v){document.querySelectorAll('.dur-card').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');dur=v;document.getElementById('fDebut').value='';document.getElementById('fFin').value='';document.getElementById('calcBox').classList.add('hidden')}
+function calcDur(){
+    const s=document.getElementById('fDebut').value,e=document.getElementById('fFin').value;
+    document.querySelectorAll('.dur-card').forEach(x=>x.classList.remove('sel'));dur='';
+    if(s&&e){const a=new Date(s),b=new Date(e);if(b>a){
+        const dy=Math.ceil((b-a)/864e5),m=Math.floor(dy/30),d=dy%30;
+        let t='';if(m>0)t+=m+' mois';if(d>0)t+=(t?' et ':'')+d+' jour'+(d>1?'s':'');if(!t)t='Moins d\'un mois';
+        document.getElementById('durTxt').textContent=t;document.getElementById('calcBox').classList.remove('hidden');return;
+    }}document.getElementById('calcBox').classList.add('hidden');
+}
 
-            const certType = document.querySelector('input[name="certType"]:checked');
+// ===== SUMMARY =====
+function updSum(){
+    const n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
+    document.getElementById('rNom').textContent=(p+' '+n).trim()||'—';
+    document.getElementById('rEmail').textContent=document.getElementById('fEmail').value.trim()||'—';
+    document.getElementById('rTel').textContent=document.getElementById('fTel').value.trim()||'—';
+    const na=document.getElementById('fNaiss').value;
+    document.getElementById('rNaiss').textContent=na?new Date(na).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'—';
+    document.getElementById('rCIN').textContent=document.getElementById('fCIN').value.trim()||'—';
+    document.getElementById('rFil').textContent=document.getElementById('fFiliere').value||'—';
+    document.getElementById('rFile').innerHTML=uFile?'<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> '+uFile.name:'<span class="text-slate-600">—</span>';
+    document.getElementById('rDur').textContent=dur||document.getElementById('durTxt').textContent||'—';
+    const sd=document.getElementById('fDebut').value,ed=document.getElementById('fFin').value;
+    document.getElementById('rDeb').textContent=sd?new Date(sd).toLocaleDateString('fr-FR'):'—';
+    document.getElementById('rFin').textContent=ed?new Date(ed).toLocaleDateString('fr-FR'):'—';
+}
 
-            const payload = {
-                lastName: document.getElementById('lastName').value.trim(),
-                firstName: document.getElementById('firstName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                birthDate: document.getElementById('birthDate').value || '',
-                gender: selectedGender || '',
-                certFileName: uploadedFile ? uploadedFile.name : '',
-                certFileBase64: fileBase64 || '',
-                certDuration: selectedDuration || document.getElementById('durationText').textContent || '',
-                certStart: document.getElementById('certStartDate').value || '',
-                certEnd: document.getElementById('certEndDate').value || '',
-                certType: certType ? certType.value : ''
-            };
+// ===== SEND =====
+async function send(){
+    if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
+    if(!URL_){toast('error','Non configuré','Cliquez sur le statut pour configurer Google Sheets.');return}
+    const btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
+    btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
+    const ct=document.querySelector('input[name="cType"]:checked');
+    const payload={
+        nom:document.getElementById('fNom').value.trim(),
+        prenom:document.getElementById('fPrenom').value.trim(),
+        email:document.getElementById('fEmail').value.trim(),
+        telephone:document.getElementById('fTel').value.trim(),
+        naissance:document.getElementById('fNaiss').value||'',
+        cin:document.getElementById('fCIN').value.trim()||'',
+        filiere:document.getElementById('fFiliere').value||'',
+        genre:genre||'',
+        certFileName:uFile?uFile.name:'',
+        certFileBase64:b64||'',
+        certMimeType:MIME||'',
+        duree:dur||document.getElementById('durTxt').textContent||'',
+        dateDebut:document.getElementById('fDebut').value||'',
+        dateFin:document.getElementById('fFin').value||'',
+        typeCertificat:ct?ct.value:''
+    };
+    try{
+        const r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const d=await r.json();
+        btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
+        if(d.status==='success'){showOk()}else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
+    }catch(err){
+        if(err.message.includes('Failed to fetch')||err.name==='TypeError'){
+            try{
+                await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+                btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';showOk();
+            }catch(e2){btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur réseau','Vérifiez la connexion et la config.')}
+        }else{btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur',err.message)}
+    }
+}
+function showOk(){
+    document.getElementById('mTime').textContent='Soumis le '+new Date().toLocaleString('fr-FR',{dateStyle:'full',timeStyle:'short'});
+    document.getElementById('okModal').classList.remove('hidden');document.getElementById('okModal').classList.add('flex');
+}
+function openSheet(){if(SH_URL)window.open(SH_URL,'_blank');else toast('error','URL','Lien Sheet non détecté.')}
+function closeOk(){document.getElementById('okModal').classList.add('hidden');document.getElementById('okModal').classList.remove('flex');location.reload()}
 
-            try {
-                const res = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
+// ===== MODALS =====
+function showHelp(){document.getElementById('helpMod').classList.remove('hidden');document.getElementById('helpMod').classList.add('flex')}
+function closeHelp(){document.getElementById('helpMod').classList.add('hidden');document.getElementById('helpMod').classList.remove('flex')}
 
-                btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1';
+// ===== TOAST =====
+function toast(t,title,msg){
+    const el=document.getElementById('toast'),ico=document.getElementById('tIco');
+    if(t==='error'){el.style.borderColor='rgba(239,68,68,0.25)';ico.style.background='rgba(239,68,68,0.1)';ico.innerHTML='<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>'}
+    else{el.style.borderColor='rgba(34,197,94,0.25)';ico.style.background='rgba(34,197,94,0.1)';ico.innerHTML='<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>'}
+    document.getElementById('tTitle').textContent=title;document.getElementById('tMsg').textContent=msg;
+    el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3500);
+}
 
-                if (data.status === 'success') {
-                    document.getElementById('modalTimestamp').textContent = 'Soumis le ' + new Date().toLocaleString('fr-FR',{dateStyle:'full',timeStyle:'short'});
-                    document.getElementById('successModal').classList.remove('hidden');
-                    document.getElementById('successModal').classList.add('flex');
-                } else {
-                    showToast('error', 'Erreur côté serveur', data.message || 'Réponse inattendue.');
-                }
-            } catch(err) {
-                btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1';
-                // Si CORS bloque, on tente en no-cors (on ne peut pas lire la réponse mais l'envoi peut marcher)
-                if (err.message.includes('Failed to fetch') || err.name === 'TypeError') {
-                    try {
-                        await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-                        document.getElementById('modalTimestamp').textContent = 'Soumis le ' + new Date().toLocaleString('fr-FR',{dateStyle:'full',timeStyle:'short'});
-                        document.getElementById('successModal').classList.remove('hidden');
-                        document.getElementById('successModal').classList.add('flex');
-                    } catch(e2) {
-                        showToast('error', 'Erreur réseau', 'Vérifiez votre connexion et la configuration.');
-                    }
-                } else {
-                    showToast('error', 'Erreur', err.message);
-                }
-            }
-        }
-
-        function openSheet() { if (SHEET_URL) window.open(SHEET_URL,'_blank'); else showToast('error','URL non trouvée','Le lien du Sheet n\'a pas été détecté.'); }
-        function closeModal() { document.getElementById('successModal').classList.add('hidden'); document.getElementById('successModal').classList.remove('flex'); location.reload(); }
-
-        // MODALS
-        function showHelp() { document.getElementById('helpModal').classList.remove('hidden'); document.getElementById('helpModal').classList.add('flex'); }
-        function closeHelp() { document.getElementById('helpModal').classList.add('hidden'); document.getElementById('helpModal').classList.remove('flex'); }
-
-        // TOAST
-        function showToast(type, title, msg) {
-            const t = document.getElementById('toast'), i = document.getElementById('toastIcon');
-            if (type==='error') { t.style.borderColor='rgba(239,68,68,0.3)'; i.style.background='rgba(239,68,68,0.1)'; i.innerHTML='<span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span>'; }
-            else { t.style.borderColor='rgba(34,197,94,0.3)'; i.style.background='rgba(34,197,94,0.1)'; i.innerHTML='<span class="iconify text-green-400" data-icon="mdi:check-circle-outline"></span>'; }
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMsg').textContent = msg;
-            t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.remove('show'), 3500);
-        }
-
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('certStartDate').setAttribute('min', today);
-        document.getElementById('certEndDate').setAttribute('min', today);
-    </script>
+// ===== INIT DATES =====
+const td=new Date().toISOString().split('T')[0];
+document.getElementById('fDebut').setAttribute('min',td);
+document.getElementById('fFin').setAttribute('min',td);
+</script>
 </body>
 </html>
