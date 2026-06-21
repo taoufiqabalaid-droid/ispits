@@ -576,10 +576,9 @@ function openSheet(){if(SH_URL)window.open(SH_URL,'_blank');else toast('error','
 function closeOk(){document.getElementById('okModal').classList.add('hidden');document.getElementById('okModal').classList.remove('flex');location.reload()}
 
 // ===== MODALS =====
-function showHelp(){document.getElementById('helpMod').classList.remove('hidden');document.getElementById('helpMod').classList.add('flex')}
-function closeHelp(){document.getElementById('helpMod').classList.add('hidden');document.getElementById('helpMod').classList.remove('flex')}
 
 // ===== CORRECTION 3 : fonction toast RESTAURÉE (était tronquée) =====
+// ===== TOAST =====
 function toast(type, title, msg) {
     var el = document.getElementById('toast');
     var ico = document.getElementById('tIco');
