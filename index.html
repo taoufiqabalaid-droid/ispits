@@ -1,653 +1,961 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription — Certificat Médical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ISPITSM Marrakech - Inscription &amp; Réinscription</title>
+        .file-drop-zone {
+            border: 2px dashed rgba(255,255,255,0.15);
+            transition: all 300ms ease;
+        }
+        .file-drop-zone:hover, .file-drop-zone.dragover {
+            border-color: #06b6d4;
+            background: rgba(6,182,212,0.05);
+        }
+        .file-drop-zone.has-file {
+            border-color: #22c55e;
+            background: rgba(34,197,94,0.05);
+            border-style: solid;
+        }
 
-<style>
-* {
-    box-sizing: border-box;
-}
+        .duration-card {
+            transition: all 300ms ease;
+            cursor: pointer;
+        }
+        .duration-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(6,182,212,0.4);
+        }
+        .duration-card.selected {
+            background: rgba(6,182,212,0.1);
+            border-color: #06b6d4;
+            box-shadow: 0 0 20px rgba(6,182,212,0.15);
+        }
+        .duration-card.selected .check-circle {
+            background: #06b6d4;
+            border-color: #06b6d4;
+        }
+        .duration-card.selected .check-circle .iconify { opacity: 1; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f7fa;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-header {
-    background: linear-gradient(135deg, #006699 0%, #004d73 100%);
-    color: white;
-    text-align: center;
-    padding: 30px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        .toast {
+            transform: translateY(20px); opacity: 0;
+            transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
 
-header h1 { margin: 0 0 10px 0; font-size: 2.5em; }
-header h3 { margin: 10px 0; font-size: 1.3em; font-weight: 300; }
-header p { margin: 5px 0 0 0; opacity: 0.9; }
+        .progress-step { transition: all 300ms ease; }
+        .progress-step.active { background: #06b6d4; box-shadow: 0 0 15px rgba(6,182,212,0.5); }
+        .progress-step.completed { background: #22c55e; }
+        .progress-line { transition: background 300ms ease; }
 
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
 
-h2 {
-    color: #006699;
-    border-bottom: 3px solid #006699;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
-    font-size: 1.8em;
-}
+        .section-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
 
-.section { margin-bottom: 30px; }
-.section-subtitle { color: #004d73; font-size: 1.1em; font-weight: bold; margin-bottom: 15px; margin-top: 20px; }
-.form-group { margin-bottom: 20px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.form-row.full { grid-template-columns: 1fr; }
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
 
-@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+        .spinner {
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 18px; height: 18px;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; font-size: 0.95em; }
-.required::after { content: " *"; color: #d9534f; font-weight: bold; }
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    font-family: inherit;
-    transition: border-color 0.3s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #006699;
-    box-shadow: 0 0 5px rgba(0, 102, 153, 0.3);
-}
-
-input[readonly] { background-color: #f5f5f5; cursor: not-allowed; }
-.error-message { color: #d9534f; font-size: 0.85em; margin-top: 5px; display: none; }
-.form-group.error .error-message { display: block; }
-.form-group.error input, .form-group.error select { border-color: #d9534f; background-color: #fff5f5; }
-
-.info-box { background: #e7f3ff; border-left: 4px solid #006699; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
-.info-box strong { color: #006699; }
-
-.button-group { display: flex; gap: 15px; justify-content: center; margin-top: 30px; }
-button {
-    padding: 14px 35px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    min-width: 150px;
-}
-
-.btn-submit { background: linear-gradient(135deg, #006699 0%, #004d73 100%); color: white; }
-.btn-submit:hover { background: linear-gradient(135deg, #004d73 0%, #003d5c 100%); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 102, 153, 0.3); }
-.btn-reset { background: #6c757d; color: white; }
-.btn-reset:hover { background: #5a6268; }
-
-.message-container { position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 450px; }
-@keyframes slideIn { from { transform: translateX(500px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(500px); opacity: 0; } }
-
-.message { padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); animation: slideIn 0.4s ease-out; display: flex; align-items: flex-start; gap: 12px; }
-.message.removing { animation: slideOut 0.4s ease-in forwards; }
-.message.success { background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); color: #155724; border-left: 4px solid #28a745; }
-.message.success .icon { font-size: 1.5em; min-width: 24px; animation: checkmark 0.6s ease-out; }
-@keyframes checkmark { 0% { transform: scale(0) rotate(-45deg); } 50% { transform: scale(1.2); } 100% { transform: scale(1) rotate(0deg); } }
-.message.error { background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); color: #721c24; border-left: 4px solid #dc3545; }
-.message.error .icon { font-size: 1.5em; min-width: 24px; animation: shake 0.5s ease-out; }
-@keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
-.message.warning { background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%); color: #856404; border-left: 4px solid #ffc107; }
-.message.info { background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%); color: #0c5460; border-left: 4px solid #17a2b8; }
-.message-content { flex: 1; }
-.message-title { font-weight: bold; margin-bottom: 5px; font-size: 1.05em; }
-.message-text { font-size: 0.95em; line-height: 1.5; }
-.message-details { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0, 0, 0, 0.1); font-size: 0.9em; }
-.message-close { background: none; border: none; color: inherit; cursor: pointer; font-size: 1.2em; padding: 0; min-width: auto; opacity: 0.6; transition: opacity 0.2s; }
-.message-close:hover { opacity: 1; }
-
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: 10000; animation: fadeIn 0.3s ease-out; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.modal-content { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); max-width: 550px; width: 90%; z-index: 10001; animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; max-height: 90vh; overflow-y: auto; }
-@keyframes modalSlideIn { from { transform: translate(-50%, -60%); opacity: 0; scale: 0.8; } to { transform: translate(-50%, -50%); opacity: 1; scale: 1; } }
-.modal-icon { font-size: 5em; margin-bottom: 20px; animation: successBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-@keyframes successBounce { 0% { transform: scale(0) rotate(-45deg); } 50% { transform: scale(1.2); } 100% { transform: scale(1) rotate(0deg); } }
-.modal-icon.success { color: #28a745; }
-.modal-icon.error { color: #dc3545; }
-.modal-title { font-size: 1.8em; color: #006699; margin-bottom: 15px; font-weight: bold; }
-.modal-message { color: #666; margin-bottom: 20px; line-height: 1.6; font-size: 1.1em; }
-.modal-subtext { color: #999; font-size: 0.9em; margin-bottom: 25px; }
-.modal-details { background: #f4f7fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: left; max-height: 250px; overflow-y: auto; }
-.modal-detail-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #ddd; font-size: 0.95em; }
-.modal-detail-item:last-child { border-bottom: none; }
-.modal-detail-label { font-weight: bold; color: #006699; }
-.modal-detail-value { color: #333; word-break: break-word; text-align: right; }
-.modal-reference { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: center; }
-.modal-reference-label { font-size: 0.9em; color: #856404; margin-bottom: 5px; }
-.modal-reference-number { font-size: 1.4em; font-weight: bold; color: #006699; font-family: 'Courier New', monospace; }
-.modal-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.modal-buttons button { min-width: 130px; }
-.btn-primary { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; }
-.btn-primary:hover { background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%); transform: translateY(-2px); }
-.btn-secondary { background: #6c757d; color: white; }
-.btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-.btn-print { background: #17a2b8; color: white; }
-.btn-print:hover { background: #138496; transform: translateY(-2px); }
-
-@keyframes confetti-fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
-.confetti { position: fixed; width: 10px; height: 10px; z-index: 10002; pointer-events: none; }
-
-footer { text-align: center; padding: 20px; color: #666; margin-top: 40px; border-top: 1px solid #ddd; }
-
-@media (max-width: 600px) {
-    header h1 { font-size: 1.8em; }
-    .container { margin: 10px; padding: 15px; }
-    .message-container { left: 10px; right: 10px; max-width: none; }
-    .modal-content { width: 95%; padding: 25px; }
-    .modal-icon { font-size: 3.5em; }
-    .button-group { flex-direction: column; }
-    button { min-width: 100%; }
-}
-</style>
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .status-dot.connected { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+        .status-dot.disconnected { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+    </style>
 </head>
-<body>
+<body class="bg-[#020617] text-white min-h-screen relative overflow-x-hidden">
 
-<header>
-    <h1>ISPITSM Marrakech</h1>
-    <h3>Inscription et Réinscription aux Semestres</h3>
-    <p>Année Académique 2025-2026</p>
-</header>
+    <!-- Background -->
+    <div class="fixed inset-0 bg-grid pointer-events-none"></div>
+    <div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-500/5 rounded-full pointer-events-none" style="filter:blur(120px)"></div>
 
-<div class="container">
-    <div class="info-box">
-        <strong>ℹ️ Information :</strong> Tous les champs marqués d'un astérisque (*) sont obligatoires.
-    </div>
-    
-    <h2>Formulaire d'Inscription</h2>
-    
-    <form id="inscriptionForm" novalidate="">
-        <!-- Section Informations Personnelles -->
-        <div class="section">
-            <div class="section-subtitle">📋 Informations Personnelles</div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nom" class="required">Nom</label>
-                    <input type="text" id="nom" name="nom" required="" placeholder="Entrez votre nom">
-                    <span class="error-message">Le nom est obligatoire</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(2,6,23,0.8);backdrop-filter:blur(12px)">
+        <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
+                    <span class="iconify text-white text-sm" data-icon="mdi:shield-check"></span>
                 </div>
-                <div class="form-group">
-                    <label for="prenom" class="required">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" required="" placeholder="Entrez votre prénom">
-                    <span class="error-message">Le prénom est obligatoire</span>
+                <span class="font-medium text-white">Inscription</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <!-- Google Sheets Status -->
+                <div id="sheetsStatus" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 text-xs">
+                    <div class="status-dot disconnected" id="statusDot"></div>
+                    <span id="statusText" class="text-slate-500">Sheets non configuré</span>
                 </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="cni" class="required">CNI</label>
-                    <input type="text" id="cni" name="cni" required="" placeholder="Exemple: AB123456" pattern="[A-Za-z0-9]{6,}">
-                    <span class="error-message">Le CNI est obligatoire et doit contenir au moins 6 caractères</span>
-                </div>
-                <div class="form-group">
-                    <label for="dateNaissance" class="required">Date de naissance</label>
-                    <input type="date" id="dateNaissance" name="dateNaissance" required="">
-                    <span class="error-message">La date de naissance est obligatoire</span>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nationalite" class="required">Nationalité</label>
-                    <input type="text" id="nationalite" name="nationalite" required="" placeholder="Exemple: Marocain(e)">
-                    <span class="error-message">La nationalité est obligatoire</span>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="required">Email</label>
-                    <input type="email" id="email" name="email" required="" placeholder="exemple@email.com">
-                    <span class="error-message">Veuillez entrer une adresse email valide</span>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="telephone">Téléphone</label>
-                    <input type="tel" id="telephone" name="telephone" placeholder="Exemple: +212612345678" pattern="[+0-9\s\-()]{8,}">
-                    <span class="error-message">Veuillez entrer un numéro de téléphone valide</span>
-                </div>
-                <div class="form-group">
-                    <label for="adresse">Adresse</label>
-                    <input type="text" id="adresse" name="adresse" placeholder="Votre adresse complète">
-                </div>
+                <button onclick="toggleConfig()" class="text-slate-400 hover:text-white transition-colors" title="Configurer Google Sheets">
+                    <span class="iconify text-lg" data-icon="mdi:cog-outline"></span>
+                </button>
             </div>
         </div>
+    </nav>
 
-        <!-- Section Informations Académiques -->
-        <div class="section">
-            <div class="section-subtitle">🎓 Informations Académiques</div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="filiere" class="required">Filière</label>
-                    <select id="filiere" name="filiere" required="">
-                        <option value="">-- Sélectionner une filière --</option>
-                        <option value="SI">Soins Infirmiers</option>
-                        <option value="SF">Sage-Femme</option>
-                        <option value="TS">Techniques de Santé</option>
-                        <option value="RR">Rééducation et Réhabilitation</option>
-                        <option value="AMS">Assistance Médico-Sociale</option>
-                    </select>
-                    <span class="error-message">Veuillez sélectionner une filière</span>
-                </div>
-                <div class="form-group">
-                    <label for="option" class="required">Option</label>
-                    <select id="option" name="option" required="">
-                        <option value="">-- Sélectionner une option --</option>
-                        <option value="IP">IP</option>
-                        <option value="ISM">ISM</option>
-                        <option value="IAR">IAR</option>
-                        <option value="ISUSI">ISUSI</option>
-                        <option value="IBO">IBO</option>
-                        <option value="IG">IG</option>
-                        <option value="ISFSC">ISFSC</option>
-                        <option value="INP">INP</option>
-                        <option value="SF">SF</option>
-                        <option value="LABO">LABO</option>
-                        <option value="SE">SE</option>
-                        <option value="RADIO">RADIO</option>
-                        <option value="SS">SS</option>
-                        <option value="ORTHO">ORTHO</option>
-                        <option value="KINE">KINE</option>
-                        <option value="PSY">PSY</option>
-                        <option value="AS">AS</option>
-                    </select>
-                    <span class="error-message">Veuillez sélectionner une option</span>
-                </div>
+    <!-- Config Panel (Slide Down) -->
+    <div id="configPanel" class="fixed top-16 left-0 right-0 z-40 hidden" style="background:rgba(15,23,42,0.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)">
+        <div class="max-w-3xl mx-auto px-6 py-6">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="iconify text-cyan-400 text-lg" data-icon="mdi:google-spreadsheet"></span>
+                <h3 class="text-sm font-medium text-white">Configuration Google Sheets</h3>
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="promotion" class="required">Promotion (Année d'entrée)</label>
-                    <input type="text" id="promotion" name="promotion" required="" placeholder="Exemple: 2024" pattern="[0-9]{4}">
-                    <span class="error-message">La promotion doit être une année valide (4 chiffres)</span>
-                </div>
-                <div class="form-group">
-                    <label for="semestre" class="required">Semestre</label>
-                    <select id="semestre" name="semestre" required="">
-                        <option value="">-- Sélectionner un semestre --</option>
-                        <option value="S2">S2 - Semestre 2</option>
-                        <option value="S3">S3 - Semestre 3</option>
-                        <option value="S4">S4 - Semestre 4</option>
-                        <option value="S5">S5 - Semestre 5</option>
-                        <option value="S6">S6 - Semestre 6</option>
-                    </select>
-                    <span class="error-message">Veuillez sélectionner un semestre</span>
-                </div>
+            <p class="text-xs text-slate-500 mb-4">Collez l'URL de votre Apps Script Web App ci-dessous. Suivez les instructions dans le modal d'aide pour la créer.</p>
+            <div class="flex gap-3">
+                <input type="url" id="appsScriptUrl" placeholder="https://script.google.com/macros/s/XXXXX/exec" 
+                    class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all">
+                <button onclick="saveConfig()" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-medium rounded-xl transition-all">
+                    Enregistrer
+                </button>
+                <button onclick="testConnection()" class="px-5 py-2.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white text-sm font-medium rounded-xl transition-all flex items-center gap-2">
+                    <span class="iconify" data-icon="mdi:connection"></span> Tester
+                </button>
+                <button onclick="showHelp()" class="px-3 py-2.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white text-sm rounded-xl transition-all">
+                    <span class="iconify text-lg" data-icon="mdi:help-circle-outline"></span>
+                </button>
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="anneeUniversitaire" class="required">Année Universitaire</label>
-                    <input type="text" id="anneeUniversitaire" name="anneeUniversitaire" value="2025-2026" readonly="">
-                </div>
-                <div class="form-group">
-                    <label for="type" class="required">Type d'inscription</label>
-                    <select id="type" name="type" required="">
-                        <option value="">-- Sélectionner un type --</option>
-                        <option value="inscription">Inscription</option>
-                        <option value="reinscription">Réinscription</option>
-                    </select>
-                    <span class="error-message">Veuillez sélectionner un type d'inscription</span>
-                </div>
-            </div>
-
-            <div class="form-row full">
-                <div class="form-group">
-                    <label for="modules">Modules suivis (séparés par des virgules)</label>
-                    <textarea id="modules" name="modules" rows="3" placeholder="Exemple: Anatomie, Physiologie, Pharmacologie" required></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button type="submit" class="btn-submit">✓ Valider l'inscription</button>
-            <button type="reset" class="btn-reset">↻ Réinitialiser le formulaire</button>
-        </div>
-    </form>
-</div>
-
-<div class="message-container" id="messageContainer"></div>
-
-<div class="modal-overlay" id="modalOverlay">
-    <div class="modal-content">
-        <div class="modal-icon success" id="modalIcon">✓</div>
-        <div class="modal-title" id="modalTitle">Inscription Confirmée</div>
-        <div class="modal-message" id="modalMessage">Votre inscription a été enregistrée avec succès!</div>
-        <div class="modal-subtext" id="modalSubtext">Un email de confirmation vous sera envoyé à votre adresse</div>
-        <div class="modal-reference">
-            <div class="modal-reference-label">Numéro de Référence</div>
-            <div class="modal-reference-number" id="referenceNumber">#INS-000000</div>
-        </div>
-        <div class="modal-details" id="modalDetails"></div>
-        <div class="modal-buttons">
-            <button class="btn-primary" onclick="closeModal()">✓ Accepter</button>
-            <button class="btn-print" onclick="printInscription()">🖨 Imprimer</button>
-            <button class="btn-secondary" onclick="downloadInscription()">⬇ Télécharger</button>
         </div>
     </div>
-</div>
 
-<footer>
-    <p>© 2025-2026 ISPITSM Marrakech - Plateforme d'inscription en ligne</p>
-</footer>
+    <!-- Progress Bar -->
+    <div class="fixed top-16 left-0 right-0 z-30 h-1 bg-white/5">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500 ease-out" style="width: 33%"></div>
+    </div>
 
-<script>
-// ==========================================
-// REMPLACEZ CECI PAR VOTRE URL GOOGLE SCRIPT
-// ==========================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbdKvm0IX7vW3AIN4RClk95hz4wGnCcMEVs5wEj3121A9xUywz8J9e0p0NdTnE8rc/exec'; 
+    <!-- Step Indicators -->
+    <div class="fixed top-[72px] left-0 right-0 z-30 hidden md:flex justify-center py-4 px-6" style="background:rgba(2,6,23,0.6);backdrop-filter:blur(8px)">
+        <div class="flex items-center">
+            <button onclick="goToStep(1)" class="flex items-center gap-3 cursor-pointer">
+                <div id="step1Circle" class="progress-step active w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium">1</div>
+                <span id="step1Label" class="text-sm font-medium text-white pr-6">Informations personnelles</span>
+            </button>
+            <div id="line1" class="progress-line w-16 md:w-24 h-px bg-white/10 -mt-6"></div>
+            <button onclick="goToStep(2)" class="flex items-center gap-3 cursor-pointer">
+                <div id="step2Circle" class="progress-step w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium text-slate-400">2</div>
+                <span id="step2Label" class="text-sm text-slate-400 pr-6 transition-colors">Certificat médical</span>
+            </button>
+            <div id="line2" class="progress-line w-16 md:w-24 h-px bg-white/10 -mt-6"></div>
+            <button onclick="goToStep(3)" class="flex items-center gap-3 cursor-pointer">
+                <div id="step3Circle" class="progress-step w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-xs font-medium text-slate-400">3</div>
+                <span id="step3Label" class="text-sm text-slate-400 transition-colors">Confirmation</span>
+            </button>
+        </div>
+    </div>
 
-// Classe pour gérer les messages
-class MessageManager {
-    constructor(containerId) {
-        this.container = document.getElementById(containerId);
-        this.messages = [];
-    }
+    <!-- Main Content -->
+    <main class="relative z-10 pt-36 md:pt-40 pb-20 px-6">
+        <div class="max-w-3xl mx-auto">
 
-    show(type, title, message, details = null, duration = 5000) {
-        const messageId = Date.now();
-        const messageEl = document.createElement('div');
-        messageEl.className = `message ${type}`;
-        messageEl.id = `msg-${messageId}`;
-        const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
-        let detailsHtml = details ? '<div class="message-details">' + details + '</div>' : '';
-        
-        messageEl.innerHTML = `
-            <div class="icon">${icons[type]}</div>
-            <div class="message-content">
-                <div class="message-title">${title}</div>
-                <div class="message-text">${message}</div>
-                ${detailsHtml}
+            <!-- Header -->
+            <div class="text-center mb-12 animate-in">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                    </span>
+                    <span class="text-xs font-medium text-slate-400">Inscription en cours</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-medium tracking-tight mb-4" style="background:linear-gradient(to bottom,#fff,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+                    Créer votre compte
+                </h1>
+                <p class="text-lg font-light text-slate-400 max-w-xl mx-auto">Remplissez les informations ci-dessous pour compléter votre inscription</p>
             </div>
-            <button class="message-close" onclick="messageManager.remove('${messageId}')">×</button>
-        `;
-        
-        this.container.appendChild(messageEl);
-        this.messages.push(messageId);
-        if (duration > 0) { setTimeout(() => this.remove(messageId), duration); }
-        return messageId;
-    }
 
-    remove(messageId) {
-        const messageEl = document.getElementById(`msg-${messageId}`);
-        if (messageEl) {
-            messageEl.classList.add('removing');
-            setTimeout(() => {
-                messageEl.remove();
-                this.messages = this.messages.filter(id => id !== messageId);
-            }, 400);
-        }
-    }
+            <!-- ===== STEP 1 ===== -->
+            <div id="step1Panel" class="animate-in delay-1">
+                <div class="section-card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                            <span class="iconify text-cyan-400 text-xl" data-icon="mdi:account-outline"></span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-medium">Informations personnelles</h2>
+                            <p class="text-sm text-slate-500">Vos données de base</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Nom <span class="text-cyan-500">*</span></label>
+                            <input type="text" id="lastName" placeholder="Votre nom de famille" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Prénom <span class="text-cyan-500">*</span></label>
+                            <input type="text" id="firstName" placeholder="Votre prénom" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Adresse e-mail <span class="text-cyan-500">*</span></label>
+                            <div class="relative">
+                                <span class="iconify absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" data-icon="mdi:email-outline"></span>
+                                <input type="email" id="email" placeholder="votre@email.com" class="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Téléphone <span class="text-cyan-500">*</span></label>
+                            <div class="relative">
+                                <span class="iconify absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" data-icon="mdi:phone-outline"></span>
+                                <input type="tel" id="phone" placeholder="+212 6XX XXX XXX" class="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Date de naissance <span class="text-cyan-500">*</span></label>
+                            <input type="date" id="birthDate" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-300 mb-3">Genre <span class="text-cyan-500">*</span></label>
+                            <div class="flex gap-3">
+                                <button type="button" onclick="selectGender(this)" class="gender-btn flex-1 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-2">
+                                    <span class="iconify" data-icon="mdi:gender-male"></span> Homme
+                                </button>
+                                <button type="button" onclick="selectGender(this)" class="gender-btn flex-1 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-2">
+                                    <span class="iconify" data-icon="mdi:gender-female"></span> Femme
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button onclick="goToStep(2)" class="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all" style="box-shadow:0 0 20px rgba(6,182,212,0.3)">
+                        Suivant — Certificat médical
+                        <span class="iconify inline-block ml-1 -mt-0.5" data-icon="mdi:arrow-right"></span>
+                    </button>
+                </div>
+            </div>
 
-    success(title, message, details = null) { return this.show('success', title, message, details); }
-    error(title, message, details = null) { return this.show('error', title, message, details, 0); }
-    warning(title, message, details = null) { return this.show('warning', title, message, details); }
-    info(title, message, details = null) { return this.show('info', title, message, details); }
+            <!-- ===== STEP 2 ===== -->
+            <div id="step2Panel" class="hidden">
+                <div class="section-card animate-in">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                            <span class="iconify text-cyan-400 text-xl" data-icon="mdi:certificate-outline"></span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-medium">Certificat médical</h2>
+                            <p class="text-sm text-slate-500">Téléversez votre certificat et précisez sa durée</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-6 ml-[52px]">
+                        <span class="iconify text-amber-400 text-sm" data-icon="mdi:information-outline"></span>
+                        <p class="text-xs text-slate-500">Le certificat médical est obligatoire pour valider votre inscription</p>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-slate-300 mb-3">Insérer le certificat médical <span class="text-cyan-500">*</span></label>
+                        <div id="dropZone" class="file-drop-zone rounded-2xl p-8 text-center cursor-pointer relative"
+                             onclick="document.getElementById('certFile').click()"
+                             ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                            <div id="uploadDefault" class="flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+                                    <span class="iconify text-3xl text-slate-500" data-icon="mdi:cloud-upload-outline"></span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300 mb-1">Glissez-déposez votre certificat ici</p>
+                                <p class="text-xs text-slate-500 mb-4">ou cliquez pour parcourir vos fichiers</p>
+                                <div class="flex items-center gap-4 text-xs text-slate-600">
+                                    <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span> PDF</span>
+                                    <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span> JPG/PNG</span>
+                                    <span>Max 5 Mo</span>
+                                </div>
+                            </div>
+                            <div id="uploadSuccess" class="hidden flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center mb-4">
+                                    <span class="iconify text-3xl text-green-400" data-icon="mdi:file-check-outline"></span>
+                                </div>
+                                <p class="text-sm font-medium text-green-400 mb-1">Fichier sélectionné</p>
+                                <p id="fileName" class="text-xs text-slate-400 mb-3">nom-du-fichier.pdf</p>
+                                <button type="button" onclick="removeFile(event)" class="text-xs text-slate-500 hover:text-red-400 transition-colors flex items-center gap-1">
+                                    <span class="iconify" data-icon="mdi:delete-outline"></span> Supprimer
+                                </button>
+                            </div>
+                            <input type="file" id="certFile" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(event)">
+                        </div>
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-300 mb-3">Durée du certificat <span class="text-cyan-500">*</span></label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '3 mois')">
+                                <div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all">
+                                    <span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span>
+                                </div>
+                                <p class="text-lg font-medium text-white">3</p><p class="text-xs text-slate-500">Mois</p>
+                            </div>
+                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '6 mois')">
+                                <div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all">
+                                    <span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span>
+                                </div>
+                                <p class="text-lg font-medium text-white">6</p><p class="text-xs text-slate-500">Mois</p>
+                            </div>
+                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '12 mois')">
+                                <div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all">
+                                    <span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span>
+                                </div>
+                                <p class="text-lg font-medium text-white">12</p><p class="text-xs text-slate-500">Mois</p>
+                            </div>
+                            <div class="duration-card rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center" onclick="selectDuration(this, '24 mois')">
+                                <div class="check-circle w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center mx-auto mb-3 transition-all">
+                                    <span class="iconify text-white text-sm opacity-0 transition-opacity" data-icon="mdi:check"></span>
+                                </div>
+                                <p class="text-lg font-medium text-white">24</p><p class="text-xs text-slate-500">Mois</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="flex-1 h-px bg-white/10"></div>
+                            <span class="text-xs text-slate-600 font-medium uppercase tracking-wider">ou définir manuellement</span>
+                            <div class="flex-1 h-px bg-white/10"></div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-2">Date de début</label>
+                                <div class="relative">
+                                    <span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" data-icon="mdi:calendar-start"></span>
+                                    <input type="date" id="certStartDate" onchange="autoCalcEndDate()" class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-2">Date d'expiration</label>
+                                <div class="relative">
+                                    <span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm" data-icon="mdi:calendar-end"></span>
+                                    <input type="date" id="certEndDate" onchange="autoCalcEndDate()" class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 transition-all">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="calculatedDuration" class="hidden mt-4 p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 flex items-center gap-3">
+                            <span class="iconify text-cyan-400 text-lg" data-icon="mdi:clock-check-outline"></span>
+                            <p class="text-sm text-cyan-300">Durée calculée : <span id="durationText" class="font-medium text-white"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-3">Type de certificat</label>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <label class="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] cursor-pointer hover:bg-white/[0.06] transition-all has-[:checked]:border-cyan-500/50 has-[:checked]:bg-cyan-500/5">
+                                <input type="radio" name="certType" value="aptitude" class="accent-cyan-500">
+                                <div>
+                                    <p class="text-sm font-medium text-white">Certificat d'aptitude</p>
+                                    <p class="text-xs text-slate-500">Aptitude physique et sportive</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] cursor-pointer hover:bg-white/[0.06] transition-all has-[:checked]:border-cyan-500/50 has-[:checked]:bg-cyan-500/5">
+                                <input type="radio" name="certType" value="non-contre-indication" class="accent-cyan-500">
+                                <div>
+                                    <p class="text-sm font-medium text-white">Non contre-indication</p>
+                                    <p class="text-xs text-slate-500">Absence de contre-indication</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button onclick="goToStep(1)" class="px-6 py-3.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2">
+                        <span class="iconify" data-icon="mdi:arrow-left"></span> Retour
+                    </button>
+                    <button onclick="goToStep(3)" class="px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.3)">
+                        Suivant — Confirmation <span class="iconify" data-icon="mdi:arrow-right"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== STEP 3 ===== -->
+            <div id="step3Panel" class="hidden">
+                <div class="section-card animate-in">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                            <span class="iconify text-cyan-400 text-xl" data-icon="mdi:check-decagram-outline"></span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-medium">Récapitulatif</h2>
+                            <p class="text-sm text-slate-500">Vérifiez avant de soumettre vers Google Sheets</p>
+                        </div>
+                    </div>
+
+                    <!-- Sheets sync indicator -->
+                    <div id="syncIndicator" class="mb-6 p-3 rounded-xl border flex items-center gap-3" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)">
+                        <span class="iconify text-slate-500 text-lg" data-icon="mdi:google-spreadsheet"></span>
+                        <p class="text-xs text-slate-500">Les données seront envoyées vers votre Google Sheet</p>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-white/8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="iconify text-cyan-400" data-icon="mdi:account-outline"></span>
+                                <h3 class="text-sm font-medium text-slate-300">Informations personnelles</h3>
+                            </div>
+                            <div class="grid grid-cols-2 gap-y-2 gap-x-6">
+                                <div><p class="text-xs text-slate-600">Nom complet</p><p id="sumName" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">E-mail</p><p id="sumEmail" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">Téléphone</p><p id="sumPhone" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">Date de naissance</p><p id="sumBirth" class="text-sm text-white font-medium">—</p></div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-white/8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="iconify text-cyan-400" data-icon="mdi:certificate-outline"></span>
+                                <h3 class="text-sm font-medium text-slate-300">Certificat médical</h3>
+                            </div>
+                            <div class="grid grid-cols-2 gap-y-2 gap-x-6">
+                                <div><p class="text-xs text-slate-600">Fichier</p><p id="sumFile" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">Durée</p><p id="sumDuration" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">Date début</p><p id="sumStartDate" class="text-sm text-white font-medium">—</p></div>
+                                <div><p class="text-xs text-slate-600">Date expiration</p><p id="sumEndDate" class="text-sm text-white font-medium">—</p></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="flex items-start gap-3 cursor-pointer mb-6 p-4 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all has-[:checked]:border-cyan-500/30 has-[:checked]:bg-cyan-500/5">
+                        <input type="checkbox" id="termsCheck" class="accent-cyan-500 mt-0.5">
+                        <p class="text-sm text-slate-400">J'atteste que toutes les informations fournies sont exactes et j'accepte les <a href="#" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">conditions générales</a>.</p>
+                    </label>
+                </div>
+                <div class="flex justify-between">
+                    <button onclick="goToStep(2)" class="px-6 py-3.5 border border-white/10 hover:bg-white/5 text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2">
+                        <span class="iconify" data-icon="mdi:arrow-left"></span> Retour
+                    </button>
+                    <button id="submitBtn" onclick="submitToSheets()" class="px-8 py-3.5 bg-white text-slate-900 hover:bg-cyan-50 font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(255,255,255,0.1)">
+                        <span class="iconify" data-icon="mdi:google-spreadsheet"></span>
+                        Envoyer vers Google Sheets
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-5 py-4 rounded-xl border max-w-sm" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-color:rgba(255,255,255,0.1)">
+        <div id="toastIcon" class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"></div>
+        <div><p id="toastTitle" class="text-sm font-medium text-white"></p><p id="toastMsg" class="text-xs text-slate-400"></p></div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(8px)">
+        <div class="bg-[#0f172a] border border-white/10 rounded-2xl p-8 max-w-md w-full text-center" style="animation:fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1)">
+            <div class="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
+                <span class="iconify text-4xl text-green-400" data-icon="mdi:check-circle-outline"></span>
+            </div>
+            <h3 class="text-2xl font-medium text-white mb-3">Envoyé vers Google Sheets !</h3>
+            <p class="text-sm text-slate-400 mb-2">Votre inscription a été enregistrée avec succès dans votre feuille Google Sheets.</p>
+            <p id="modalTimestamp" class="text-xs text-slate-600 mb-8"></p>
+            <div class="flex gap-3">
+                <button onclick="openSheet()" class="flex-1 px-6 py-3.5 border border-cyan-500/30 hover:bg-cyan-500/10 text-cyan-400 font-medium text-sm rounded-xl transition-all flex items-center justify-center gap-2">
+                    <span class="iconify" data-icon="mdi:open-in-new"></span> Ouvrir le Sheet
+                </button>
+                <button onclick="closeModal()" class="flex-1 px-6 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">
+                    Nouvelle inscription
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(8px)">
+        <div class="bg-[#0f172a] border border-white/10 rounded-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto" style="animation:fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1)">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                        <span class="iconify text-cyan-400 text-xl" data-icon="mdi:google-spreadsheet"></span>
+                    </div>
+                    <h3 class="text-xl font-medium">Guide de configuration Google Sheets</h3>
+                </div>
+                <button onclick="closeHelp()" class="text-slate-500 hover:text-white transition-colors">
+                    <span class="iconify text-2xl" data-icon="mdi:close"></span>
+                </button>
+            </div>
+
+            <div class="space-y-6 text-sm text-slate-400">
+                <!-- Step 1 -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">1</div>
+                    <div>
+                        <h4 class="text-white font-medium mb-1">Créer un Google Sheet</h4>
+                        <p>Allez sur <a href="https://sheets.google.com" target="_blank" class="text-cyan-400 underline underline-offset-2">sheets.google.com</a> et créez une nouvelle feuille. Ajoutez ces en-têtes dans la première ligne :</p>
+                        <div class="mt-2 p-3 rounded-lg bg-white/5 font-mono text-xs text-slate-300 overflow-x-auto">
+                            Date | Nom | Prénom | Email | Téléphone | Naissance | Genre | Fichier Certificat | Durée Certificat | Date Début | Date Fin | Type Certificat
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">2</div>
+                    <div>
+                        <h4 class="text-white font-medium mb-1">Ouvrir Apps Script</h4>
+                        <p>Dans votre Sheet, allez dans <strong class="text-white">Extensions → Apps Script</strong>. Un éditeur de code s'ouvrira.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">3</div>
+                    <div>
+                        <h4 class="text-white font-medium mb-1">Coller le code</h4>
+                        <p>Supprimez tout le contenu existant et collez ce code :</p>
+                        <div class="mt-2 relative">
+                            <button onclick="copyScriptCode()" class="absolute top-2 right-2 px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-xs text-slate-300 transition-all flex items-center gap-1">
+                                <span class="iconify" data-icon="mdi:content-copy"></span> Copier
+                            </button>
+                            <pre class="p-4 rounded-lg bg-white/5 font-mono text-xs text-slate-300 overflow-x-auto leading-relaxed" id="scriptCode">function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+
+    sheet.appendRow([
+      new Date().toLocaleString('fr-FR'),
+      data.lastName,
+      data.firstName,
+      data.email,
+      data.phone,
+      data.birthDate,
+      data.gender,
+      data.certFileName,
+      data.certDuration,
+      data.certStart,
+      data.certEnd,
+      data.certType
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'success'}))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch(error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'error', message: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
-const messageManager = new MessageManager('messageContainer');
-const form = document.getElementById('inscriptionForm');
-const modalOverlay = document.getElementById('modalOverlay');
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({status: 'connected'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">4</div>
+                    <div>
+                        <h4 class="text-white font-medium mb-1">Déployer</h4>
+                        <p>Cliquez sur <strong class="text-white">Déployer → Nouveau déploiement</strong> :</p>
+                        <ul class="mt-2 space-y-1 text-xs">
+                            <li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Type : <strong class="text-white">Application web</strong></li>
+                            <li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Exécuter en tant que : <strong class="text-white">Moi</strong></li>
+                            <li class="flex items-start gap-2"><span class="iconify text-cyan-400 mt-0.5" data-icon="mdi:chevron-right"></span> Accès : <strong class="text-white">Toute personne</strong></li>
+                        </ul>
+                        <p class="mt-2">Cliquez sur <strong class="text-white">Déployer</strong>, autorisez l'accès, puis <strong class="text-white">copiez l'URL</strong> de l'application web.</p>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-medium text-xs">5</div>
+                    <div>
+                        <h4 class="text-white font-medium mb-1">Coller l'URL ici</h4>
+                        <p>Cliquez sur l'icône ⚙️ en haut à droite de cette page, collez l'URL obtenue, puis cliquez <strong class="text-white">Enregistrer</strong> et <strong class="text-white">Tester</strong>.</p>
+                    </div>
+                </div>
+            </div>
 
-function validateForm() {
-    let isValid = true;
-    const errors = [];
-    const requiredFields = form.querySelectorAll('[required]');
-    
-    requiredFields.forEach(field => {
-        const formGroup = field.closest('.form-group');
-        if (!field.value.trim()) {
-            formGroup.classList.add('error');
-            isValid = false;
-            errors.push(`${field.previousElementSibling.textContent.replace(' *', '')}`);
-        } else {
-            if (field.type === 'email' && !isValidEmail(field.value)) { formGroup.classList.add('error'); isValid = false; errors.push('Email invalide'); } 
-            else if (field.type === 'date' && !isValidDate(field.value)) { formGroup.classList.add('error'); isValid = false; errors.push('Date invalide'); } 
-            else if (field.id === 'cni' && !isValidCNI(field.value)) { formGroup.classList.add('error'); isValid = false; errors.push('CNI invalide'); } 
-            else if (field.id === 'promotion' && !isValidYear(field.value)) { formGroup.classList.add('error'); isValid = false; errors.push('Année invalide'); } 
-            else { formGroup.classList.remove('error'); }
-        }
-    });
-    
-    const telephone = document.getElementById('telephone');
-    if (telephone.value.trim() && !isValidPhone(telephone.value)) {
-        telephone.closest('.form-group').classList.add('error');
-        isValid = false;
-        errors.push('Téléphone invalide');
-    }
-    return { isValid, errors };
-}
+            <button onclick="closeHelp()" class="w-full mt-8 px-6 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">
+                Compris
+            </button>
+        </div>
+    </div>
 
-function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
-function isValidDate(dateString) { const date = new Date(dateString); return date instanceof Date && !isNaN(date) && date < new Date(); }
-function isValidCNI(cni) { return cni.length >= 6; }
-function isValidYear(year) { const currentYear = new Date().getFullYear(); return /^[0-9]{4}$/.test(year) && year >= 1950 && year <= currentYear; }
-function isValidPhone(phone) { return /^[+0-9\s\-()]{8,}$/.test(phone); }
+    <script>
+        // ========== STATE ==========
+        let currentStep = 1;
+        let selectedDuration = '';
+        let selectedGender = '';
+        let uploadedFile = null;
+        let APPS_SCRIPT_URL = localStorage.getItem('appsScriptUrl') || '';
+        let SHEET_URL = localStorage.getItem('sheetUrl') || '';
+        let isConnected = false;
 
-// ==========================================
-// NOUVEAU : ENVOI VERS GOOGLE SHEET
-// ==========================================
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    form.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
-    const validation = validateForm();
-    
-    if (validation.isValid) {
-        // Message de chargement
-        const loadingMsgId = messageManager.info('⏳ Traitement', 'Envoi de votre inscription en cours...');
-        
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        
-        // Requête vers Google Apps Script
-        fetch(https://script.google.com/macros/s/AKfycbxbdKvm0IX7vW3AIN4RClk95hz4wGnCcMEVs5wEj3121A9xUywz8J9e0p0NdTnE8rc/exec, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(res => {
-            messageManager.remove(loadingMsgId); // Supprimer le message de chargement
-            
-            if (res.result === 'success') {
-                showSuccessModal(data); // Afficher le modal et les confettis
-            } else {
-                throw new Error(res.error || 'Erreur inconnue');
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            if (APPS_SCRIPT_URL) {
+                document.getElementById('appsScriptUrl').value = APPS_SCRIPT_URL;
+                testConnection(true);
             }
-        })
-        .catch(error => {
-            messageManager.remove(loadingMsgId);
-            console.error('Erreur:', error);
-            messageManager.error(
-                '❌ Erreur d\'envoi',
-                'Une erreur est survenue lors de l\'envoi vers le serveur. Vérifiez votre connexion et réessayez.'
-            );
         });
-    } else {
-        const errorDetails = validation.errors.map(err => `• ${err}`).join('<br>');
-        messageManager.error('❌ Erreurs de Validation', 'Veuillez corriger les erreurs avant de soumettre le formulaire.', errorDetails);
-    }
-});
 
-function showSuccessModal(data) {
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
-    const modalDetails = document.getElementById('modalDetails');
-    const refNumber = generateReferenceNumber();
-    
-    document.getElementById('referenceNumber').textContent = `#INS-${refNumber}`;
-    modalTitle.textContent = `Bienvenue, ${data.prenom} ${data.nom}!`;
-    modalMessage.textContent = 'Votre inscription a été enregistrée avec succès!';
-    
-    const detailsHtml = `
-        <div class="modal-detail-item"><span class="modal-detail-label">📁 Filière:</span><span class="modal-detail-value">${getFiliereName(data.filiere)}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">🎯 Option:</span><span class="modal-detail-value">${data.option}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">📚 Semestre:</span><span class="modal-detail-value">${data.semestre}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">📝 Type :</span><span class="modal-detail-value">${data.type === 'inscription' ? 'Première inscription' : 'Réinscription'}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">✉️ Email:</span><span class="modal-detail-value">${data.email}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">🎂 Date de naissance :</span><span class="modal-detail-value">${data.dateNaissance || 'N/A'}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">🏠 Adresse :</span><span class="modal-detail-value">${data.adresse || 'N/A'}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">📅 Date:</span><span class="modal-detail-value">${new Date().toLocaleDateString('fr-FR')}</span></div>
-        <div class="modal-detail-item"><span class="modal-detail-label">📖 Modules :</span><span class="modal-detail-value">${data.modules || 'Aucun'}</span></div>
-    `;
-    
-    modalDetails.innerHTML = detailsHtml;
-    modalOverlay.style.display = 'block';
-    launchConfetti();
-    
-    messageManager.success('🎉 Inscription Réussie!', 'Vérifiez votre email pour les prochaines étapes.', `Numéro de référence: <strong>#INS-${refNumber}</strong>`);
-    saveInscriptionData(data, refNumber);
-}
+        // ========== CONFIG PANEL ==========
+        function toggleConfig() {
+            const panel = document.getElementById('configPanel');
+            panel.classList.toggle('hidden');
+        }
 
-function getFiliereName(code) {
-    const filieres = { 'SI': 'Soins Infirmiers', 'SF': 'Sage-Femme', 'TS': 'Techniques de Santé', 'RR': 'Rééducation et Réhabilitation', 'AMS': 'Assistance Médico-Sociale' };
-    return filieres[code] || code;
-}
+        function saveConfig() {
+            const url = document.getElementById('appsScriptUrl').value.trim();
+            if (!url) {
+                showToast('error', 'URL requise', 'Veuillez coller l\'URL de votre Apps Script.');
+                return;
+            }
+            APPS_SCRIPT_URL = url;
+            localStorage.setItem('appsScriptUrl', url);
 
-function generateReferenceNumber() { return Math.floor(Math.random() * 1000000).toString().padStart(6, '0'); }
-function saveInscriptionData(data, refNumber) {
-    const inscription = { ...data, dateInscription: new Date().toLocaleString('fr-FR'), numeroReference: refNumber };
-    localStorage.setItem('derniere-inscription', JSON.stringify(inscription));
-}
+            // Extract sheet URL if possible
+            try {
+                const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+                if (match) {
+                    SHEET_URL = `https://docs.google.com/spreadsheets/d/${match[1]}`;
+                    localStorage.setItem('sheetUrl', SHEET_URL);
+                }
+            } catch(e) {}
 
-function closeModal() { modalOverlay.style.display = 'none'; form.reset(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            showToast('success', 'Enregistré', 'URL sauvegardée dans le navigateur.');
+            testConnection();
+        }
 
-function printInscription() {
-    const inscription = JSON.parse(localStorage.getItem('derniere-inscription'));
-    if (inscription) {
-        const printContent = `
-            <!DOCTYPE html><html><head><style>
-                body { font-family: Arial, sans-serif; }
-                .header { text-align: center; margin-bottom: 30px; }
-                .header h1 { color: #006699; }
-                .reference { background: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-                .details { margin-top: 20px; }
-                .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
-            </style></head><body>
-                <div class="header"><h1>ISPITSM Marrakech</h1><p>Confirmation d'Inscription</p></div>
-                <div class="reference"><p><strong>Numéro de Référence:</strong> #INS-${inscription.numeroReference}</p><p><strong>Date d'Inscription:</strong> ${inscription.dateInscription}</p></div>
-                <div class="details">
-                    <h3>Informations Personnelles</h3>
-                    <div class="detail-row"><span>Nom:</span><span>${inscription.nom}</span></div>
-                    <div class="detail-row"><span>Prénom:</span><span>${inscription.prenom}</span></div>
-                    <div class="detail-row"><span>Email:</span><span>${inscription.email}</span></div>
-                    <div class="detail-row"><span>Téléphone:</span><span>${inscription.telephone || 'N/A'}</span></div>
-                    <div class="detail-row"><span>Date de naissance :</span><span>${inscription.dateNaissance || 'N/A'}</span></div>
-                    <div class="detail-row"><span>Adresse :</span><span>${inscription.adresse || 'N/A'}</span></div>
-                    <h3>Informations Académiques</h3>
-                    <div class="detail-row"><span>Filière:</span><span>${getFiliereName(inscription.filiere)}</span></div>
-                    <div class="detail-row"><span>Option:</span><span>${inscription.option}</span></div>
-                    <div class="detail-row"><span>Semestre:</span><span>${inscription.semestre}</span></div>
-                    <div class="detail-row"><span>Type:</span><span>${inscription.type === 'inscription' ? 'Première inscription' : 'Réinscription'}</span></div>
-                    <div class="detail-row"><span>Modules :</span><span>${inscription.modules || 'Aucun'}</span></div>
-                </div>
-            </body></html>
-        `;
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write(printContent);
-        printWindow.document.close();
-        printWindow.print();
-    }
-}
+        async function testConnection(silent) {
+            if (!APPS_SCRIPT_URL) {
+                if (!silent) showToast('error', 'URL manquante', 'Configurez d\'abord l\'URL du script.');
+                return;
+            }
 
-function downloadInscription() {
-    const inscription = JSON.parse(localStorage.getItem('derniere-inscription'));
-    if (inscription) {
-        const content = `
-CONFIRMATION D'INSCRIPTION
-ISPITSM Marrakech
-==================================================
+            const dot = document.getElementById('statusDot');
+            const txt = document.getElementById('statusText');
 
-NUMÉRO DE RÉFÉRENCE: #INS-${inscription.numeroReference}
-DATE D'INSCRIPTION: ${inscription.dateInscription}
+            if (!silent) {
+                txt.textContent = 'Test en cours…';
+                dot.className = 'status-dot';
+                dot.style.background = '#f59e0b';
+                dot.style.boxShadow = '0 0 8px rgba(245,158,11,0.5)';
+            }
 
-INFORMATIONS PERSONNELLES
-==================================================
-Nom: ${inscription.nom}
-Prénom: ${inscription.prenom}
-Email: ${inscription.email}
-Date de naissance: ${inscription.dateNaissance || 'N/A'}
-Adresse: ${inscription.adresse || 'N/A'}
-Téléphone: ${inscription.telephone || 'N/A'}
-CNI: ${inscription.cni}
-Nationalité: ${inscription.nationalite}
+            try {
+                const res = await fetch(APPS_SCRIPT_URL, { redirect: 'follow' });
+                const data = await res.json();
+                if (data.status === 'connected') {
+                    isConnected = true;
+                    dot.className = 'status-dot connected';
+                    dot.style.background = '';
+                    dot.style.boxShadow = '';
+                    txt.textContent = 'Sheets connecté';
+                    txt.className = 'text-green-400';
+                    if (!silent) showToast('success', 'Connecté !', 'La liaison avec Google Sheets est active.');
+                } else {
+                    throw new Error('Réponse inattendue');
+                }
+            } catch (err) {
+                isConnected = false;
+                dot.className = 'status-dot disconnected';
+                dot.style.background = '';
+                dot.style.boxShadow = '';
+                txt.textContent = 'Erreur de connexion';
+                txt.className = 'text-red-400';
+                if (!silent) showToast('error', 'Connexion échouée', 'Vérifiez l\'URL et le déploiement du script.');
+            }
+        }
 
-INFORMATIONS ACADÉMIQUES
-==================================================
-Filière: ${getFiliereName(inscription.filiere)}
-Option: ${inscription.option}
-Semestre: ${inscription.semestre}
-Année Universitaire: ${inscription.anneeUniversitaire}
-Type d'Inscription: ${inscription.type === 'inscription' ? 'Première inscription' : 'Réinscription'}
-Modules: ${inscription.modules || 'Aucun'}
+        function copyScriptCode() {
+            const code = document.getElementById('scriptCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('success', 'Copié !', 'Le code Apps Script est dans le presse-papiers.');
+            });
+        }
 
-================================
-© 2025-2026 ISPITSM Marrakech
-        `;
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `inscription-${inscription.numeroReference}.txt`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    }
-}
+        function showHelp() {
+            document.getElementById('helpModal').classList.remove('hidden');
+            document.getElementById('helpModal').classList.add('flex');
+        }
+        function closeHelp() {
+            document.getElementById('helpModal').classList.add('hidden');
+            document.getElementById('helpModal').classList.remove('flex');
+        }
 
-function launchConfetti() {
-    const confettiCount = 50;
-    const colors = ['#28a745', '#006699', '#ffc107', '#17a2b8', '#dc3545'];
-    for (let i = 0; i < confettiCount; i++) {
-        setTimeout(() => {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * window.innerWidth + 'px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animation = `confetti-fall ${2 + Math.random() * 1}s ease-in forwards`;
-            document.body.appendChild(confetti);
-            setTimeout(() => confetti.remove(), 3000);
-        }, i * 30);
-    }
-}
+        // ========== STEP NAVIGATION ==========
+        function goToStep(step) {
+            if (step > currentStep) {
+                if (currentStep === 1 && !validateStep1()) return;
+                if (currentStep === 2 && !validateStep2()) return;
+            }
+            document.getElementById('step1Panel').classList.add('hidden');
+            document.getElementById('step2Panel').classList.add('hidden');
+            document.getElementById('step3Panel').classList.add('hidden');
+            document.getElementById(`step${step}Panel`).classList.remove('hidden');
 
-form.querySelectorAll('input, select, textarea').forEach(field => {
-    field.addEventListener('blur', function() {
-        const formGroup = this.closest('.form-group');
-        if (this.hasAttribute('required') && !this.value.trim()) { formGroup.classList.add('error'); } 
-        else if (this.type === 'email' && this.value.trim() && !isValidEmail(this.value)) { formGroup.classList.add('error'); } 
-        else { formGroup.classList.remove('error'); }
-    });
-    field.addEventListener('focus', function() { this.closest('.form-group').classList.remove('error'); });
-});
+            const panel = document.getElementById(`step${step}Panel`).querySelector('.section-card');
+            if (panel) { panel.classList.remove('animate-in'); void panel.offsetWidth; panel.classList.add('animate-in'); }
 
-modalOverlay.addEventListener('click', function(e) { if (e.target === modalOverlay) { closeModal(); } });
+            currentStep = step;
+            updateProgressUI();
+            updateSummary();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-window.addEventListener('load', function() {
-    messageManager.success('👋 Bienvenue!', 'Remplissez le formulaire ci-dessous pour procéder à votre inscription.', 'Tous les champs marqués d\'un astérisque (*) sont obligatoires.');
-});
-</script>
+        function updateProgressUI() {
+            const barWidths = { 1: '33%', 2: '66%', 3: '100%' };
+            document.getElementById('progressBar').style.width = barWidths[currentStep];
 
-</body></html>
+            [1,2,3].forEach(s => {
+                const circle = document.getElementById(`step${s}Circle`);
+                const label = document.getElementById(`step${s}Label`);
+                circle.classList.remove('active', 'completed', 'text-slate-400');
+                label.classList.remove('text-slate-400', 'text-white', 'font-medium');
+                if (s < currentStep) {
+                    circle.classList.add('completed');
+                    circle.innerHTML = '<span class="iconify text-white text-sm" data-icon="mdi:check"></span>';
+                    label.classList.add('text-white');
+                } else if (s === currentStep) {
+                    circle.classList.add('active');
+                    circle.textContent = s;
+                    label.classList.add('text-white', 'font-medium');
+                } else {
+                    circle.textContent = s;
+                    circle.classList.add('text-slate-400');
+                    label.classList.add('text-slate-400');
+                }
+            });
+            document.getElementById('line1').style.background = currentStep > 1 ? '#06b6d4' : 'rgba(255,255,255,0.1)';
+            document.getElementById('line2').style.background = currentStep > 2 ? '#06b6d4' : 'rgba(255,255,255,0.1)';
+        }
+
+        // ========== VALIDATION ==========
+        function validateStep1() {
+            const ln = document.getElementById('lastName').value.trim();
+            const fn = document.getElementById('firstName').value.trim();
+            const em = document.getElementById('email').value.trim();
+            const ph = document.getElementById('phone').value.trim();
+            if (!ln || !fn) { showToast('error', 'Champs requis', 'Nom et prénom obligatoires.'); return false; }
+            if (!em || !em.includes('@')) { showToast('error', 'E-mail invalide', 'Entrez une adresse e-mail valide.'); return false; }
+            if (!ph) { showToast('error', 'Téléphone requis', 'Entrez votre numéro de téléphone.'); return false; }
+            if (!selectedGender) { showToast('error', 'Genre requis', 'Sélectionnez votre genre.'); return false; }
+            return true;
+        }
+
+        function validateStep2() {
+            if (!uploadedFile) { showToast('error', 'Certificat requis', 'Insérez votre certificat médical.'); return false; }
+            if (!selectedDuration && !document.getElementById('certStartDate').value) {
+                showToast('error', 'Durée requise', 'Sélectionnez une durée ou définissez les dates.'); return false;
+            }
+            return true;
+        }
+
+        // ========== GENDER ==========
+        function selectGender(btn) {
+            document.querySelectorAll('.gender-btn').forEach(b => {
+                b.classList.remove('border-cyan-500', 'bg-cyan-500/10', 'text-white');
+                b.classList.add('border-white/10', 'bg-white/5', 'text-slate-400');
+            });
+            btn.classList.remove('border-white/10', 'bg-white/5', 'text-slate-400');
+            btn.classList.add('border-cyan-500', 'bg-cyan-500/10', 'text-white');
+            selectedGender = btn.textContent.trim();
+        }
+
+        // ========== FILE UPLOAD ==========
+        function handleDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+        function handleDragLeave(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); }
+        function handleDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]); }
+        function handleFileSelect(e) { if (e.target.files.length) processFile(e.target.files[0]); }
+
+        function processFile(file) {
+            const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
+            if (!allowed.includes(file.type)) { showToast('error', 'Format non supporté', 'Utilisez PDF, JPG ou PNG.'); return; }
+            if (file.size > 5*1024*1024) { showToast('error', 'Fichier trop lourd', 'Maximum 5 Mo.'); return; }
+            uploadedFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('uploadDefault').classList.add('hidden');
+            document.getElementById('uploadSuccess').classList.remove('hidden');
+            document.getElementById('dropZone').classList.add('has-file');
+            showToast('success', 'Fichier ajouté', `"${file.name}" sélectionné.`);
+        }
+
+        function removeFile(e) {
+            e.stopPropagation();
+            uploadedFile = null;
+            document.getElementById('certFile').value = '';
+            document.getElementById('uploadDefault').classList.remove('hidden');
+            document.getElementById('uploadSuccess').classList.add('hidden');
+            document.getElementById('dropZone').classList.remove('has-file');
+        }
+
+        // ========== DURATION ==========
+        function selectDuration(card, duration) {
+            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedDuration = duration;
+            document.getElementById('certStartDate').value = '';
+            document.getElementById('certEndDate').value = '';
+            document.getElementById('calculatedDuration').classList.add('hidden');
+        }
+
+        function autoCalcEndDate() {
+            const s = document.getElementById('certStartDate').value;
+            const e = document.getElementById('certEndDate').value;
+            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+            selectedDuration = '';
+            if (s && e) {
+                const start = new Date(s), end = new Date(e);
+                if (end > start) {
+                    const days = Math.ceil((end - start) / (1000*60*60*24));
+                    const months = Math.floor(days / 30), remDays = days % 30;
+                    let t = '';
+                    if (months > 0) t += months + ' mois';
+                    if (remDays > 0) t += (t ? ' et ' : '') + remDays + ' jour' + (remDays > 1 ? 's' : '');
+                    if (!t) t = 'Moins d\'un mois';
+                    document.getElementById('durationText').textContent = t;
+                    document.getElementById('calculatedDuration').classList.remove('hidden');
+                    return;
+                }
+            }
+            document.getElementById('calculatedDuration').classList.add('hidden');
+        }
+
+        // ========== SUMMARY ==========
+        function updateSummary() {
+            const ln = document.getElementById('lastName').value.trim();
+            const fn = document.getElementById('firstName').value.trim();
+            document.getElementById('sumName').textContent = `${fn} ${ln}`.trim() || '—';
+            document.getElementById('sumEmail').textContent = document.getElementById('email').value.trim() || '—';
+            document.getElementById('sumPhone').textContent = document.getElementById('phone').value.trim() || '—';
+            const b = document.getElementById('birthDate').value;
+            document.getElementById('sumBirth').textContent = b ? new Date(b).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }) : '—';
+            document.getElementById('sumFile').innerHTML = uploadedFile
+                ? `<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> ${uploadedFile.name}`
+                : '<span class="text-slate-500">—</span>';
+            document.getElementById('sumDuration').textContent = selectedDuration || document.getElementById('durationText').textContent || '—';
+            const sd = document.getElementById('certStartDate').value;
+            const ed = document.getElementById('certEndDate').value;
+            document.getElementById('sumStartDate').textContent = sd ? new Date(sd).toLocaleDateString('fr-FR') : '—';
+            document.getElementById('sumEndDate').textContent = ed ? new Date(ed).toLocaleDateString('fr-FR') : '—';
+        }
+
+        // ========== SUBMIT TO GOOGLE SHEETS ==========
+        async function submitToSheets() {
+            if (!document.getElementById('termsCheck').checked) {
+                showToast('error', 'Conditions requises', 'Acceptez les conditions générales.');
+                return;
+            }
+
+            if (!APPS_SCRIPT_URL) {
+                showToast('error', 'Sheets non configuré', 'Cliquez sur ⚙️ pour configurer votre Google Sheet.');
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Envoi en cours…';
+            btn.style.opacity = '0.7';
+
+            const certType = document.querySelector('input[name="certType"]:checked');
+            const durText = document.getElementById('durationText').textContent;
+
+            const payload = {
+                lastName: document.getElementById('lastName').value.trim(),
+                firstName: document.getElementById('firstName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                birthDate: document.getElementById('birthDate').value || '',
+                gender: selectedGender || '',
+                certFileName: uploadedFile ? uploadedFile.name : '',
+                certDuration: selectedDuration || durText || '',
+                certStart: document.getElementById('certStartDate').value || '',
+                certEnd: document.getElementById('certEndDate').value || '',
+                certType: certType ? certType.value : ''
+            };
+
+            try {
+                const res = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // no-cors mode returns opaque response, we assume success
+                // If we had cors, we'd check: const data = await res.json();
+
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                btn.style.opacity = '1';
+
+                document.getElementById('modalTimestamp').textContent =
+                    'Soumis le ' + new Date().toLocaleString('fr-FR', { dateStyle:'full', timeStyle:'short' });
+
+                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('successModal').classList.add('flex');
+
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                btn.style.opacity = '1';
+                showToast('error', 'Erreur d\'envoi', err.message || 'Vérifiez la configuration et réessayez.');
+            }
+        }
+
+        function openSheet() {
+            if (SHEET_URL) window.open(SHEET_URL, '_blank');
+            else showToast('error', 'URL non trouvée', 'L\'URL du Sheet n\'a pas pu être détectée.');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            location.reload();
+        }
+
+        // ========== TOAST ==========
+        function showToast(type, title, msg) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            if (type === 'error') {
+                toast.style.borderColor = 'rgba(239,68,68,0.3)';
+                icon.style.background = 'rgba(239,68,68,0.1)';
+                icon.innerHTML = '<span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span>';
+            } else {
+                toast.style.borderColor = 'rgba(34,197,94,0.3)';
+                icon.style.background = 'rgba(34,197,94,0.1)';
+                icon.innerHTML = '<span class="iconify text-green-400" data-icon="mdi:check-circle-outline"></span>';
+            }
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        // Date min
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('certStartDate').setAttribute('min', today);
+        document.getElementById('certEndDate').setAttribute('min', today);
+    </script>
+</body>
+</html>
