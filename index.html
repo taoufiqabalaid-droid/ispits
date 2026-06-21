@@ -30,7 +30,6 @@
         @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         .anim{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) forwards}
         .d1{animation-delay:.1s;opacity:0}
-        .d2{animation-delay:.2s;opacity:0}
         .card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px;margin-bottom:20px}
         .grid-bg{background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);mask-image:linear-gradient(to bottom,black 40%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%)}
         .spin{border:2px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;width:18px;height:18px;animation:sp .6s linear infinite;display:inline-block}
@@ -43,6 +42,9 @@
         .inp{width:100%;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:14px;outline:none;transition:all 200ms}
         .inp:focus{border-color:rgba(6,182,212,0.4);box-shadow:0 0 0 3px rgba(6,182,212,0.08)}
         .inp::placeholder{color:#475569}
+        /* CORRECTION 6 : options en fond noir */
+        select.inp option{background:#0f172a;color:#fff}
+        select.inp optgroup{background:#0f172a;color:#94a3b8}
         .sel-btn{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#94a3b8;font-size:14px;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:8px}
         .sel-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
         .sel-btn.on{border-color:#06b6d4;background:rgba(6,182,212,0.08);color:#fff}
@@ -95,7 +97,7 @@
         </div>
         <p class="text-xs text-slate-600 mb-3">Collez l'URL de votre Web App déployée depuis Apps Script. Cliquez <span class="text-cyan-500 cursor-pointer" onclick="showHelp()">ici pour le guide</span>.</p>
         <div class="flex flex-col sm:flex-row gap-2">
-            <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/AKfycbyBxoEOpJFH4zqhhy6MJRRColz2x5a68TGbdhmbV-ueaC-gXzhsjoQdVX-vflPyWWN5/exec" class="inp flex-1">
+            <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/XXXXX/exec" class="inp flex-1">
             <div class="flex gap-2">
                 <button onclick="saveCfg()" class="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-medium rounded-xl transition-all whitespace-nowrap">Enregistrer</button>
                 <button onclick="testConn()" class="px-4 py-2.5 border border-white/[0.08] hover:bg-white/[0.06] text-slate-400 hover:text-white text-sm rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap">
@@ -150,9 +152,10 @@
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
+                <!-- CORRECTION 1 : id="option" → id="fOption" + suppression du onchange fantôme -->
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Option <span class="text-cyan-500">*</span></label>
-                    <select id="option" class="inp" onchange="changerCouleurOption(this)">
-                         <option value="">Sélectionner une option</option>
+                    <select id="fOption" class="inp">
+                        <option value="">Sélectionner une option</option>
                         <option value="IP">IP</option>
                         <option value="ISM">ISM</option>
                         <option value="IAR">IAR</option>
@@ -215,10 +218,11 @@
             <div class="mb-5">
                 <label class="block text-xs font-medium text-slate-400 mb-2">Durée du certificat <span class="text-cyan-500">*</span></label>
                 <div class="grid grid-cols-4 gap-2.5 mb-5">
+                    <!-- CORRECTION 4 : toutes les cartes cohérentes -->
                     <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'3 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">3</p><p class="text-[10px] text-slate-600">jrs</p></div>
                     <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'6 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">6</p><p class="text-[10px] text-slate-600">jrs</p></div>
                     <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'12 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">12</p><p class="text-[10px] text-slate-600">jrs</p></div>
-                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'21 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">24</p><p class="text-[10px] text-slate-600">jrs</p></div>
+                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'21 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">21</p><p class="text-[10px] text-slate-600">jrs</p></div>
                 </div>
                 <div class="flex items-center gap-3 mb-3"><div class="flex-1 h-px bg-white/[0.06]"></div><span class="text-[10px] text-slate-700 font-medium uppercase tracking-widest">ou manuellement</span><div class="flex-1 h-px bg-white/[0.06]"></div></div>
                 <div class="grid sm:grid-cols-2 gap-3">
@@ -263,7 +267,7 @@
                         <div><span class="text-[11px] text-slate-700 block">Téléphone</span><span id="rTel" class="text-white font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-700 block">Naissance</span><span id="rNaiss" class="text-white font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-700 block">CIN</span><span id="rCIN" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Filière</span><span id="rFil" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-700 block">Option</span><span id="rFil" class="text-white font-medium">—</span></div>
                     </div>
                 </div>
                 <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
@@ -333,19 +337,17 @@
             <button onclick="closeHelp()" class="text-slate-600 hover:text-white transition-colors"><span class="iconify text-xl" data-icon="mdi:close"></span></button>
         </div>
         <div class="space-y-5 text-sm text-slate-400">
-            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">1</div><div><h4 class="text-white font-medium mb-1">Créer un Google Sheet</h4><p>Allez sur <a href="https://sheets.google.com" target="_blank" class="text-cyan-400 underline underline-offset-2">sheets.google.com</a> et créez une feuille <strong class="text-white">vide</strong>. Les en-têtes seront ajoutés automatiquement par le script.</p></div></div>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">1</div><div><h4 class="text-white font-medium mb-1">Créer un Google Sheet</h4><p>Allez sur <a href="https://sheets.google.com" target="_blank" class="text-cyan-400 underline underline-offset-2">sheets.google.com</a> et créez une feuille <strong class="text-white">vide</strong>. Les en-têtes seront ajoutés automatiquement.</p></div></div>
             <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">2</div><div><h4 class="text-white font-medium mb-1">Ouvrir Apps Script</h4><p>Dans le Sheet : <strong class="text-white">Extensions → Apps Script</strong></p></div></div>
-            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">3</div><div><h4 class="text-white font-medium mb-1">Coller le code</h4><p>Supprimez tout le contenu et collez le code Apps Script fourni ci-dessous :</p>
-                <div class="mt-2 relative"><button onclick="copyCode()" class="absolute top-2 right-2 px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-[11px] text-slate-300 transition-all flex items-center gap-1"><span class="iconify" data-icon="mdi:content-copy"></span> Copier</button>
+            <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">3</div><div><h4 class="text-white font-medium mb-1">Coller le code</h4><p>Supprimez tout le contenu et collez le code Apps Script :</p>
+                <div class="mt-2 relative"><button onclick="copyCode()" class="absolute top-2 right-2 px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-[11px] text-slate-300 transition-all flex items-center gap-1 z-10"><span class="iconify" data-icon="mdi:content-copy"></span> Copier</button>
                 <pre id="codeBlock" class="p-3.5 rounded-lg bg-white/[0.03] font-mono text-[11px] text-slate-300 overflow-x-auto leading-relaxed">function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var d = JSON.parse(e.postData.contents);
-
-    // Créer en-têtes si vide
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(["Date","Nom","Prénom","Email","Téléphone",
-        "Naissance","CIN","Filière","Genre",
+        "Naissance","CIN","Option","Genre",
         "Certificat (lien Drive)","Durée Certificat",
         "Date Début","Date Fin","Type Certificat"]);
       var h = sheet.getRange(1,1,1,sheet.getLastColumn());
@@ -353,15 +355,11 @@
        .setFontColor("#fff").setFontSize(10);
       sheet.setFrozenRows(1);
     }
-
-    // Upload fichier sur Drive
     var fileLink = "";
     if (d.certFileBase64 &amp;&amp; d.certFileName) {
       var blob = Utilities.newBlob(
         Utilities.base64Decode(d.certFileBase64),
-        d.certMimeType || "application/pdf",
-        d.certFileName
-      );
+        d.certMimeType || "application/pdf", d.certFileName);
       var folders = DriveApp.getFoldersByName("Certificats ISPITS");
       var folder = folders.hasNext() ? folders.next()
         : DriveApp.createFolder("Certificats ISPITS");
@@ -369,41 +367,32 @@
       var file = folder.createFile(blob.setName("["+ts+"] "+d.certFileName));
       fileLink = file.getUrl();
     }
-
-    // Écrire dans le Sheet
-    var row = sheet.appendRow([
+    sheet.appendRow([
       Utilities.formatDate(new Date(),"Africa/Casablanca","dd/MM/yyyy HH:mm"),
       d.nom, d.prenom, d.email, d.telephone,
-      d.naissance, d.cin, d.filiere, d.genre,
+      d.naissance, d.cin, d.option, d.genre,
       fileLink || d.certFileName || "",
-      d.duree, d.dateDebut, d.dateFin, d.typeCertificat
-    ]);
-
-    // Lien cliquable
+      d.duree, d.dateDebut, d.dateFin, d.typeCertificat]);
     var lr = sheet.getLastRow();
     if (fileLink) {
       var c = sheet.getRange(lr, 10);
       c.setFormula('=HYPERLINK("'+fileLink+'";"📄 Ouvrir")')
        .setFontColor("#06b6d4").setFontUnderline(true);
     }
-
     return ContentService.createTextOutput(
       JSON.stringify({status:"success",row:lr}))
       .setMimeType(ContentService.MimeType.JSON);
-
   } catch(err) {
     return ContentService.createTextOutput(
       JSON.stringify({status:"error",message:err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
-
 function doGet(e) {
   return ContentService.createTextOutput(
     JSON.stringify({status:"connected"}))
     .setMimeType(ContentService.MimeType.JSON);
 }
-
 function doOptions(e) {
   return ContentService.createTextOutput(
     JSON.stringify({status:"ok"}))
@@ -416,7 +405,6 @@ function doOptions(e) {
             </div></div>
             <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">4</div><div><h4 class="text-white font-medium mb-1">Déployer</h4><p><strong class="text-white">Déployer → Nouveau déploiement</strong></p><ul class="mt-1.5 space-y-0.5 text-xs"><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Type : <strong class="text-white">Application web</strong></li><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Exécuter : <strong class="text-white">Moi</strong></li><li class="flex items-start gap-1.5"><span class="iconify text-cyan-400 mt-0.5 text-xs" data-icon="mdi:chevron-right"></span>Accès : <strong class="text-white">Toute personne</strong></li></ul><p class="mt-1.5">Déployez, autorisez, puis <strong class="text-white">copiez l'URL</strong>.</p></div></div>
             <div class="flex gap-3.5"><div class="w-7 h-7 rounded-full bg-cyan-500/10 flex items-center justify-center flex-shrink-0 text-cyan-400 font-semibold text-xs">5</div><div><h4 class="text-white font-medium mb-1">Configurer ici</h4><p>Cliquez sur le badge de statut en haut à droite → collez l'URL → <strong class="text-white">Enregistrer</strong> puis <strong class="text-white">Tester</strong>. Le point doit devenir <span class="text-green-400 font-medium">vert</span>.</p></div></div>
-            <div class="p-3.5 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15"><div class="flex items-start gap-2.5"><span class="iconify text-cyan-400 flex-shrink-0 mt-0.5" data-icon="mdi:folder-google-drive"></span><div><h4 class="text-cyan-300 font-medium text-sm mb-0.5">Google Drive automatique</h4><p class="text-xs text-slate-500">Un dossier <strong class="text-white">"Certificats ISPITS"</strong> sera créé dans votre Drive. Chaque fichier y sera sauvegardé avec horodatage, et le lien cliquable apparaîtra dans le Sheet.</p></div></div></div>
         </div>
         <button onclick="closeHelp()" class="w-full mt-6 px-5 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all">Compris</button>
     </div>
@@ -424,64 +412,68 @@ function doOptions(e) {
 
 <script>
 // ===== STATE =====
-let cur=1, dur='', genre='', uFile=null, b64='', MIME='';
-let URL_=localStorage.getItem('aspUrl')||'', SH_URL=localStorage.getItem('shUrl')||'', linked=false;
+var cur=1, dur='', genre='', uFile=null, b64='', MIME='';
+var URL_=localStorage.getItem('aspUrl')||'', SH_URL=localStorage.getItem('shUrl')||'', linked=false;
 
-document.addEventListener('DOMContentLoaded',()=>{if(URL_){document.getElementById('cfgUrl').value=URL_;testConn(true)}});
+document.addEventListener('DOMContentLoaded', function(){
+    if(URL_){document.getElementById('cfgUrl').value=URL_;testConn(true)}
+});
 
 // ===== CONFIG =====
 function toggleCfg(){document.getElementById('cfgPanel').classList.toggle('hidden')}
 function saveCfg(){
-    const u=document.getElementById('cfgUrl').value.trim();
+    var u=document.getElementById('cfgUrl').value.trim();
     if(!u){toast('error','URL requise','Collez l\'URL Apps Script.');return}
     URL_=u;localStorage.setItem('aspUrl',u);
-    try{const m=u.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);if(m){SH_URL='https://docs.google.com/spreadsheets/d/'+m[1];localStorage.setItem('shUrl',SH_URL)}}catch(e){}
+    try{var m=u.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);if(m){SH_URL='https://docs.google.com/spreadsheets/d/'+m[1];localStorage.setItem('shUrl',SH_URL)}}catch(e){}
     toast('success','Enregistré','URL sauvegardée localement.');testConn();
 }
 async function testConn(silent){
-    if(!URL_){if(!silent)toast('error','URL manquante','Configurez l\'abord.');return}
-    const dot=document.getElementById('sDot'),txt=document.getElementById('sTxt'),fd=document.getElementById('footDot');
+    if(!URL_){if(!silent)toast('error','URL manquante','Configurez d\'abord.');return}
+    var dot=document.getElementById('sDot'),txt=document.getElementById('sTxt'),fd=document.getElementById('footDot');
     if(!silent){dot.className='sdot wait';txt.textContent='Test…';txt.className='text-amber-400';fd.className='sdot wait ml-1';fd.style.width='6px';fd.style.height='6px'}
     try{
-        const r=await fetch(URL_,{redirect:'follow'}),d=await r.json();
+        var r=await fetch(URL_,{redirect:'follow'}),d=await r.json();
         if(d.status==='connected'){linked=true;dot.className='sdot ok';txt.textContent='Sheets connecté';txt.className='text-green-400';fd.className='sdot ok ml-1';fd.style.width='6px';fd.style.height='6px';if(!silent)toast('success','Connecté !','Liaison active.')}
         else throw 0;
     }catch(e){linked=false;dot.className='sdot no';txt.textContent='Non connecté';txt.className='text-red-400';fd.className='sdot no ml-1';fd.style.width='6px';fd.style.height='6px';if(!silent)toast('error','Échec','Vérifiez l\'URL et le déploiement.')}
 }
 function copyCode(){
-    const c=document.getElementById('codeBlock').textContent.replace(/&amp;/g,'&');
-    navigator.clipboard.writeText(c).then(()=>toast('success','Copié !','Code Apps Script dans le presse-papiers.'));
+    var c=document.getElementById('codeBlock').textContent;
+    navigator.clipboard.writeText(c).then(function(){toast('success','Copié !','Code Apps Script dans le presse-papiers.')});
 }
 
 // ===== NAVIGATION =====
 function go(s){
     if(s>cur){if(cur===1&&!v1())return;if(cur===2&&!v2())return}
-    ['p1','p2','p3'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+    var ids=['p1','p2','p3'];
+    for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).classList.add('hidden');
     document.getElementById('p'+s).classList.remove('hidden');
-    const c=document.getElementById('p'+s).querySelector('.card');
+    var c=document.getElementById('p'+s).querySelector('.card');
     if(c){c.classList.remove('anim');void c.offsetWidth;c.classList.add('anim')}
     cur=s;updSteps();updSum();window.scrollTo({top:0,behavior:'smooth'});
 }
 function updSteps(){
     document.getElementById('pBar').style.width={1:'33%',2:'66%',3:'100%'}[cur];
-    [1,2,3].forEach(s=>{
-        const d=document.getElementById('d'+s),l=document.getElementById('l'+s);
+    for(var s=1;s<=3;s++){
+        var d=document.getElementById('d'+s),l=document.getElementById('l'+s);
         d.classList.remove('act','done','text-slate-500');l.classList.remove('text-slate-500','text-white','font-medium');
         if(s<cur){d.classList.add('done');d.innerHTML='<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';l.classList.add('text-white')}
         else if(s===cur){d.classList.add('act');d.textContent=s;l.classList.add('text-white','font-medium')}
         else{d.textContent=s;d.classList.add('text-slate-500');l.classList.add('text-slate-500')}
-    });
+    }
     document.getElementById('ln1').style.background=cur>1?'#06b6d4':'rgba(255,255,255,0.08)';
     document.getElementById('ln2').style.background=cur>2?'#06b6d4':'rgba(255,255,255,0.08)';
 }
 
 // ===== VALIDATION =====
 function v1(){
-    const n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
+    var n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
     if(!n||!p){toast('error','Champs requis','Nom et prénom obligatoires.');return false}
     if(!document.getElementById('fEmail').value.trim().includes('@')){toast('error','Email invalide','Adresse non valide.');return false}
     if(!document.getElementById('fTel').value.trim()){toast('error','Téléphone requis','Entrez votre numéro.');return false}
-    if(!document.getElementById('fFiliere').value){toast('error','Filière requise','Sélectionnez une filière.');return false}
+    // CORRECTION 1 : fFiliere → fOption
+    if(!document.getElementById('fOption').value){toast('error','Option requise','Sélectionnez une option.');return false}
     if(!genre){toast('error','Genre requis','Sélectionnez votre genre.');return false}
     return true;
 }
@@ -492,7 +484,7 @@ function v2(){
 }
 
 // ===== GENDER =====
-function pickG(b){document.querySelectorAll('.sel-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');genre=b.textContent.trim()}
+function pickG(b){var btns=document.querySelectorAll('.sel-btn');for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');b.classList.add('on');genre=b.textContent.trim()}
 
 // ===== FILE =====
 function dOver(e){e.preventDefault();document.getElementById('dropZ').classList.add('dragover')}
@@ -500,8 +492,8 @@ function dLeave(e){e.preventDefault();document.getElementById('dropZ').classList
 function dDrop(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover');if(e.dataTransfer.files.length)procFile(e.dataTransfer.files[0])}
 function fSel(e){if(e.target.files.length)procFile(e.target.files[0])}
 function procFile(f){
-    const ok=['application/pdf','image/jpeg','image/png'];
-    if(!ok.includes(f.type)){toast('error','Format','PDF, JPG ou PNG uniquement.');return}
+    var ok=['application/pdf','image/jpeg','image/png'];
+    if(ok.indexOf(f.type)===-1){toast('error','Format','PDF, JPG ou PNG uniquement.');return}
     if(f.size>5*1024*1024){toast('error','Taille','Maximum 5 Mo.');return}
     uFile=f;MIME=f.type;
     document.getElementById('fName').textContent=f.name;
@@ -509,8 +501,8 @@ function procFile(f){
     document.getElementById('upDef').classList.add('hidden');
     document.getElementById('upOk').classList.remove('hidden');
     document.getElementById('dropZ').classList.add('has-file');
-    const r=new FileReader();
-    r.onload=e=>{b64=e.target.result.split(',')[1]};
+    var r=new FileReader();
+    r.onload=function(e){b64=e.target.result.split(',')[1]};
     r.readAsDataURL(f);
     toast('success','Fichier ajouté',f.name+' ('+fmtS(f.size)+')');
 }
@@ -518,30 +510,32 @@ function rmFile(e){e.stopPropagation();uFile=null;b64='';MIME='';document.getEle
 function fmtS(b){if(b<1024)return b+' o';if(b<1048576)return(b/1024).toFixed(1)+' Ko';return(b/1048576).toFixed(2)+' Mo'}
 
 // ===== DURATION =====
-function pickDur(c,v){document.querySelectorAll('.dur-card').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');dur=v;document.getElementById('fDebut').value='';document.getElementById('fFin').value='';document.getElementById('calcBox').classList.add('hidden')}
+function pickDur(c,v){var cards=document.querySelectorAll('.dur-card');for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');c.classList.add('sel');dur=v;document.getElementById('fDebut').value='';document.getElementById('fFin').value='';document.getElementById('calcBox').classList.add('hidden')}
+// CORRECTION 5 : calcul en jours uniquement
 function calcDur(){
-    const s=document.getElementById('fDebut').value,e=document.getElementById('fFin').value;
-    document.querySelectorAll('.dur-card').forEach(x=>x.classList.remove('sel'));dur='';
-    if(s&&e){const a=new Date(s),b=new Date(e);if(b>a){
-        const dy=Math.ceil((b-a)/864e5),m=Math.floor(dy/30),d=dy%30;
-        let t='';if(m>0)t+=m+' mois';if(d>0)t+=(t?' et ':'')+d+' jour'+(d>1?'s':'');if(!t)t='Moins d\'un mois';
+    var s=document.getElementById('fDebut').value,e=document.getElementById('fFin').value;
+    var cards=document.querySelectorAll('.dur-card');for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');dur='';
+    if(s&&e){var a=new Date(s),b=new Date(e);if(b>a){
+        var dy=Math.ceil((b-a)/864e5);
+        var t=dy+' jour'+(dy>1?'s':'');
         document.getElementById('durTxt').textContent=t;document.getElementById('calcBox').classList.remove('hidden');return;
     }}document.getElementById('calcBox').classList.add('hidden');
 }
 
 // ===== SUMMARY =====
 function updSum(){
-    const n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
+    var n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
     document.getElementById('rNom').textContent=(p+' '+n).trim()||'—';
     document.getElementById('rEmail').textContent=document.getElementById('fEmail').value.trim()||'—';
     document.getElementById('rTel').textContent=document.getElementById('fTel').value.trim()||'—';
-    const na=document.getElementById('fNaiss').value;
+    var na=document.getElementById('fNaiss').value;
     document.getElementById('rNaiss').textContent=na?new Date(na).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'—';
     document.getElementById('rCIN').textContent=document.getElementById('fCIN').value.trim()||'—';
-    document.getElementById('rFil').textContent=document.getElementById('fFiliere').value||'—';
+    // CORRECTION 1 : fFiliere → fOption
+    document.getElementById('rFil').textContent=document.getElementById('fOption').value||'—';
     document.getElementById('rFile').innerHTML=uFile?'<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> '+uFile.name:'<span class="text-slate-600">—</span>';
     document.getElementById('rDur').textContent=dur||document.getElementById('durTxt').textContent||'—';
-    const sd=document.getElementById('fDebut').value,ed=document.getElementById('fFin').value;
+    var sd=document.getElementById('fDebut').value,ed=document.getElementById('fFin').value;
     document.getElementById('rDeb').textContent=sd?new Date(sd).toLocaleDateString('fr-FR'):'—';
     document.getElementById('rFin').textContent=ed?new Date(ed).toLocaleDateString('fr-FR'):'—';
 }
@@ -550,17 +544,18 @@ function updSum(){
 async function send(){
     if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
     if(!URL_){toast('error','Non configuré','Cliquez sur le statut pour configurer Google Sheets.');return}
-    const btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
+    var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
     btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
-    const ct=document.querySelector('input[name="cType"]:checked');
-    const payload={
+    var ct=document.querySelector('input[name="cType"]:checked');
+    // CORRECTION 1 : fFiliere → fOption + clé "option" au lieu de "filiere"
+    var payload={
         nom:document.getElementById('fNom').value.trim(),
         prenom:document.getElementById('fPrenom').value.trim(),
         email:document.getElementById('fEmail').value.trim(),
         telephone:document.getElementById('fTel').value.trim(),
         naissance:document.getElementById('fNaiss').value||'',
         cin:document.getElementById('fCIN').value.trim()||'',
-        filiere:document.getElementById('fFiliere').value||'',
+        option:document.getElementById('fOption').value||'',
         genre:genre||'',
         certFileName:uFile?uFile.name:'',
         certFileBase64:b64||'',
@@ -571,17 +566,17 @@ async function send(){
         typeCertificat:ct?ct.value:''
     };
     try{
-        const r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        const d=await r.json();
+        var r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        var d=await r.json();
         btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
         if(d.status==='success'){showOk()}else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
     }catch(err){
-        if(err.message.includes('Failed to fetch')||err.name==='TypeError'){
+        if(err.message&&err.message.indexOf('Failed to fetch')!==-1||err.name==='TypeError'){
             try{
                 await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
                 btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';showOk();
             }catch(e2){btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur réseau','Vérifiez la connexion et la config.')}
-        }else{btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur',err.message)}
+        }else{btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur',err.message||'Erreur inconnue')}
     }
 }
 function showOk(){
@@ -595,19 +590,30 @@ function closeOk(){document.getElementById('okModal').classList.add('hidden');do
 function showHelp(){document.getElementById('helpMod').classList.remove('hidden');document.getElementById('helpMod').classList.add('flex')}
 function closeHelp(){document.getElementById('helpMod').classList.add('hidden');document.getElementById('helpMod').classList.remove('flex')}
 
-// ===== TOAST =====
-function toast(t,title,msg){
-    const el=document.getElementById('toast'),ico=document.getElementById('tIco');
-    if(t==='error'){el.style.borderColor='rgba(239,68,68,0.25)';ico.style.background='rgba(239,68,68,0.1)';ico.innerHTML='<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>'}
-    else{el.style.borderColor='rgba(34,197,94,0.25)';ico.style.background='rgba(34,197,94,0.1)';ico.innerHTML='<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>'}
-    document.getElementById('tTitle').textContent=title;document.getElementById('tMsg').textContent=msg;
-    el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3500);
+// ===== CORRECTION 3 : fonction toast RESTAURÉE (était tronquée) =====
+function toast(type, title, msg) {
+    var el = document.getElementById('toast');
+    var ico = document.getElementById('tIco');
+    if (type === 'error') {
+        el.style.borderColor = 'rgba(239,68,68,0.25)';
+        ico.style.background = 'rgba(239,68,68,0.1)';
+        ico.innerHTML = '<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
+    } else {
+        el.style.borderColor = 'rgba(34,197,94,0.25)';
+        ico.style.background = 'rgba(34,197,94,0.1)';
+        ico.innerHTML = '<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
+    }
+    document.getElementById('tTitle').textContent = title;
+    document.getElementById('tMsg').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function() { el.classList.remove('show'); }, 3500);
 }
 
 // ===== INIT DATES =====
-const td=new Date().toISOString().split('T')[0];
-document.getElementById('fDebut').setAttribute('min',td);
-document.getElementById('fFin').setAttribute('min',td);
+var td = new Date().toISOString().split('T')[0];
+document.getElementById('fDebut').setAttribute('min', td);
+document.getElementById('fFin').setAttribute('min', td);
 </script>
 </body>
 </html>
