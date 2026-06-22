@@ -11,73 +11,73 @@
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <style>
         *{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0f172a}::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
-        .file-drop-zone{border:2px dashed rgba(255,255,255,0.12);transition:all 300ms ease}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#f1f5f9}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+        .file-drop-zone{border:2px dashed #cbd5e1;transition:all 300ms ease}
         .file-drop-zone:hover,.file-drop-zone.dragover{border-color:#06b6d4;background:rgba(6,182,212,0.04)}
         .file-drop-zone.has-file{border-color:#22c55e;background:rgba(34,197,94,0.04);border-style:solid}
         .dur-card{transition:all 300ms ease;cursor:pointer}
-        .dur-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(6,182,212,0.35)}
-        .dur-card.sel{background:rgba(6,182,212,0.08);border-color:#06b6d4;box-shadow:0 0 24px rgba(6,182,212,0.12)}
+        .dur-card:hover{background:#f1f5f9;border-color:rgba(6,182,212,0.4)}
+        .dur-card.sel{background:rgba(6,182,212,0.06);border-color:#06b6d4;box-shadow:0 0 24px rgba(6,182,212,0.1)}
         .dur-card.sel .chk{background:#06b6d4;border-color:#06b6d4}
         .dur-card.sel .chk .iconify{opacity:1}
-        input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+        input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer}
         .toast{transform:translateY(20px);opacity:0;transition:all 400ms cubic-bezier(.16,1,.3,1)}
         .toast.show{transform:translateY(0);opacity:1}
         .step-dot{transition:all 300ms ease}
-        .step-dot.act{background:#06b6d4;box-shadow:0 0 16px rgba(6,182,212,0.5)}
-        .step-dot.done{background:#22c55e}
+        .step-dot.act{background:#06b6d4;box-shadow:0 0 16px rgba(6,182,212,0.4);color:#fff}
+        .step-dot.done{background:#22c55e;color:#fff}
         .step-line{transition:background 300ms ease}
         @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         .anim{animation:fadeUp .5s cubic-bezier(.16,1,.3,1) forwards}
         .d1{animation-delay:.1s;opacity:0}
-        .card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px;margin-bottom:20px}
-        .grid-bg{background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);mask-image:linear-gradient(to bottom,black 40%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%)}
-        .spin{border:2px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;width:18px;height:18px;animation:sp .6s linear infinite;display:inline-block}
+        .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+        .grid-bg{background-size:40px 40px;background-image:linear-gradient(to right,rgba(0,0,0,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,0.03) 1px,transparent 1px);mask-image:linear-gradient(to bottom,black 40%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%)}
+        .spin{border:2px solid #e2e8f0;border-top-color:#0f172a;border-radius:50%;width:18px;height:18px;animation:sp .6s linear infinite;display:inline-block}
         @keyframes sp{to{transform:rotate(360deg)}}
-        .inp{width:100%;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:14px;outline:none;transition:all 200ms}
-        .inp:focus{border-color:rgba(6,182,212,0.4);box-shadow:0 0 0 3px rgba(6,182,212,0.08)}
-        .inp::placeholder{color:#475569}
-        select.inp option{background:#0f172a;color:#fff}
-        select.inp optgroup{background:#0f172a;color:#94a3b8}
-        .sel-btn{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#94a3b8;font-size:14px;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:8px}
-        .sel-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
-        .sel-btn.on{border-color:#06b6d4;background:rgba(6,182,212,0.08);color:#fff}
-        .radio-card{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);cursor:pointer;transition:all 200ms}
-        .radio-card:hover{background:rgba(255,255,255,0.05)}
-        .radio-card:has(input:checked){border-color:rgba(6,182,212,0.4);background:rgba(6,182,212,0.06)}
+        .inp{width:100%;padding:10px 14px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;color:#0f172a;font-size:14px;outline:none;transition:all 200ms}
+        .inp:focus{border-color:rgba(6,182,212,0.5);box-shadow:0 0 0 3px rgba(6,182,212,0.08);background:#fff}
+        .inp::placeholder{color:#94a3b8}
+        select.inp option{background:#fff;color:#0f172a}
+        select.inp optgroup{background:#f8fafc;color:#64748b}
+        .sel-btn{flex:1;padding:10px;border-radius:12px;border:1px solid #e2e8f0;background:#f8fafc;color:#64748b;font-size:14px;cursor:pointer;transition:all 200ms;display:flex;align-items:center;justify-content:center;gap:8px}
+        .sel-btn:hover{background:#f1f5f9;color:#0f172a}
+        .sel-btn.on{border-color:#06b6d4;background:rgba(6,182,212,0.06);color:#0f172a}
+        .radio-card{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;border:1px solid #e2e8f0;background:#f8fafc;cursor:pointer;transition:all 200ms}
+        .radio-card:hover{background:#f1f5f9}
+        .radio-card:has(input:checked){border-color:rgba(6,182,212,0.4);background:rgba(6,182,212,0.04)}
     </style>
 </head>
-<body class="bg-[#020617] text-white min-h-screen relative overflow-x-hidden">
+<body class="bg-slate-50 text-slate-900 min-h-screen relative overflow-x-hidden">
 
 <div class="fixed inset-0 grid-bg pointer-events-none"></div>
-<div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-cyan-500/[0.04] rounded-full pointer-events-none" style="filter:blur(120px)"></div>
-<div class="fixed bottom-[-200px] right-[-100px] w-[600px] h-[400px] bg-cyan-500/[0.03] rounded-full pointer-events-none" style="filter:blur(100px)"></div>
+<div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-cyan-400/[0.06] rounded-full pointer-events-none" style="filter:blur(120px)"></div>
+<div class="fixed bottom-[-200px] right-[-100px] w-[600px] h-[400px] bg-cyan-400/[0.04] rounded-full pointer-events-none" style="filter:blur(100px)"></div>
 
-<nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.05)">
+<nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(248,250,252,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0">
     <div class="max-w-5xl mx-auto w-full flex items-center justify-between">
         <a href="#" class="flex items-center gap-3">
             <div class="w-9 h-9 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
                 <span class="iconify text-white text-base" data-icon="mdi:school-outline"></span>
             </div>
             <div>
-                <span class="font-semibold text-white text-sm tracking-wide">ISPITS</span>
-                <span class="hidden sm:inline text-slate-600 text-xs ml-2">CERTIFICAT MEDICAL</span>
+                <span class="font-semibold text-slate-900 text-sm tracking-wide">ISPITS</span>
+                <span class="hidden sm:inline text-slate-400 text-xs ml-2">CERTIFICAT MEDICAL</span>
             </div>
         </a>
     </div>
 </nav>
 
-<div class="fixed top-16 left-0 right-0 z-30 h-[3px] bg-white/[0.03]">
+<div class="fixed top-16 left-0 right-0 z-30 h-[3px] bg-slate-200">
     <div id="pBar" class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500" style="width:33%"></div>
 </div>
 
-<div class="fixed top-[67px] left-0 right-0 z-30 hidden md:flex justify-center py-3.5" style="background:rgba(2,6,23,0.5);backdrop-filter:blur(8px)">
+<div class="fixed top-[67px] left-0 right-0 z-30 hidden md:flex justify-center py-3.5" style="background:rgba(248,250,252,0.7);backdrop-filter:blur(8px)">
     <div class="flex items-center">
-        <button onclick="go(1)" class="flex items-center gap-2 cursor-pointer"><div id="d1" class="step-dot act w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold">1</div><span id="l1" class="text-sm font-medium text-white pr-5">Informations</span></button>
-        <div id="ln1" class="step-line w-12 lg:w-20 h-px bg-white/[0.08] -mt-5"></div>
-        <button onclick="go(2)" class="flex items-center gap-2 cursor-pointer"><div id="d2" class="step-dot w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold text-slate-500">2</div><span id="l2" class="text-sm text-slate-500 pr-5 transition-colors">CERTIFICAT MEDICAL</span></button>
-        <div id="ln2" class="step-line w-12 lg:w-20 h-px bg-white/[0.08] -mt-5"></div>
-        <button onclick="go(3)" class="flex items-center gap-2 cursor-pointer"><div id="d3" class="step-dot w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold text-slate-500">3</div><span id="l3" class="text-sm text-slate-500 transition-colors">Confirmation</span></button>
+        <button onclick="go(1)" class="flex items-center gap-2 cursor-pointer"><div id="d1" class="step-dot act w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-semibold">1</div><span id="l1" class="text-sm font-medium text-slate-900 pr-5">Informations</span></button>
+        <div id="ln1" class="step-line w-12 lg:w-20 h-px bg-slate-200 -mt-5"></div>
+        <button onclick="go(2)" class="flex items-center gap-2 cursor-pointer"><div id="d2" class="step-dot w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-semibold text-slate-400">2</div><span id="l2" class="text-sm text-slate-400 pr-5 transition-colors">CERTIFICAT MEDICAL</span></button>
+        <div id="ln2" class="step-line w-12 lg:w-20 h-px bg-slate-200 -mt-5"></div>
+        <button onclick="go(3)" class="flex items-center gap-2 cursor-pointer"><div id="d3" class="step-dot w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-semibold text-slate-400">3</div><span id="l3" class="text-sm text-slate-400 transition-colors">Confirmation</span></button>
     </div>
 </div>
 
@@ -85,11 +85,11 @@
 <div class="max-w-2xl mx-auto">
 
     <div class="text-center mb-10 anim">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.06] bg-white/[0.03] mb-5">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-white mb-5">
             <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
-            <span class="text-xs font-medium text-slate-400">CERTIFICAT MEDICAL</span>
+            <span class="text-xs font-medium text-slate-500">CERTIFICAT MEDICAL</span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight mb-3" style="background:linear-gradient(to bottom,#fff,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent">DEPOT DE CERTIFICAT MEDICAL</h1>
+        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight mb-3 text-slate-900">DEPOT DE CERTIFICAT MEDICAL</h1>
         <p class="text-base font-light text-slate-500 max-w-lg mx-auto">Complétez chaque étape pour soumettre votre dossier</p>
     </div>
 
@@ -97,17 +97,17 @@
     <div id="p1" class="anim d1">
         <div class="card">
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:account-outline"></span></div>
-                <div><h2 class="text-lg font-medium">Informations personnelles</h2><p class="text-xs text-slate-600">Étape 1 sur 3</p></div>
+                <div class="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center"><span class="iconify text-cyan-600 text-lg" data-icon="mdi:account-outline"></span></div>
+                <div><h2 class="text-lg font-medium text-slate-900">Informations personnelles</h2><p class="text-xs text-slate-400">Étape 1 sur 3</p></div>
             </div>
             <div class="grid sm:grid-cols-2 gap-4">
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Nom <span class="text-cyan-500">*</span></label><input type="text" id="fNom" placeholder="Nom de famille" class="inp"></div>
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Prénom <span class="text-cyan-500">*</span></label><input type="text" id="fPrenom" placeholder="Prénom" class="inp"></div>
-                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-1.5">Email <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
-                <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Option <span class="text-cyan-500">*</span></label>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Nom <span class="text-cyan-600">*</span></label><input type="text" id="fNom" placeholder="Nom de famille" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Prénom <span class="text-cyan-600">*</span></label><input type="text" id="fPrenom" placeholder="Prénom" class="inp"></div>
+                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-600 mb-1.5">Email <span class="text-cyan-600">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Téléphone <span class="text-cyan-600">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Date de naissance <span class="text-cyan-600">*</span></label><input type="date" id="fNaiss" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">CIN <span class="text-slate-400">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Option <span class="text-cyan-600">*</span></label>
                     <select id="fOption" class="inp">
                         <option value="">Sélectionner une option</option>
                         <option value="IP">IP</option>
@@ -129,72 +129,72 @@
                         <option value="AS">AS</option>
                     </select>
                 </div>
-                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-2">Genre <span class="text-cyan-500">*</span></label><div class="flex gap-2">
+                <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-600 mb-2">Genre <span class="text-cyan-600">*</span></label><div class="flex gap-2">
                     <button type="button" onclick="pickG(this)" class="sel-btn"><span class="iconify" data-icon="mdi:gender-male"></span> Homme</button>
                     <button type="button" onclick="pickG(this)" class="sel-btn"><span class="iconify" data-icon="mdi:gender-female"></span> Femme</button>
                 </div></div>
             </div>
         </div>
-        <div class="flex justify-end"><button onclick="go(2)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.25)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button></div>
+        <div class="flex justify-end"><button onclick="go(2)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.2)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button></div>
     </div>
 
     <!-- ===== STEP 2 ===== -->
     <div id="p2" class="hidden">
         <div class="card anim">
             <div class="flex items-center gap-3 mb-2">
-                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:certificate-outline"></span></div>
-                <div><h2 class="text-lg font-medium">DEPOT DE CERTIFICAT MEDICAL</h2><p class="text-xs text-slate-600">Étape 2 sur 3</p></div>
+                <div class="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center"><span class="iconify text-cyan-600 text-lg" data-icon="mdi:certificate-outline"></span></div>
+                <div><h2 class="text-lg font-medium text-slate-900">DEPOT DE CERTIFICAT MEDICAL</h2><p class="text-xs text-slate-400">Étape 2 sur 3</p></div>
             </div>
-            <div class="flex items-center gap-2 mb-5 ml-12"><span class="iconify text-amber-400 text-xs" data-icon="mdi:information-outline"></span><p class="text-[11px] text-slate-600">Le fichier sera archivé et joint à votre dossier automatiquement.</p></div>
+            <div class="flex items-center gap-2 mb-5 ml-12"><span class="iconify text-amber-500 text-xs" data-icon="mdi:information-outline"></span><p class="text-[11px] text-slate-400">Le fichier sera archivé et joint à votre dossier automatiquement.</p></div>
 
             <div class="mb-6">
-                <label class="block text-xs font-medium text-slate-400 mb-2">Insérer le certificat médical <span class="text-cyan-500">*</span></label>
+                <label class="block text-xs font-medium text-slate-600 mb-2">Insérer le certificat médical <span class="text-cyan-600">*</span></label>
                 <div id="dropZ" class="file-drop-zone rounded-2xl p-7 text-center cursor-pointer" onclick="document.getElementById('fFile').click()" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
                     <div id="upDef" class="flex flex-col items-center">
-                        <div class="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mb-3"><span class="iconify text-2xl text-slate-600" data-icon="mdi:cloud-upload-outline"></span></div>
-                        <p class="text-sm font-medium text-slate-300 mb-0.5">Glissez-déposez votre certificat</p>
-                        <p class="text-[11px] text-slate-600 mb-3">ou cliquez pour parcourir</p>
-                        <div class="flex items-center gap-3 text-[11px] text-slate-700"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
+                        <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-3"><span class="iconify text-2xl text-slate-400" data-icon="mdi:cloud-upload-outline"></span></div>
+                        <p class="text-sm font-medium text-slate-700 mb-0.5">Glissez-déposez votre certificat</p>
+                        <p class="text-[11px] text-slate-400 mb-3">ou cliquez pour parcourir</p>
+                        <div class="flex items-center gap-3 text-[11px] text-slate-400"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
                     </div>
                     <div id="upOk" class="hidden" style="display:none;flex-direction:column;align-items:center">
-                        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
-                        <p class="text-sm font-medium text-green-400 mb-0.5">Fichier prêt</p>
-                        <p id="fName" class="text-xs text-slate-400 mb-0.5">fichier.pdf</p>
-                        <p id="fSize" class="text-[11px] text-slate-600 mb-3">0 Ko</p>
-                        <button type="button" onclick="rmFile(event)" class="text-[11px] text-slate-600 hover:text-red-400 transition-colors flex items-center gap-1"><span class="iconify" data-icon="mdi:delete-outline"></span> Supprimer</button>
+                        <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-500" data-icon="mdi:file-check-outline"></span></div>
+                        <p class="text-sm font-medium text-green-600 mb-0.5">Fichier prêt</p>
+                        <p id="fName" class="text-xs text-slate-500 mb-0.5">fichier.pdf</p>
+                        <p id="fSize" class="text-[11px] text-slate-400 mb-3">0 Ko</p>
+                        <button type="button" onclick="rmFile(event)" class="text-[11px] text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1"><span class="iconify" data-icon="mdi:delete-outline"></span> Supprimer</button>
                     </div>
                     <input type="file" id="fFile" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="fSel(event)">
                 </div>
             </div>
 
             <div class="mb-5">
-                <label class="block text-xs font-medium text-slate-400 mb-2">Durée du certificat <span class="text-cyan-500">*</span></label>
+                <label class="block text-xs font-medium text-slate-600 mb-2">Durée du certificat <span class="text-cyan-600">*</span></label>
                 <div class="grid grid-cols-4 gap-2.5 mb-5">
-                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'3 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">3</p><p class="text-[10px] text-slate-600">jrs</p></div>
-                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'6 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">6</p><p class="text-[10px] text-slate-600">jrs</p></div>
-                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'12 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">12</p><p class="text-[10px] text-slate-600">jrs</p></div>
-                    <div class="dur-card rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-center" onclick="pickDur(this,'21 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-white/15 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-white">21</p><p class="text-[10px] text-slate-600">jrs</p></div>
+                    <div class="dur-card rounded-xl border border-slate-200 bg-white p-3.5 text-center" onclick="pickDur(this,'3 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-slate-900">3</p><p class="text-[10px] text-slate-400">jrs</p></div>
+                    <div class="dur-card rounded-xl border border-slate-200 bg-white p-3.5 text-center" onclick="pickDur(this,'6 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-slate-900">6</p><p class="text-[10px] text-slate-400">jrs</p></div>
+                    <div class="dur-card rounded-xl border border-slate-200 bg-white p-3.5 text-center" onclick="pickDur(this,'12 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-slate-900">12</p><p class="text-[10px] text-slate-400">jrs</p></div>
+                    <div class="dur-card rounded-xl border border-slate-200 bg-white p-3.5 text-center" onclick="pickDur(this,'21 jrs')"><div class="chk w-5 h-5 rounded-full border-2 border-slate-200 flex items-center justify-center mx-auto mb-2 transition-all"><span class="iconify text-white text-xs opacity-0 transition-opacity" data-icon="mdi:check"></span></div><p class="text-base font-semibold text-slate-900">21</p><p class="text-[10px] text-slate-400">jrs</p></div>
                 </div>
-                <div class="flex items-center gap-3 mb-3"><div class="flex-1 h-px bg-white/[0.06]"></div><span class="text-[10px] text-slate-700 font-medium uppercase tracking-widest">ou manuellement</span><div class="flex-1 h-px bg-white/[0.06]"></div></div>
+                <div class="flex items-center gap-3 mb-3"><div class="flex-1 h-px bg-slate-200"></div><span class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">ou manuellement</span><div class="flex-1 h-px bg-slate-200"></div></div>
                 <div class="grid sm:grid-cols-2 gap-3">
-                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date de début</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-start"></span><input type="date" id="fDebut" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
-                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-end"></span><input type="date" id="fFin" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date de début</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" data-icon="mdi:calendar-start"></span><input type="date" id="fDebut" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
+                    <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" data-icon="mdi:calendar-end"></span><input type="date" id="fFin" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
                 </div>
-                <div id="calcBox" class="hidden mt-3 p-3 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15 flex items-center gap-2.5"><span class="iconify text-cyan-400" data-icon="mdi:clock-check-outline"></span><p class="text-xs text-cyan-300">Durée : <span id="durTxt" class="font-medium text-white"></span></p></div>
-                <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-500/[0.04] border border-red-500/20 flex items-center gap-2.5"><span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-300">La date de fin doit être postérieure à la date de début.</p></div>
+                <div id="calcBox" class="hidden mt-3 p-3 rounded-xl bg-cyan-50 border border-cyan-200 flex items-center gap-2.5"><span class="iconify text-cyan-600" data-icon="mdi:clock-check-outline"></span><p class="text-xs text-cyan-700">Durée : <span id="durTxt" class="font-medium text-slate-900"></span></p></div>
+                <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-50 border border-red-200 flex items-center gap-2.5"><span class="iconify text-red-500" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-600">La date de fin doit être postérieure à la date de début.</p></div>
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat <span class="text-cyan-500">*</span></label>
+                <label class="block text-xs font-medium text-slate-600 mb-2">Type de certificat <span class="text-cyan-600">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
-                    <label class="radio-card"><input type="radio" name="cType" value="aptitude" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">CERTIFICAT MEDICALe</p><p class="text-[11px] text-slate-600">Aptitude physique et sportive</p></div></label>
-                    <label class="radio-card"><input type="radio" name="cType" value="non-contre-indication" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Non contre-indication</p><p class="text-[11px] text-slate-600">Absence de contre-indication</p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="aptitude" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Certificat d'aptitude</p><p class="text-[11px] text-slate-400">Aptitude physique et sportive</p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="non-contre-indication" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Non contre-indication</p><p class="text-[11px] text-slate-400">Absence de contre-indication</p></div></label>
                 </div>
             </div>
         </div>
         <div class="flex justify-between">
-            <button onclick="go(1)" class="px-5 py-3 border border-white/[0.08] hover:bg-white/[0.04] text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
-            <button onclick="go(3)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.25)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button>
+            <button onclick="go(1)" class="px-5 py-3 border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-900 font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
+            <button onclick="go(3)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.2)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button>
         </div>
     </div>
 
@@ -202,43 +202,43 @@
     <div id="p3" class="hidden">
         <div class="card anim">
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 flex items-center justify-center"><span class="iconify text-cyan-400 text-lg" data-icon="mdi:check-decagram-outline"></span></div>
-                <div><h2 class="text-lg font-medium">Récapitulatif</h2><p class="text-xs text-slate-600">Étape 3 sur 3 — Vérifiez avant envoi</p></div>
+                <div class="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center"><span class="iconify text-cyan-600 text-lg" data-icon="mdi:check-decagram-outline"></span></div>
+                <div><h2 class="text-lg font-medium text-slate-900">Récapitulatif</h2><p class="text-xs text-slate-400">Étape 3 sur 3 — Vérifiez avant envoi</p></div>
             </div>
-            <div class="flex items-center gap-2.5 mb-5 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05]">
-                <span class="iconify text-slate-600" data-icon="mdi:cloud-check-outline"></span>
-                <p class="text-[11px] text-slate-600">Vos données seront enregistrées de manière sécurisée.</p>
+            <div class="flex items-center gap-2.5 mb-5 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="iconify text-slate-400" data-icon="mdi:cloud-check-outline"></span>
+                <p class="text-[11px] text-slate-400">Vos données seront enregistrées de manière sécurisée.</p>
             </div>
             <div class="space-y-3 mb-6">
-                <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-400 text-sm" data-icon="mdi:account-outline"></span><span class="text-xs font-medium text-slate-400">Informations personnelles</span></div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-600 text-sm" data-icon="mdi:account-outline"></span><span class="text-xs font-medium text-slate-500">Informations personnelles</span></div>
                     <div class="grid grid-cols-2 gap-y-1.5 gap-x-5 text-[13px]">
-                        <div><span class="text-[11px] text-slate-700 block">Nom complet</span><span id="rNom" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Email</span><span id="rEmail" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Téléphone</span><span id="rTel" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Naissance</span><span id="rNaiss" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">CIN</span><span id="rCIN" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Option</span><span id="rFil" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Nom complet</span><span id="rNom" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Email</span><span id="rEmail" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Téléphone</span><span id="rTel" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Naissance</span><span id="rNaiss" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">CIN</span><span id="rCIN" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Option</span><span id="rFil" class="text-slate-900 font-medium">—</span></div>
                     </div>
                 </div>
-                <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-400 text-sm" data-icon="mdi:certificate-outline"></span><span class="text-xs font-medium text-slate-400">Certificat médical</span></div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-600 text-sm" data-icon="mdi:certificate-outline"></span><span class="text-xs font-medium text-slate-500">Certificat médical</span></div>
                     <div class="grid grid-cols-2 gap-y-1.5 gap-x-5 text-[13px]">
-                        <div><span class="text-[11px] text-slate-700 block">Fichier</span><span id="rFile" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Durée</span><span id="rDur" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Date début</span><span id="rDeb" class="text-white font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-700 block">Date fin</span><span id="rFin" class="text-white font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Fichier</span><span id="rFile" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Durée</span><span id="rDur" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Date début</span><span id="rDeb" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Date fin</span><span id="rFin" class="text-slate-900 font-medium">—</span></div>
                     </div>
                 </div>
             </div>
-            <label class="flex items-start gap-3 cursor-pointer p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] transition-all has-[:checked]:border-cyan-500/25 has-[:checked]:bg-cyan-500/[0.04]">
+            <label class="flex items-start gap-3 cursor-pointer p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
                 <input type="checkbox" id="fTerms" class="accent-cyan-500 mt-0.5">
-                <p class="text-xs text-slate-500">J'atteste l'exactitude des informations et j'accepte les <a href="#" class="text-cyan-400 underline underline-offset-2">conditions d'ajout</a> de l'ISPITS.</p>
+                <p class="text-xs text-slate-500">J'atteste l'exactitude des informations et j'accepte les <a href="#" class="text-cyan-600 underline underline-offset-2">conditions d'ajout</a> de l'ISPITS.</p>
             </label>
         </div>
         <div class="flex justify-between">
-            <button onclick="go(2)" class="px-5 py-3 border border-white/[0.08] hover:bg-white/[0.04] text-slate-400 hover:text-white font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
-            <button id="sendBtn" onclick="send()" class="px-7 py-3 bg-white text-slate-900 hover:bg-cyan-50 font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(255,255,255,0.08)">
+            <button onclick="go(2)" class="px-5 py-3 border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-900 font-medium text-sm rounded-xl transition-all flex items-center gap-1.5"><span class="iconify" data-icon="mdi:arrow-left"></span> Retour</button>
+            <button id="sendBtn" onclick="send()" class="px-7 py-3 bg-slate-900 text-white hover:bg-slate-800 font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(15,23,42,0.15)">
                 <span class="iconify" data-icon="mdi:check-circle-outline"></span> Valider l'ajout
             </button>
         </div>
@@ -247,36 +247,33 @@
 </div>
 </main>
 
-<footer class="relative z-10 border-t border-white/[0.05] py-6 px-6">
+<footer class="relative z-10 border-t border-slate-200 py-6 px-6">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-xs text-slate-700">&copy; 2025 ISPITS — Tous droits réservés</p>
-        <div class="flex items-center gap-1.5 text-xs text-slate-700">
-            <span class="iconify text-cyan-500/50" data-icon="mdi:shield-check-outline"></span>
+        <p class="text-xs text-slate-400">&copy; 2026 ISPITS — Tous droits réservés</p>
+        <div class="flex items-center gap-1.5 text-xs text-slate-400">
+            <span class="iconify text-cyan-500" data-icon="mdi:shield-check-outline"></span>
             <span>Données sécurisées</span>
         </div>
     </div>
 </footer>
 
-<div id="toast" class="toast fixed bottom-5 right-5 z-[100] flex items-center gap-3 px-4 py-3.5 rounded-xl border max-w-xs" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-color:rgba(255,255,255,0.08)">
+<div id="toast" class="toast fixed bottom-5 right-5 z-[100] flex items-center gap-3 px-4 py-3.5 rounded-xl border max-w-xs" style="background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-color:#e2e8f0;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
     <div id="tIco" class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"></div>
-    <div><p id="tTitle" class="text-xs font-medium text-white"></p><p id="tMsg" class="text-[11px] text-slate-500"></p></div>
+    <div><p id="tTitle" class="text-xs font-medium text-slate-900"></p><p id="tMsg" class="text-[11px] text-slate-500"></p></div>
 </div>
 
-<div id="okModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-5" style="background:rgba(2,6,23,0.88);backdrop-filter:blur(10px)">
-    <div class="bg-[#0f172a] border border-white/[0.08] rounded-2xl p-7 max-w-sm w-full text-center" style="animation:fadeUp .4s cubic-bezier(.16,1,.3,1)">
-        <div class="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-5"><span class="iconify text-3xl text-green-400" data-icon="mdi:check-circle-outline"></span></div>
-        <h3 class="text-xl font-semibold text-white mb-2">Ajout validé !</h3>
+<div id="okModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-5" style="background:rgba(248,250,252,0.9);backdrop-filter:blur(10px)">
+    <div class="bg-white border border-slate-200 rounded-2xl p-7 max-w-sm w-full text-center" style="animation:fadeUp .4s cubic-bezier(.16,1,.3,1);box-shadow:0 8px 40px rgba(0,0,0,0.1)">
+        <div class="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-5"><span class="iconify text-3xl text-green-500" data-icon="mdi:check-circle-outline"></span></div>
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">Ajout validé !</h3>
         <p class="text-xs text-slate-500 mb-1">Vos informations ont été enregistrées</p>
         <p class="text-xs text-slate-500 mb-1">Votre certificat a été ajouté à votre dossier</p>
-        <p id="mTime" class="text-[11px] text-slate-700 mb-6"></p>
+        <p id="mTime" class="text-[11px] text-slate-400 mb-6"></p>
         <button onclick="closeOk()" class="w-full px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-medium rounded-xl transition-all">Terminer</button>
     </div>
 </div>
 
 <script>
-/* ==========================================
-   CONFIGURATION — Remplacez par votre URL Apps Script
-   ========================================== */
 var URL_ = 'https://script.google.com/macros/s/AKfycbwqEn4VDBC8PjZmuMSJUSl0VaLgH_cX-cHx5GHQXP-f2qe-MN1P3dUNsxWJX-DBYTDe/exec';
 
 var cur = 1;
@@ -286,7 +283,6 @@ var uFile = null;
 var b64 = '';
 var MIME = '';
 
-/* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', function() {
     var td = new Date().toISOString().split('T')[0];
     document.getElementById('fNaiss').setAttribute('max', td);
@@ -294,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fFin').setAttribute('min', td);
 });
 
-/* ===== NAVIGATION ===== */
 function go(s) {
     if (s > cur) {
         if (cur === 1 && !v1()) return;
@@ -322,73 +317,50 @@ function updSteps() {
     for (var s = 1; s <= 3; s++) {
         var d = document.getElementById('d' + s);
         var l = document.getElementById('l' + s);
-        d.classList.remove('act', 'done', 'text-slate-500');
-        l.classList.remove('text-slate-500', 'text-white', 'font-medium');
+        d.classList.remove('act', 'done', 'text-slate-400');
+        d.classList.add('border-slate-200');
+        l.classList.remove('text-slate-400', 'text-slate-900', 'font-medium');
         if (s < cur) {
             d.classList.add('done');
+            d.classList.remove('border-slate-200');
             d.innerHTML = '<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';
             if (window.Iconify) window.Iconify.scan(d);
-            l.classList.add('text-white');
+            l.classList.add('text-slate-900');
         } else if (s === cur) {
             d.classList.add('act');
+            d.classList.remove('border-slate-200');
             d.textContent = s;
-            l.classList.add('text-white', 'font-medium');
+            l.classList.add('text-slate-900', 'font-medium');
         } else {
             d.textContent = s;
-            d.classList.add('text-slate-500');
-            l.classList.add('text-slate-500');
+            d.classList.add('text-slate-400');
+            l.classList.add('text-slate-400');
         }
     }
-    document.getElementById('ln1').style.background = cur > 1 ? '#06b6d4' : 'rgba(255,255,255,0.08)';
-    document.getElementById('ln2').style.background = cur > 2 ? '#06b6d4' : 'rgba(255,255,255,0.08)';
+    document.getElementById('ln1').style.background = cur > 1 ? '#06b6d4' : '#e2e8f0';
+    document.getElementById('ln2').style.background = cur > 2 ? '#06b6d4' : '#e2e8f0';
 }
 
-/* ===== VALIDATION ===== */
 function v1() {
     var n = document.getElementById('fNom').value.trim();
     var p = document.getElementById('fPrenom').value.trim();
-    if (!n || !p) {
-        toast('error', 'Champs requis', 'Nom et prénom obligatoires.');
-        return false;
-    }
+    if (!n || !p) { toast('error', 'Champs requis', 'Nom et prénom obligatoires.'); return false; }
     var emailVal = document.getElementById('fEmail').value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        toast('error', 'Email invalide', 'Adresse non valide.');
-        return false;
-    }
-    if (!document.getElementById('fTel').value.trim()) {
-        toast('error', 'Téléphone requis', 'Entrez votre numéro.');
-        return false;
-    }
-    if (!document.getElementById('fOption').value) {
-        toast('error', 'Option requise', 'Sélectionnez une option.');
-        return false;
-    }
-    if (!genre) {
-        toast('error', 'Genre requis', 'Sélectionnez votre genre.');
-        return false;
-    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { toast('error', 'Email invalide', 'Adresse non valide.'); return false; }
+    if (!document.getElementById('fTel').value.trim()) { toast('error', 'Téléphone requis', 'Entrez votre numéro.'); return false; }
+    if (!document.getElementById('fOption').value) { toast('error', 'Option requise', 'Sélectionnez une option.'); return false; }
+    if (!genre) { toast('error', 'Genre requis', 'Sélectionnez votre genre.'); return false; }
     return true;
 }
 
 function v2() {
-    if (!uFile) {
-        toast('error', 'Certificat requis', 'Insérez votre certificat.');
-        return false;
-    }
-    if (!dur) {
-        toast('error', 'Durée requise', 'Sélectionnez une durée ou renseignez des dates valides.');
-        return false;
-    }
+    if (!uFile) { toast('error', 'Certificat requis', 'Insérez votre certificat.'); return false; }
+    if (!dur) { toast('error', 'Durée requise', 'Sélectionnez une durée ou renseignez des dates valides.'); return false; }
     var ct = document.querySelector('input[name="cType"]:checked');
-    if (!ct) {
-        toast('error', 'Type requis', 'Sélectionnez un type de certificat.');
-        return false;
-    }
+    if (!ct) { toast('error', 'Type requis', 'Sélectionnez un type de certificat.'); return false; }
     return true;
 }
 
-/* ===== GENDER ===== */
 function pickG(b) {
     var btns = document.querySelectorAll('.sel-btn');
     for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
@@ -396,45 +368,21 @@ function pickG(b) {
     genre = b.textContent.trim();
 }
 
-/* ===== FILE ===== */
-function dOver(e) {
-    e.preventDefault();
-    document.getElementById('dropZ').classList.add('dragover');
-}
-
-function dLeave(e) {
-    e.preventDefault();
-    document.getElementById('dropZ').classList.remove('dragover');
-}
-
-function dDrop(e) {
-    e.preventDefault();
-    document.getElementById('dropZ').classList.remove('dragover');
-    if (e.dataTransfer.files.length) procFile(e.dataTransfer.files[0]);
-}
-
-function fSel(e) {
-    if (e.target.files.length) procFile(e.target.files[0]);
-}
+function dOver(e) { e.preventDefault(); document.getElementById('dropZ').classList.add('dragover'); }
+function dLeave(e) { e.preventDefault(); document.getElementById('dropZ').classList.remove('dragover'); }
+function dDrop(e) { e.preventDefault(); document.getElementById('dropZ').classList.remove('dragover'); if (e.dataTransfer.files.length) procFile(e.dataTransfer.files[0]); }
+function fSel(e) { if (e.target.files.length) procFile(e.target.files[0]); }
 
 function procFile(f) {
     var ok = ['application/pdf', 'image/jpeg', 'image/png'];
-    if (ok.indexOf(f.type) === -1) {
-        toast('error', 'Format', 'PDF, JPG ou PNG uniquement.');
-        return;
-    }
-    if (f.size > 5 * 1024 * 1024) {
-        toast('error', 'Taille', 'Maximum 5 Mo.');
-        return;
-    }
-    uFile = f;
-    MIME = f.type;
+    if (ok.indexOf(f.type) === -1) { toast('error', 'Format', 'PDF, JPG ou PNG uniquement.'); return; }
+    if (f.size > 5 * 1024 * 1024) { toast('error', 'Taille', 'Maximum 5 Mo.'); return; }
+    uFile = f; MIME = f.type;
     document.getElementById('fName').textContent = f.name;
     document.getElementById('fSize').textContent = fmtS(f.size);
     document.getElementById('upDef').classList.add('hidden');
     var upOk = document.getElementById('upOk');
-    upOk.classList.remove('hidden');
-    upOk.style.display = 'flex';
+    upOk.classList.remove('hidden'); upOk.style.display = 'flex';
     document.getElementById('dropZ').classList.add('has-file');
     var r = new FileReader();
     r.onload = function(e) { b64 = e.target.result.split(',')[1]; };
@@ -443,65 +391,45 @@ function procFile(f) {
 }
 
 function rmFile(e) {
-    e.stopPropagation();
-    uFile = null;
-    b64 = '';
-    MIME = '';
+    e.stopPropagation(); uFile = null; b64 = ''; MIME = '';
     document.getElementById('fFile').value = '';
     document.getElementById('upDef').classList.remove('hidden');
     var upOk = document.getElementById('upOk');
-    upOk.classList.add('hidden');
-    upOk.style.display = 'none';
+    upOk.classList.add('hidden'); upOk.style.display = 'none';
     document.getElementById('dropZ').classList.remove('has-file');
 }
 
-function fmtS(b) {
-    if (b < 1024) return b + ' o';
-    if (b < 1048576) return (b / 1024).toFixed(1) + ' Ko';
-    return (b / 1048576).toFixed(2) + ' Mo';
-}
+function fmtS(b) { if (b < 1024) return b + ' o'; if (b < 1048576) return (b / 1024).toFixed(1) + ' Ko'; return (b / 1048576).toFixed(2) + ' Mo'; }
 
-/* ===== DURATION ===== */
 function pickDur(c, v) {
     var cards = document.querySelectorAll('.dur-card');
     for (var i = 0; i < cards.length; i++) cards[i].classList.remove('sel');
-    c.classList.add('sel');
-    dur = v;
-    document.getElementById('fDebut').value = '';
-    document.getElementById('fFin').value = '';
-    document.getElementById('calcBox').classList.add('hidden');
-    document.getElementById('dateErrBox').classList.add('hidden');
+    c.classList.add('sel'); dur = v;
+    document.getElementById('fDebut').value = ''; document.getElementById('fFin').value = '';
+    document.getElementById('calcBox').classList.add('hidden'); document.getElementById('dateErrBox').classList.add('hidden');
     updSum();
 }
 
 function calcDur() {
-    var s = document.getElementById('fDebut').value;
-    var e = document.getElementById('fFin').value;
+    var s = document.getElementById('fDebut').value, e = document.getElementById('fFin').value;
     var cards = document.querySelectorAll('.dur-card');
     for (var i = 0; i < cards.length; i++) cards[i].classList.remove('sel');
     dur = '';
-    document.getElementById('calcBox').classList.add('hidden');
-    document.getElementById('dateErrBox').classList.add('hidden');
+    document.getElementById('calcBox').classList.add('hidden'); document.getElementById('dateErrBox').classList.add('hidden');
     if (s && e) {
-        var a = new Date(s);
-        var b = new Date(e);
+        var a = new Date(s), b = new Date(e);
         if (b > a) {
             var dy = Math.ceil((b - a) / 864e5);
             var t = dy + ' jour' + (dy > 1 ? 's' : '');
-            dur = t;
-            document.getElementById('durTxt').textContent = t;
+            dur = t; document.getElementById('durTxt').textContent = t;
             document.getElementById('calcBox').classList.remove('hidden');
-        } else {
-            document.getElementById('dateErrBox').classList.remove('hidden');
-        }
+        } else { document.getElementById('dateErrBox').classList.remove('hidden'); }
     }
     updSum();
 }
 
-/* ===== SUMMARY ===== */
 function updSum() {
-    var n = document.getElementById('fNom').value.trim();
-    var p = document.getElementById('fPrenom').value.trim();
+    var n = document.getElementById('fNom').value.trim(), p = document.getElementById('fPrenom').value.trim();
     document.getElementById('rNom').textContent = (p + ' ' + n).trim() || '—';
     document.getElementById('rEmail').textContent = document.getElementById('fEmail').value.trim() || '—';
     document.getElementById('rTel').textContent = document.getElementById('fTel').value.trim() || '—';
@@ -510,83 +438,41 @@ function updSum() {
     document.getElementById('rCIN').textContent = document.getElementById('fCIN').value.trim() || '—';
     document.getElementById('rFil').textContent = document.getElementById('fOption').value || '—';
     document.getElementById('rFile').innerHTML = uFile
-        ? '<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> ' + uFile.name
-        : '<span class="text-slate-600">—</span>';
+        ? '<span class="iconify text-green-500 text-xs" data-icon="mdi:check-circle"></span> ' + uFile.name
+        : '<span class="text-slate-400">—</span>';
     document.getElementById('rDur').textContent = dur || '—';
-    var sd = document.getElementById('fDebut').value;
-    var ed = document.getElementById('fFin').value;
+    var sd = document.getElementById('fDebut').value, ed = document.getElementById('fFin').value;
     document.getElementById('rDeb').textContent = sd ? new Date(sd).toLocaleDateString('fr-FR') : '—';
     document.getElementById('rFin').textContent = ed ? new Date(ed).toLocaleDateString('fr-FR') : '—';
 }
 
-/* ===== SEND ===== */
 async function send() {
-    if (!document.getElementById('fTerms').checked) {
-        toast('error', 'Conditions', 'Acceptez les conditions.');
-        return;
-    }
-    if (!URL_ || URL_ === 'COLLEZ_LA_NOUVELLE_URL_ICI') {
-        toast('error', 'Configuration', 'Le formulaire n\'est pas encore connecté.');
-        return;
-    }
-
-    var btn = document.getElementById('sendBtn');
-    var orig = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spin"></span> Envoi en cours…';
-    btn.style.opacity = '.6';
-
+    if (!document.getElementById('fTerms').checked) { toast('error', 'Conditions', 'Acceptez les conditions.'); return; }
+    if (!URL_ || URL_ === 'COLLEZ_LA_NOUVELLE_URL_ICI') { toast('error', 'Configuration', 'Le formulaire n\'est pas encore connecté.'); return; }
+    var btn = document.getElementById('sendBtn'), orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Envoi en cours…'; btn.style.opacity = '.6';
     var ct = document.querySelector('input[name="cType"]:checked');
-
     var payload = {
-        nom: document.getElementById('fNom').value.trim(),
-        prenom: document.getElementById('fPrenom').value.trim(),
-        email: document.getElementById('fEmail').value.trim(),
-        telephone: document.getElementById('fTel').value.trim(),
-        naissance: document.getElementById('fNaiss').value || '',
-        cin: document.getElementById('fCIN').value.trim() || '',
-        option: document.getElementById('fOption').value || '',
-        genre: genre || '',
+        nom: document.getElementById('fNom').value.trim(), prenom: document.getElementById('fPrenom').value.trim(),
+        email: document.getElementById('fEmail').value.trim(), telephone: document.getElementById('fTel').value.trim(),
+        naissance: document.getElementById('fNaiss').value || '', cin: document.getElementById('fCIN').value.trim() || '',
+        option: document.getElementById('fOption').value || '', genre: genre || '',
         duree: dur || document.getElementById('durTxt').textContent || '',
-        dateDebut: document.getElementById('fDebut').value || '',
-        dateFin: document.getElementById('fFin').value || '',
-        typeCertificat: ct ? ct.value : '',
-        certFileName: uFile ? uFile.name : '',
-        certFileBase64: b64 || '',
-        certMimeType: MIME || ''
+        dateDebut: document.getElementById('fDebut').value || '', dateFin: document.getElementById('fFin').value || '',
+        typeCertificat: ct ? ct.value : '', certFileName: uFile ? uFile.name : '',
+        certFileBase64: b64 || '', certMimeType: MIME || ''
     };
-
     try {
-        var r = await fetch(URL_, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        var r = await fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         var d = await r.json();
-        btn.disabled = false;
-        btn.innerHTML = orig;
-        btn.style.opacity = '1';
-        if (d.status === 'success') {
-            showOk();
-        } else {
-            toast('error', 'Erreur serveur', d.message || 'Réponse inattendue.');
-        }
+        btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1';
+        if (d.status === 'success') { showOk(); } else { toast('error', 'Erreur serveur', d.message || 'Réponse inattendue.'); }
     } catch (err) {
         try {
-            await fetch(URL_, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            btn.disabled = false;
-            btn.innerHTML = orig;
-            btn.style.opacity = '1';
-            showOk();
+            await fetch(URL_, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1'; showOk();
         } catch (e2) {
-            btn.disabled = false;
-            btn.innerHTML = orig;
-            btn.style.opacity = '1';
+            btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1';
             toast('error', 'Erreur réseau', 'Vérifiez la connexion et la config.');
         }
     }
@@ -594,34 +480,25 @@ async function send() {
 
 function showOk() {
     document.getElementById('mTime').textContent = 'Soumis le ' + new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' });
-    document.getElementById('okModal').classList.remove('hidden');
-    document.getElementById('okModal').classList.add('flex');
+    document.getElementById('okModal').classList.remove('hidden'); document.getElementById('okModal').classList.add('flex');
 }
 
 function closeOk() {
-    document.getElementById('okModal').classList.add('hidden');
-    document.getElementById('okModal').classList.remove('flex');
-    location.reload();
+    document.getElementById('okModal').classList.add('hidden'); document.getElementById('okModal').classList.remove('flex'); location.reload();
 }
 
-/* ===== TOAST ===== */
 function toast(type, title, msg) {
-    var el = document.getElementById('toast');
-    var ico = document.getElementById('tIco');
+    var el = document.getElementById('toast'), ico = document.getElementById('tIco');
     if (type === 'error') {
-        el.style.borderColor = 'rgba(239,68,68,0.25)';
-        ico.style.background = 'rgba(239,68,68,0.1)';
-        ico.innerHTML = '<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
+        el.style.borderColor = '#fecaca'; ico.style.background = '#fef2f2';
+        ico.innerHTML = '<span class="iconify text-red-500 text-sm" data-icon="mdi:alert-circle-outline"></span>';
     } else {
-        el.style.borderColor = 'rgba(34,197,94,0.25)';
-        ico.style.background = 'rgba(34,197,94,0.1)';
-        ico.innerHTML = '<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
+        el.style.borderColor = '#bbf7d0'; ico.style.background = '#f0fdf4';
+        ico.innerHTML = '<span class="iconify text-green-500 text-sm" data-icon="mdi:check-circle-outline"></span>';
     }
     if (window.Iconify) window.Iconify.scan(ico);
-    document.getElementById('tTitle').textContent = title;
-    document.getElementById('tMsg').textContent = msg;
-    el.classList.add('show');
-    clearTimeout(el._t);
+    document.getElementById('tTitle').textContent = title; document.getElementById('tMsg').textContent = msg;
+    el.classList.add('show'); clearTimeout(el._t);
     el._t = setTimeout(function() { el.classList.remove('show'); }, 3500);
 }
 </script>
