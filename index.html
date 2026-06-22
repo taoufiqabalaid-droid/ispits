@@ -111,7 +111,6 @@
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Prénom <span class="text-cyan-500">*</span></label><input type="text" id="fPrenom" placeholder="Prénom" class="inp"></div>
                 <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-1.5">Email <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
-                <!-- FIX #6 : max = today pour la date de naissance -->
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Option <span class="text-cyan-500">*</span></label>
@@ -164,7 +163,6 @@
                         <p class="text-[11px] text-slate-600 mb-3">ou cliquez pour parcourir</p>
                         <div class="flex items-center gap-3 text-[11px] text-slate-700"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
                     </div>
-                    <!-- FIX #2 : supprimé "flex" du HTML, géré via JS -->
                     <div id="upOk" class="hidden flex-col items-center">
                         <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
                         <p class="text-sm font-medium text-green-400 mb-0.5">Fichier prêt</p>
@@ -191,12 +189,10 @@
                     <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-end"></span><input type="date" id="fFin" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
                 </div>
                 <div id="calcBox" class="hidden mt-3 p-3 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15 flex items-center gap-2.5"><span class="iconify text-cyan-400" data-icon="mdi:clock-check-outline"></span><p class="text-xs text-cyan-300">Durée : <span id="durTxt" class="font-medium text-white"></span></p></div>
-                <!-- FIX #3 : message d'erreur dates invalides -->
                 <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-500/[0.04] border border-red-500/20 flex items-center gap-2.5"><span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-300">La date de fin doit être postérieure à la date de début.</p></div>
             </div>
 
             <!-- TYPE -->
-            <!-- FIX #8 : ajout * au type de certificat -->
             <div>
                 <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat <span class="text-cyan-500">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
@@ -298,7 +294,6 @@ var URL_ = 'https://script.google.com/macros/s/AKfycbwqEn4VDBC8PjZmuMSJUSl0VaLgH
 var cur=1, dur='', genre='', uFile=null, b64='', MIME='';
 
 document.addEventListener('DOMContentLoaded', function(){
-    // FIX #6 : date de naissance limitée à aujourd'hui
     var td = new Date().toISOString().split('T')[0];
     document.getElementById('fNaiss').setAttribute('max', td);
     document.getElementById('fDebut').setAttribute('min', td);
@@ -333,7 +328,7 @@ function updSteps(){
         }
     }
     document.getElementById('ln1').style.background=cur>1?'#06b6d4':'rgba(255,255,255,0.08)';
-    document.getElementById('ln2').style.background=catch(cur>2?'#06b6d4':'rgba(255,255,255,0.08');
+    document.getElementById('ln2').style.background=cur>2?'#06b6d4':'rgba(255,255,255,0.08)';
 }
 
 // ===== VALIDATION =====
@@ -350,9 +345,7 @@ function v1(){
 
 function v2(){
     if(!uFile){toast('error','Certificat requis','Insérez votre certificat.');return false}
-    var hasDur = dur && dur !== '';
-    var hasManual = document.getElementById('fDebut').value && document.getElementById('fFin').value && hasDur;
-    if(!hasDur){toast('error','Durée requise','Sélectionnez une durée ou renseignez des dates valides.');return false}
+    if(!dur){toast('error','Durée requise','Sélectionnez une durée ou renseignez des dates valides.');return false}
     var ct=document.querySelector('input[name="cType"]:checked');
     if(!ct){toast('error','Type requis','Sélectionnez un type de certificat.');return false}
     return true;
@@ -457,7 +450,7 @@ function updSum(){
     document.getElementById('rFin').textContent=ed?new Date(ed).toLocaleDateString('fr-FR'):'—';
 }
 
-// ===== SEND — CORRIGÉ : fetch JSON au lieu de form.submit() =====
+// ===== SEND =====
 async function send(){
     if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions.');return}
     if(!URL_||URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){toast('error','Configuration','Le formulaire n\'est pas encore connecté.');return}
@@ -485,7 +478,6 @@ async function send(){
         certMimeType:MIME||''
     };
 
-    // FIX : fetch JSON au lieu de form.submit()
     try{
         var r=await fetch(URL_,{
             method:'POST',
@@ -497,7 +489,6 @@ async function send(){
         if(d.status==='success'){showOk()}
         else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
     }catch(err){
-        // fallback no-cors (envoie les données, même si on ne peut pas lire la réponse)
         try{
             await fetch(URL_,{
                 method:'POST',
@@ -546,14 +537,6 @@ function toast(type,title,msg){
     clearTimeout(el._t);
     el._t=setTimeout(function(){el.classList.remove('show')},3500);
 }
-</script>
-
-// ===== INIT DATES =====
-var td=new Date().toISOString().split('T')[0];
-document.getElementById('fDebut').setAttribute('min',td);
-document.getElementById('fFin').setAttribute('min',td);
-// FIX #6 : date de naissance ne peut pas être dans le futur
-document.getElementById('fNaiss').setAttribute('max',td);
 </script>
 </body>
 </html>
