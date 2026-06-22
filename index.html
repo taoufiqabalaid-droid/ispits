@@ -289,7 +289,7 @@
 // CONFIGURATION CACHÉE
 // Collez votre URL Apps Script entre les guillemets ci-dessous :
 // ==========================================
-var URL_ = 'https://script.google.com/macros/s/VOTRE_ID_ICI/exec'; 
+var URL_ = 'https://script.google.com/macros/s/AKfycbyPMZTAC1w4qSuJuMoobbOiUczKTk0a-xaO-8axY4kc7Xxk2hlS8EinOXSEvERX-DI_/exec'; 
 
 // ==========================================
 var cur=1, dur='', genre='', uFile=null, b64='', MIME='';
@@ -393,7 +393,7 @@ function updSum(){
 // ===== SEND =====
 async function send(){
     if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
-    if(!URL_ || URL_ === 'https://script.google.com/macros/s/VOTRE_ID_ICI/exec'){toast('error','Erreur de configuration','Le formulaire n\'est pas encore connecté.');return}
+    if(!URL_ || URL_ === 'https://script.google.com/macros/s/AKfycbyPMZTAC1w4qSuJuMoobbOiUczKTk0a-xaO-8axY4kc7Xxk2hlS8EinOXSEvERX-DI_/exec'){toast('error','Erreur de configuration','Le formulaire n\'est pas encore connecté.');return}
     
     var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
     btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
