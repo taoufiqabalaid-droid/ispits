@@ -459,46 +459,59 @@ function updSum(){
 }
 
 // ===== SEND =====
-async function send(){
+function send(){
     if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
-    if(!URL_||URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){toast('error','Configuration','Le formulaire n\'est pas encore connecté à un script.');return}
+    if(!URL_||URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){toast('error','Configuration','Le formulaire n\'est pas encore connecté.');return}
 
     var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
     btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
 
     var ct=document.querySelector('input[name="cType"]:checked');
 
-    // ── Encodage URL (simple request = pas de preflight CORS) ──
-    var params=new URLSearchParams();
-    params.append('nom',document.getElementById('fNom').value.trim());
-    params.append('prenom',document.getElementById('fPrenom').value.trim());
-    params.append('email',document.getElementById('fEmail').value.trim());
-    params.append('telephone',document.getElementById('fTel').value.trim());
-    params.append('naissance',document.getElementById('fNaiss').value||'');
-    params.append('cin',document.getElementById('fCIN').value.trim()||'');
-    params.append('option',document.getElementById('fOption').value||'');
-    params.append('genre',genre||'');
-    params.append('duree',dur||document.getElementById('durTxt').textContent||'');
-    params.append('dateDebut',document.getElementById('fDebut').value||'');
-    params.append('dateFin',document.getElementById('fFin').value||'');
-    params.append('typeCertificat',ct?ct.value:'');
-    params.append('certFileName',uFile?uFile.name:'');
-    params.append('certFileBase64',b64||'');
-    params.append('certMimeType',MIME||'');
+    // Préparation des données
+    var fields = {
+        nom: document.getElementById('fNom').value.trim(),
+        prenom: document.getElementById('fPrenom').value.trim(),
+        email: document.getElementById('fEmail').value.trim(),
+        telephone: document.getElementById('fTel').value.trim(),
+        naissance: document.getElementById('fNaiss').value||'',
+        cin: document.getElementById('fCIN').value.trim()||'',
+        option: document.getElementById('fOption').value||'',
+        genre: genre||'',
+        duree: dur||document.getElementById('durTxt').textContent||'',
+        dateDebut: document.getElementById('fDebut').value||'',
+        dateFin: document.getElementById('fFin').value||'',
+        typeCertificat: ct?ct.value:'',
+        certFileName: uFile?uFile.name:'',
+        certFileBase64: b64||'',
+        certMimeType: MIME||''
+    };
 
-    try{
-        await fetch(URL_,{
-            method:'POST',
-            headers:{'Content-Type':'application/x-www-form-urlencoded'},
-            body:params.toString(),
-            mode:'no-cors'
-        });
-        btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
-        showOk();
-    }catch(err){
-        btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
-        toast('error','Erreur réseau','Vérifiez votre connexion internet.');
+    // Création dynamique du formulaire
+    var form = document.createElement('form');
+    form.action = URL_;
+    form.method = 'POST';
+    form.target = 'hiddenFrame';
+
+    for(var key in fields){
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+    // Délai pour laisser le navigateur envoyer
+    setTimeout(function(){
+        btn.disabled=false;
+        btn.innerHTML=orig;
+        btn.style.opacity='1';
+        showOk();
+    }, 1500);
 }
 
 function showOk(){
