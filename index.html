@@ -49,12 +49,10 @@
 </head>
 <body class="bg-[#020617] text-white min-h-screen relative overflow-x-hidden">
 
-<!-- BG -->
 <div class="fixed inset-0 grid-bg pointer-events-none"></div>
 <div class="fixed top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-cyan-500/[0.04] rounded-full pointer-events-none" style="filter:blur(120px)"></div>
 <div class="fixed bottom-[-200px] right-[-100px] w-[600px] h-[400px] bg-cyan-500/[0.03] rounded-full pointer-events-none" style="filter:blur(100px)"></div>
 
-<!-- NAV -->
 <nav class="fixed top-0 left-0 right-0 h-16 z-50 flex items-center px-6" style="background:rgba(2,6,23,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.05)">
     <div class="max-w-5xl mx-auto w-full flex items-center justify-between">
         <a href="#" class="flex items-center gap-3">
@@ -69,12 +67,10 @@
     </div>
 </nav>
 
-<!-- PROGRESS BAR -->
 <div class="fixed top-16 left-0 right-0 z-30 h-[3px] bg-white/[0.03]">
     <div id="pBar" class="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500" style="width:33%"></div>
 </div>
 
-<!-- STEPS -->
 <div class="fixed top-[67px] left-0 right-0 z-30 hidden md:flex justify-center py-3.5" style="background:rgba(2,6,23,0.5);backdrop-filter:blur(8px)">
     <div class="flex items-center">
         <button onclick="go(1)" class="flex items-center gap-2 cursor-pointer"><div id="d1" class="step-dot act w-7 h-7 rounded-full border-2 border-white/15 flex items-center justify-center text-[11px] font-semibold">1</div><span id="l1" class="text-sm font-medium text-white pr-5">Informations</span></button>
@@ -85,11 +81,9 @@
     </div>
 </div>
 
-<!-- MAIN -->
 <main class="relative z-10 pt-32 md:pt-36 pb-24 px-4">
 <div class="max-w-2xl mx-auto">
 
-    <!-- HEADER -->
     <div class="text-center mb-10 anim">
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.06] bg-white/[0.03] mb-5">
             <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span></span>
@@ -153,7 +147,6 @@
             </div>
             <div class="flex items-center gap-2 mb-5 ml-12"><span class="iconify text-amber-400 text-xs" data-icon="mdi:information-outline"></span><p class="text-[11px] text-slate-600">Le fichier sera archivé et joint à votre dossier automatiquement.</p></div>
 
-            <!-- UPLOAD -->
             <div class="mb-6">
                 <label class="block text-xs font-medium text-slate-400 mb-2">Insérer le certificat médical <span class="text-cyan-500">*</span></label>
                 <div id="dropZ" class="file-drop-zone rounded-2xl p-7 text-center cursor-pointer" onclick="document.getElementById('fFile').click()" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
@@ -163,7 +156,7 @@
                         <p class="text-[11px] text-slate-600 mb-3">ou cliquez pour parcourir</p>
                         <div class="flex items-center gap-3 text-[11px] text-slate-700"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
                     </div>
-                    <div id="upOk" class="hidden flex-col items-center">
+                    <div id="upOk" class="hidden" style="display:none;flex-direction:column;align-items:center">
                         <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
                         <p class="text-sm font-medium text-green-400 mb-0.5">Fichier prêt</p>
                         <p id="fName" class="text-xs text-slate-400 mb-0.5">fichier.pdf</p>
@@ -174,7 +167,6 @@
                 </div>
             </div>
 
-            <!-- DURATION -->
             <div class="mb-5">
                 <label class="block text-xs font-medium text-slate-400 mb-2">Durée du certificat <span class="text-cyan-500">*</span></label>
                 <div class="grid grid-cols-4 gap-2.5 mb-5">
@@ -192,7 +184,6 @@
                 <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-500/[0.04] border border-red-500/20 flex items-center gap-2.5"><span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-300">La date de fin doit être postérieure à la date de début.</p></div>
             </div>
 
-            <!-- TYPE -->
             <div>
                 <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat <span class="text-cyan-500">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
@@ -256,10 +247,9 @@
 </div>
 </main>
 
-<!-- FOOTER -->
 <footer class="relative z-10 border-t border-white/[0.05] py-6 px-6">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-xs text-slate-700">© 2025 ISPITS — Tous droits réservés</p>
+        <p class="text-xs text-slate-700">&copy; 2025 ISPITS — Tous droits réservés</p>
         <div class="flex items-center gap-1.5 text-xs text-slate-700">
             <span class="iconify text-cyan-500/50" data-icon="mdi:shield-check-outline"></span>
             <span>Données sécurisées</span>
@@ -267,162 +257,239 @@
     </div>
 </footer>
 
-<!-- TOAST -->
 <div id="toast" class="toast fixed bottom-5 right-5 z-[100] flex items-center gap-3 px-4 py-3.5 rounded-xl border max-w-xs" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);border-color:rgba(255,255,255,0.08)">
     <div id="tIco" class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"></div>
     <div><p id="tTitle" class="text-xs font-medium text-white"></p><p id="tMsg" class="text-[11px] text-slate-500"></p></div>
 </div>
 
-<!-- SUCCESS MODAL -->
 <div id="okModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-5" style="background:rgba(2,6,23,0.88);backdrop-filter:blur(10px)">
     <div class="bg-[#0f172a] border border-white/[0.08] rounded-2xl p-7 max-w-sm w-full text-center" style="animation:fadeUp .4s cubic-bezier(.16,1,.3,1)">
         <div class="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-5"><span class="iconify text-3xl text-green-400" data-icon="mdi:check-circle-outline"></span></div>
-        <h3 class="text-xl font-semibold text-white mb-2">ajout validée !</h3>
-        <p class="text-xs text-slate-500 mb-1">✅ Vos informations ont été enregistrées</p>
-        <p class="text-xs text-slate-500 mb-1">📎 Votre certificat a été ajouté à votre dossier</p>
+        <h3 class="text-xl font-semibold text-white mb-2">Ajout validé !</h3>
+        <p class="text-xs text-slate-500 mb-1">Vos informations ont été enregistrées</p>
+        <p class="text-xs text-slate-500 mb-1">Votre certificat a été ajouté à votre dossier</p>
         <p id="mTime" class="text-[11px] text-slate-700 mb-6"></p>
         <button onclick="closeOk()" class="w-full px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-medium rounded-xl transition-all">Terminer</button>
     </div>
 </div>
 
 <script>
-// ==========================================
-// CONFIGURATION — Remplacez par votre URL Apps Script
-// ==========================================
+/* ==========================================
+   CONFIGURATION — Remplacez par votre URL Apps Script
+   ========================================== */
 var URL_ = 'https://script.google.com/macros/s/AKfycbwqEn4VDBC8PjZmuMSJUSl0VaLgH_cX-cHx5GHQXP-f2qe-MN1P3dUNsxWJX-DBYTDe/exec';
 
-var cur=1, dur='', genre='', uFile=null, b64='', MIME='';
+var cur = 1;
+var dur = '';
+var genre = '';
+var uFile = null;
+var b64 = '';
+var MIME = '';
 
-document.addEventListener('DOMContentLoaded', function(){
+/* ===== INIT ===== */
+document.addEventListener('DOMContentLoaded', function() {
     var td = new Date().toISOString().split('T')[0];
     document.getElementById('fNaiss').setAttribute('max', td);
     document.getElementById('fDebut').setAttribute('min', td);
     document.getElementById('fFin').setAttribute('min', td);
 });
 
-// ===== NAVIGATION =====
-function go(s){
-    if(s>cur){if(cur===1&&!v1())return;if(cur===2&&!v2())return}
-    var ids=['p1','p2','p3'];
-    for(var i=0;i<ids.length;i++) document.getElementById(ids[i]).classList.add('hidden');
-    document.getElementById('p'+s).classList.remove('hidden');
-    var c=document.getElementById('p'+s).querySelector('.card');
-    if(c){c.classList.remove('anim');void c.offsetWidth;c.classList.add('anim')}
-    cur=s;updSteps();updSum();window.scrollTo({top:0,behavior:'smooth'});
+/* ===== NAVIGATION ===== */
+function go(s) {
+    if (s > cur) {
+        if (cur === 1 && !v1()) return;
+        if (cur === 2 && !v2()) return;
+    }
+    var ids = ['p1', 'p2', 'p3'];
+    for (var i = 0; i < ids.length; i++) {
+        document.getElementById(ids[i]).classList.add('hidden');
+    }
+    document.getElementById('p' + s).classList.remove('hidden');
+    var c = document.getElementById('p' + s).querySelector('.card');
+    if (c) {
+        c.classList.remove('anim');
+        void c.offsetWidth;
+        c.classList.add('anim');
+    }
+    cur = s;
+    updSteps();
+    updSum();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function updSteps(){
-    document.getElementById('pBar').style.width={1:'33%',2:'66%',3:'100%'}[cur];
-    for(var s=1;s<=3;s++){
-        var d=document.getElementById('d'+s),l=document.getElementById('l'+s);
-        d.classList.remove('act','done','text-slate-500');l.classList.remove('text-slate-500','text-white','font-medium');
-        if(s<cur){
+function updSteps() {
+    document.getElementById('pBar').style.width = { 1: '33%', 2: '66%', 3: '100%' }[cur];
+    for (var s = 1; s <= 3; s++) {
+        var d = document.getElementById('d' + s);
+        var l = document.getElementById('l' + s);
+        d.classList.remove('act', 'done', 'text-slate-500');
+        l.classList.remove('text-slate-500', 'text-white', 'font-medium');
+        if (s < cur) {
             d.classList.add('done');
-            d.innerHTML='<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';
-            if(window.Iconify) window.Iconify.scan(d);
+            d.innerHTML = '<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';
+            if (window.Iconify) window.Iconify.scan(d);
             l.classList.add('text-white');
-        } else if(s===cur){
-            d.classList.add('act');d.textContent=s;l.classList.add('text-white','font-medium');
+        } else if (s === cur) {
+            d.classList.add('act');
+            d.textContent = s;
+            l.classList.add('text-white', 'font-medium');
         } else {
-            d.textContent=s;d.classList.add('text-slate-500');l.classList.add('text-slate-500');
+            d.textContent = s;
+            d.classList.add('text-slate-500');
+            l.classList.add('text-slate-500');
         }
     }
-    document.getElementById('ln1').style.background=cur>1?'#06b6d4':'rgba(255,255,255,0.08)';
-    document.getElementById('ln2').style.background=cur>2?'#06b6d4':'rgba(255,255,255,0.08)';
+    document.getElementById('ln1').style.background = cur > 1 ? '#06b6d4' : 'rgba(255,255,255,0.08)';
+    document.getElementById('ln2').style.background = cur > 2 ? '#06b6d4' : 'rgba(255,255,255,0.08)';
 }
 
-// ===== VALIDATION =====
-function v1(){
-    var n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
-    if(!n||!p){toast('error','Champs requis','Nom et prénom obligatoires.');return false}
-    var emailVal=document.getElementById('fEmail').value.trim();
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){toast('error','Email invalide','Adresse non valide.');return false}
-    if(!document.getElementById('fTel').value.trim()){toast('error','Téléphone requis','Entrez votre numéro.');return false}
-    if(!document.getElementById('fOption').value){toast('error','Option requise','Sélectionnez une option.');return false}
-    if(!genre){toast('error','Genre requis','Sélectionnez votre genre.');return false}
+/* ===== VALIDATION ===== */
+function v1() {
+    var n = document.getElementById('fNom').value.trim();
+    var p = document.getElementById('fPrenom').value.trim();
+    if (!n || !p) {
+        toast('error', 'Champs requis', 'Nom et prénom obligatoires.');
+        return false;
+    }
+    var emailVal = document.getElementById('fEmail').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        toast('error', 'Email invalide', 'Adresse non valide.');
+        return false;
+    }
+    if (!document.getElementById('fTel').value.trim()) {
+        toast('error', 'Téléphone requis', 'Entrez votre numéro.');
+        return false;
+    }
+    if (!document.getElementById('fOption').value) {
+        toast('error', 'Option requise', 'Sélectionnez une option.');
+        return false;
+    }
+    if (!genre) {
+        toast('error', 'Genre requis', 'Sélectionnez votre genre.');
+        return false;
+    }
     return true;
 }
 
-function v2(){
-    if(!uFile){toast('error','Certificat requis','Insérez votre certificat.');return false}
-    if(!dur){toast('error','Durée requise','Sélectionnez une durée ou renseignez des dates valides.');return false}
-    var ct=document.querySelector('input[name="cType"]:checked');
-    if(!ct){toast('error','Type requis','Sélectionnez un type de certificat.');return false}
+function v2() {
+    if (!uFile) {
+        toast('error', 'Certificat requis', 'Insérez votre certificat.');
+        return false;
+    }
+    if (!dur) {
+        toast('error', 'Durée requise', 'Sélectionnez une durée ou renseignez des dates valides.');
+        return false;
+    }
+    var ct = document.querySelector('input[name="cType"]:checked');
+    if (!ct) {
+        toast('error', 'Type requis', 'Sélectionnez un type de certificat.');
+        return false;
+    }
     return true;
 }
 
-// ===== GENDER =====
-function pickG(b){
-    var btns=document.querySelectorAll('.sel-btn');
-    for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');
+/* ===== GENDER ===== */
+function pickG(b) {
+    var btns = document.querySelectorAll('.sel-btn');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
     b.classList.add('on');
-    genre=b.textContent.trim();
+    genre = b.textContent.trim();
 }
 
-// ===== FILE =====
-function dOver(e){e.preventDefault();document.getElementById('dropZ').classList.add('dragover')}
-function dLeave(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover')}
-function dDrop(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover');if(e.dataTransfer.files.length)procFile(e.dataTransfer.files[0])}
-function fSel(e){if(e.target.files.length)procFile(e.target.files[0])}
+/* ===== FILE ===== */
+function dOver(e) {
+    e.preventDefault();
+    document.getElementById('dropZ').classList.add('dragover');
+}
 
-function procFile(f){
-    var ok=['application/pdf','image/jpeg','image/png'];
-    if(ok.indexOf(f.type)===-1){toast('error','Format','PDF, JPG ou PNG uniquement.');return}
-    if(f.size>5*1024*1024){toast('error','Taille','Maximum 5 Mo.');return}
-    uFile=f;MIME=f.type;
-    document.getElementById('fName').textContent=f.name;
-    document.getElementById('fSize').textContent=fmtS(f.size);
+function dLeave(e) {
+    e.preventDefault();
+    document.getElementById('dropZ').classList.remove('dragover');
+}
+
+function dDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropZ').classList.remove('dragover');
+    if (e.dataTransfer.files.length) procFile(e.dataTransfer.files[0]);
+}
+
+function fSel(e) {
+    if (e.target.files.length) procFile(e.target.files[0]);
+}
+
+function procFile(f) {
+    var ok = ['application/pdf', 'image/jpeg', 'image/png'];
+    if (ok.indexOf(f.type) === -1) {
+        toast('error', 'Format', 'PDF, JPG ou PNG uniquement.');
+        return;
+    }
+    if (f.size > 5 * 1024 * 1024) {
+        toast('error', 'Taille', 'Maximum 5 Mo.');
+        return;
+    }
+    uFile = f;
+    MIME = f.type;
+    document.getElementById('fName').textContent = f.name;
+    document.getElementById('fSize').textContent = fmtS(f.size);
     document.getElementById('upDef').classList.add('hidden');
-    var upOk=document.getElementById('upOk');
+    var upOk = document.getElementById('upOk');
     upOk.classList.remove('hidden');
-    upOk.style.display='flex';
+    upOk.style.display = 'flex';
     document.getElementById('dropZ').classList.add('has-file');
-    var r=new FileReader();
-    r.onload=function(e){b64=e.target.result.split(',')[1]};
+    var r = new FileReader();
+    r.onload = function(e) { b64 = e.target.result.split(',')[1]; };
     r.readAsDataURL(f);
-    toast('success','Fichier ajouté',f.name+' ('+fmtS(f.size)+')');
+    toast('success', 'Fichier ajouté', f.name + ' (' + fmtS(f.size) + ')');
 }
 
-function rmFile(e){
+function rmFile(e) {
     e.stopPropagation();
-    uFile=null;b64='';MIME='';
-    document.getElementById('fFile').value='';
+    uFile = null;
+    b64 = '';
+    MIME = '';
+    document.getElementById('fFile').value = '';
     document.getElementById('upDef').classList.remove('hidden');
-    var upOk=document.getElementById('upOk');
+    var upOk = document.getElementById('upOk');
     upOk.classList.add('hidden');
-    upOk.style.display='none';
+    upOk.style.display = 'none';
     document.getElementById('dropZ').classList.remove('has-file');
 }
 
-function fmtS(b){if(b<1024)return b+' o';if(b<1048576)return(b/1024).toFixed(1)+' Ko';return(b/1048576).toFixed(2)+' Mo'}
+function fmtS(b) {
+    if (b < 1024) return b + ' o';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' Ko';
+    return (b / 1048576).toFixed(2) + ' Mo';
+}
 
-// ===== DURATION =====
-function pickDur(c,v){
-    var cards=document.querySelectorAll('.dur-card');
-    for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
+/* ===== DURATION ===== */
+function pickDur(c, v) {
+    var cards = document.querySelectorAll('.dur-card');
+    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('sel');
     c.classList.add('sel');
-    dur=v;
-    document.getElementById('fDebut').value='';
-    document.getElementById('fFin').value='';
+    dur = v;
+    document.getElementById('fDebut').value = '';
+    document.getElementById('fFin').value = '';
     document.getElementById('calcBox').classList.add('hidden');
     document.getElementById('dateErrBox').classList.add('hidden');
     updSum();
 }
 
-function calcDur(){
-    var s=document.getElementById('fDebut').value,e=document.getElementById('fFin').value;
-    var cards=document.querySelectorAll('.dur-card');
-    for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
-    dur='';
+function calcDur() {
+    var s = document.getElementById('fDebut').value;
+    var e = document.getElementById('fFin').value;
+    var cards = document.querySelectorAll('.dur-card');
+    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('sel');
+    dur = '';
     document.getElementById('calcBox').classList.add('hidden');
     document.getElementById('dateErrBox').classList.add('hidden');
-    if(s&&e){
-        var a=new Date(s),b=new Date(e);
-        if(b>a){
-            var dy=Math.ceil((b-a)/864e5);
-            var t=dy+' jour'+(dy>1?'s':'');
-            dur=t;
-            document.getElementById('durTxt').textContent=t;
+    if (s && e) {
+        var a = new Date(s);
+        var b = new Date(e);
+        if (b > a) {
+            var dy = Math.ceil((b - a) / 864e5);
+            var t = dy + ' jour' + (dy > 1 ? 's' : '');
+            dur = t;
+            document.getElementById('durTxt').textContent = t;
             document.getElementById('calcBox').classList.remove('hidden');
         } else {
             document.getElementById('dateErrBox').classList.remove('hidden');
@@ -431,111 +498,131 @@ function calcDur(){
     updSum();
 }
 
-// ===== SUMMARY =====
-function updSum(){
-    var n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
-    document.getElementById('rNom').textContent=(p+' '+n).trim()||'—';
-    document.getElementById('rEmail').textContent=document.getElementById('fEmail').value.trim()||'—';
-    document.getElementById('rTel').textContent=document.getElementById('fTel').value.trim()||'—';
-    var na=document.getElementById('fNaiss').value;
-    document.getElementById('rNaiss').textContent=na?new Date(na).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'—';
-    document.getElementById('rCIN').textContent=document.getElementById('fCIN').value.trim()||'—';
-    document.getElementById('rFil').textContent=document.getElementById('fOption').value||'—';
-    document.getElementById('rFile').innerHTML=uFile
-        ?'<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> '+uFile.name
-        :'<span class="text-slate-600">—</span>';
-    document.getElementById('rDur').textContent=dur||'—';
-    var sd=document.getElementById('fDebut').value,ed=document.getElementById('fFin').value;
-    document.getElementById('rDeb').textContent=sd?new Date(sd).toLocaleDateString('fr-FR'):'—';
-    document.getElementById('rFin').textContent=ed?new Date(ed).toLocaleDateString('fr-FR'):'—';
+/* ===== SUMMARY ===== */
+function updSum() {
+    var n = document.getElementById('fNom').value.trim();
+    var p = document.getElementById('fPrenom').value.trim();
+    document.getElementById('rNom').textContent = (p + ' ' + n).trim() || '—';
+    document.getElementById('rEmail').textContent = document.getElementById('fEmail').value.trim() || '—';
+    document.getElementById('rTel').textContent = document.getElementById('fTel').value.trim() || '—';
+    var na = document.getElementById('fNaiss').value;
+    document.getElementById('rNaiss').textContent = na ? new Date(na).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+    document.getElementById('rCIN').textContent = document.getElementById('fCIN').value.trim() || '—';
+    document.getElementById('rFil').textContent = document.getElementById('fOption').value || '—';
+    document.getElementById('rFile').innerHTML = uFile
+        ? '<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> ' + uFile.name
+        : '<span class="text-slate-600">—</span>';
+    document.getElementById('rDur').textContent = dur || '—';
+    var sd = document.getElementById('fDebut').value;
+    var ed = document.getElementById('fFin').value;
+    document.getElementById('rDeb').textContent = sd ? new Date(sd).toLocaleDateString('fr-FR') : '—';
+    document.getElementById('rFin').textContent = ed ? new Date(ed).toLocaleDateString('fr-FR') : '—';
 }
 
-// ===== SEND =====
-async function send(){
-    if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions.');return}
-    if(!URL_||URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){toast('error','Configuration','Le formulaire n\'est pas encore connecté.');return}
+/* ===== SEND ===== */
+async function send() {
+    if (!document.getElementById('fTerms').checked) {
+        toast('error', 'Conditions', 'Acceptez les conditions.');
+        return;
+    }
+    if (!URL_ || URL_ === 'COLLEZ_LA_NOUVELLE_URL_ICI') {
+        toast('error', 'Configuration', 'Le formulaire n\'est pas encore connecté.');
+        return;
+    }
 
-    var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
-    btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi en cours…';btn.style.opacity='.6';
+    var btn = document.getElementById('sendBtn');
+    var orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span> Envoi en cours…';
+    btn.style.opacity = '.6';
 
-    var ct=document.querySelector('input[name="cType"]:checked');
+    var ct = document.querySelector('input[name="cType"]:checked');
 
-    var payload={
-        nom:document.getElementById('fNom').value.trim(),
-        prenom:document.getElementById('fPrenom').value.trim(),
-        email:document.getElementById('fEmail').value.trim(),
-        telephone:document.getElementById('fTel').value.trim(),
-        naissance:document.getElementById('fNaiss').value||'',
-        cin:document.getElementById('fCIN').value.trim()||'',
-        option:document.getElementById('fOption').value||'',
-        genre:genre||'',
-        duree:dur||document.getElementById('durTxt').textContent||'',
-        dateDebut:document.getElementById('fDebut').value||'',
-        dateFin:document.getElementById('fFin').value||'',
-        typeCertificat:ct?ct.value:'',
-        certFileName:uFile?uFile.name:'',
-        certFileBase64:b64||'',
-        certMimeType:MIME||''
+    var payload = {
+        nom: document.getElementById('fNom').value.trim(),
+        prenom: document.getElementById('fPrenom').value.trim(),
+        email: document.getElementById('fEmail').value.trim(),
+        telephone: document.getElementById('fTel').value.trim(),
+        naissance: document.getElementById('fNaiss').value || '',
+        cin: document.getElementById('fCIN').value.trim() || '',
+        option: document.getElementById('fOption').value || '',
+        genre: genre || '',
+        duree: dur || document.getElementById('durTxt').textContent || '',
+        dateDebut: document.getElementById('fDebut').value || '',
+        dateFin: document.getElementById('fFin').value || '',
+        typeCertificat: ct ? ct.value : '',
+        certFileName: uFile ? uFile.name : '',
+        certFileBase64: b64 || '',
+        certMimeType: MIME || ''
     };
 
-    try{
-        var r=await fetch(URL_,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(payload)
+    try {
+        var r = await fetch(URL_, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
-        var d=await r.json();
-        btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
-        if(d.status==='success'){showOk()}
-        else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
-    }catch(err){
-        try{
-            await fetch(URL_,{
-                method:'POST',
-                mode:'no-cors',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(payload)
-            });
-            btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
+        var d = await r.json();
+        btn.disabled = false;
+        btn.innerHTML = orig;
+        btn.style.opacity = '1';
+        if (d.status === 'success') {
             showOk();
-        }catch(e2){
-            btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
-            toast('error','Erreur réseau','Vérifiez la connexion et la config.');
+        } else {
+            toast('error', 'Erreur serveur', d.message || 'Réponse inattendue.');
+        }
+    } catch (err) {
+        try {
+            await fetch(URL_, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            btn.disabled = false;
+            btn.innerHTML = orig;
+            btn.style.opacity = '1';
+            showOk();
+        } catch (e2) {
+            btn.disabled = false;
+            btn.innerHTML = orig;
+            btn.style.opacity = '1';
+            toast('error', 'Erreur réseau', 'Vérifiez la connexion et la config.');
         }
     }
 }
 
-function showOk(){
-    document.getElementById('mTime').textContent='Soumis le '+new Date().toLocaleString('fr-FR',{dateStyle:'full',timeStyle:'short'});
+function showOk() {
+    document.getElementById('mTime').textContent = 'Soumis le ' + new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' });
     document.getElementById('okModal').classList.remove('hidden');
     document.getElementById('okModal').classList.add('flex');
 }
 
-function closeOk(){
+function closeOk() {
     document.getElementById('okModal').classList.add('hidden');
     document.getElementById('okModal').classList.remove('flex');
     location.reload();
 }
 
-// ===== TOAST =====
-function toast(type,title,msg){
-    var el=document.getElementById('toast');
-    var ico=document.getElementById('tIco');
-    if(type==='error'){
-        el.style.borderColor='rgba(239,68,68,0.25)';
-        ico.style.background='rgba(239,68,68,0.1)';
-        ico.innerHTML='<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
-    }else{
-        el.style.borderColor='rgba(34,197,94,0.25)';
-        ico.style.background='rgba(34,197,94,0.1)';
-        ico.innerHTML='<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
+/* ===== TOAST ===== */
+function toast(type, title, msg) {
+    var el = document.getElementById('toast');
+    var ico = document.getElementById('tIco');
+    if (type === 'error') {
+        el.style.borderColor = 'rgba(239,68,68,0.25)';
+        ico.style.background = 'rgba(239,68,68,0.1)';
+        ico.innerHTML = '<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
+    } else {
+        el.style.borderColor = 'rgba(34,197,94,0.25)';
+        ico.style.background = 'rgba(34,197,94,0.1)';
+        ico.innerHTML = '<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
     }
-    if(window.Iconify) window.Iconify.scan(ico);
-    document.getElementById('tTitle').textContent=title;
-    document.getElementById('tMsg').textContent=msg;
+    if (window.Iconify) window.Iconify.scan(ico);
+    document.getElementById('tTitle').textContent = title;
+    document.getElementById('tMsg').textContent = msg;
     el.classList.add('show');
     clearTimeout(el._t);
-    el._t=setTimeout(function(){el.classList.remove('show')},3500);
+    el._t = setTimeout(function() { el.classList.remove('show'); }, 3500);
 }
 </script>
 </body>
