@@ -111,6 +111,7 @@
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Prénom <span class="text-cyan-500">*</span></label><input type="text" id="fPrenom" placeholder="Prénom" class="inp"></div>
                 <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-400 mb-1.5">Email <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Téléphone <span class="text-cyan-500">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
+                <!-- FIX #6 : max = today pour la date de naissance -->
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Date de naissance <span class="text-cyan-500">*</span></label><input type="date" id="fNaiss" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">CIN <span class="text-slate-600">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-400 mb-1.5">Option <span class="text-cyan-500">*</span></label>
@@ -163,7 +164,8 @@
                         <p class="text-[11px] text-slate-600 mb-3">ou cliquez pour parcourir</p>
                         <div class="flex items-center gap-3 text-[11px] text-slate-700"><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-pdf-box"></span>PDF</span><span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:file-image-outline"></span>JPG/PNG</span><span>Max 5 Mo</span></div>
                     </div>
-                    <div id="upOk" class="hidden flex flex-col items-center">
+                    <!-- FIX #2 : supprimé "flex" du HTML, géré via JS -->
+                    <div id="upOk" class="hidden flex-col items-center">
                         <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-3"><span class="iconify text-2xl text-green-400" data-icon="mdi:file-check-outline"></span></div>
                         <p class="text-sm font-medium text-green-400 mb-0.5">Fichier prêt</p>
                         <p id="fName" class="text-xs text-slate-400 mb-0.5">fichier.pdf</p>
@@ -189,11 +191,14 @@
                     <div><label class="block text-[11px] font-medium text-slate-500 mb-1.5">Date d'expiration</label><div class="relative"><span class="iconify absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-xs" data-icon="mdi:calendar-end"></span><input type="date" id="fFin" onchange="calcDur()" class="inp" style="padding-left:32px"></div></div>
                 </div>
                 <div id="calcBox" class="hidden mt-3 p-3 rounded-xl bg-cyan-500/[0.04] border border-cyan-500/15 flex items-center gap-2.5"><span class="iconify text-cyan-400" data-icon="mdi:clock-check-outline"></span><p class="text-xs text-cyan-300">Durée : <span id="durTxt" class="font-medium text-white"></span></p></div>
+                <!-- FIX #3 : message d'erreur dates invalides -->
+                <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-500/[0.04] border border-red-500/20 flex items-center gap-2.5"><span class="iconify text-red-400" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-300">La date de fin doit être postérieure à la date de début.</p></div>
             </div>
 
             <!-- TYPE -->
+            <!-- FIX #8 : ajout * au type de certificat -->
             <div>
-                <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat</label>
+                <label class="block text-xs font-medium text-slate-400 mb-2">Type de certificat <span class="text-cyan-500">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
                     <label class="radio-card"><input type="radio" name="cType" value="aptitude" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Certificat d'aptitude</p><p class="text-[11px] text-slate-600">Aptitude physique et sportive</p></div></label>
                     <label class="radio-card"><input type="radio" name="cType" value="non-contre-indication" class="accent-cyan-500"><div><p class="text-sm font-medium text-white">Non contre-indication</p><p class="text-[11px] text-slate-600">Absence de contre-indication</p></div></label>
@@ -286,8 +291,7 @@
 
 <script>
 // ==========================================
-// CONFIGURATION CACHÉE
-// Collez votre URL Apps Script entre les guillemets ci-dessous :
+// CONFIGURATION — Collez votre URL Apps Script ici :
 // ==========================================
 var URL_ = 'COLLEZ_LA_NOUVELLE_URL_ICI';
 
@@ -304,14 +308,23 @@ function go(s){
     if(c){c.classList.remove('anim');void c.offsetWidth;c.classList.add('anim')}
     cur=s;updSteps();updSum();window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function updSteps(){
     document.getElementById('pBar').style.width={1:'33%',2:'66%',3:'100%'}[cur];
     for(var s=1;s<=3;s++){
         var d=document.getElementById('d'+s),l=document.getElementById('l'+s);
         d.classList.remove('act','done','text-slate-500');l.classList.remove('text-slate-500','text-white','font-medium');
-        if(s<cur){d.classList.add('done');d.innerHTML='<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';l.classList.add('text-white')}
-        else if(s===cur){d.classList.add('act');d.textContent=s;l.classList.add('text-white','font-medium')}
-        else{d.textContent=s;d.classList.add('text-slate-500');l.classList.add('text-slate-500')}
+        if(s<cur){
+            d.classList.add('done');
+            d.innerHTML='<span class="iconify text-white text-xs" data-icon="mdi:check"></span>';
+            // FIX #9 : forcer le rendu Iconify après injection dynamique
+            if(window.Iconify) window.Iconify.scan(d);
+            l.classList.add('text-white');
+        } else if(s===cur){
+            d.classList.add('act');d.textContent=s;l.classList.add('text-white','font-medium');
+        } else {
+            d.textContent=s;d.classList.add('text-slate-500');l.classList.add('text-slate-500');
+        }
     }
     document.getElementById('ln1').style.background=cur>1?'#06b6d4':'rgba(255,255,255,0.08)';
     document.getElementById('ln2').style.background=cur>2?'#06b6d4':'rgba(255,255,255,0.08)';
@@ -321,26 +334,41 @@ function updSteps(){
 function v1(){
     var n=document.getElementById('fNom').value.trim(),p=document.getElementById('fPrenom').value.trim();
     if(!n||!p){toast('error','Champs requis','Nom et prénom obligatoires.');return false}
-    if(!document.getElementById('fEmail').value.trim().includes('@')){toast('error','Email invalide','Adresse non valide.');return false}
+    // FIX #7 : validation email robuste
+    var emailVal=document.getElementById('fEmail').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){toast('error','Email invalide','Adresse non valide.');return false}
     if(!document.getElementById('fTel').value.trim()){toast('error','Téléphone requis','Entrez votre numéro.');return false}
     if(!document.getElementById('fOption').value){toast('error','Option requise','Sélectionnez une option.');return false}
     if(!genre){toast('error','Genre requis','Sélectionnez votre genre.');return false}
     return true;
 }
+
 function v2(){
     if(!uFile){toast('error','Certificat requis','Insérez votre certificat.');return false}
-    if(!dur&&!document.getElementById('fDebut').value){toast('error','Durée requise','Sélectionnez une durée ou dates.');return false}
+    // FIX #3 : vérifier que la durée est bien calculée (pas juste que la date de début est remplie)
+    var hasDur = dur && dur !== '';
+    var hasManual = document.getElementById('fDebut').value && document.getElementById('fFin').value && hasDur;
+    if(!hasDur){toast('error','Durée requise','Sélectionnez une durée ou renseignez des dates valides.');return false}
+    // FIX #8 : vérifier le type de certificat
+    var ct=document.querySelector('input[name="cType"]:checked');
+    if(!ct){toast('error','Type requis','Sélectionnez un type de certificat.');return false}
     return true;
 }
 
 // ===== GENDER =====
-function pickG(b){var btns=document.querySelectorAll('.sel-btn');for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');b.classList.add('on');genre=b.textContent.trim()}
+function pickG(b){
+    var btns=document.querySelectorAll('.sel-btn');
+    for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');
+    b.classList.add('on');
+    genre=b.textContent.trim();
+}
 
 // ===== FILE =====
 function dOver(e){e.preventDefault();document.getElementById('dropZ').classList.add('dragover')}
 function dLeave(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover')}
 function dDrop(e){e.preventDefault();document.getElementById('dropZ').classList.remove('dragover');if(e.dataTransfer.files.length)procFile(e.dataTransfer.files[0])}
 function fSel(e){if(e.target.files.length)procFile(e.target.files[0])}
+
 function procFile(f){
     var ok=['application/pdf','image/jpeg','image/png'];
     if(ok.indexOf(f.type)===-1){toast('error','Format','PDF, JPG ou PNG uniquement.');return}
@@ -349,28 +377,68 @@ function procFile(f){
     document.getElementById('fName').textContent=f.name;
     document.getElementById('fSize').textContent=fmtS(f.size);
     document.getElementById('upDef').classList.add('hidden');
-    document.getElementById('upOk').classList.remove('hidden');
+    // FIX #2 : gérer l'affichage via style.display pour éviter le conflit hidden/flex
+    var upOk=document.getElementById('upOk');
+    upOk.classList.remove('hidden');
+    upOk.style.display='flex';
     document.getElementById('dropZ').classList.add('has-file');
     var r=new FileReader();
     r.onload=function(e){b64=e.target.result.split(',')[1]};
     r.readAsDataURL(f);
     toast('success','Fichier ajouté',f.name+' ('+fmtS(f.size)+')');
 }
-function rmFile(e){e.stopPropagation();uFile=null;b64='';MIME='';document.getElementById('fFile').value='';document.getElementById('upDef').classList.remove('hidden');document.getElementById('upOk').classList.add('hidden');document.getElementById('dropZ').classList.remove('has-file')}
+
+function rmFile(e){
+    e.stopPropagation();
+    uFile=null;b64='';MIME='';
+    document.getElementById('fFile').value='';
+    document.getElementById('upDef').classList.remove('hidden');
+    // FIX #2 : masquer proprement
+    var upOk=document.getElementById('upOk');
+    upOk.classList.add('hidden');
+    upOk.style.display='none';
+    document.getElementById('dropZ').classList.remove('has-file');
+}
+
 function fmtS(b){if(b<1024)return b+' o';if(b<1048576)return(b/1024).toFixed(1)+' Ko';return(b/1048576).toFixed(2)+' Mo'}
 
 // ===== DURATION =====
-function pickDur(c,v){var cards=document.querySelectorAll('.dur-card');for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');c.classList.add('sel');dur=v;document.getElementById('fDebut').value='';document.getElementById('fFin').value='';document.getElementById('calcBox').classList.add('hidden')}
+function pickDur(c,v){
+    var cards=document.querySelectorAll('.dur-card');
+    for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
+    c.classList.add('sel');
+    dur=v;
+    document.getElementById('fDebut').value='';
+    document.getElementById('fFin').value='';
+    document.getElementById('calcBox').classList.add('hidden');
+    document.getElementById('dateErrBox').classList.add('hidden');
+    // FIX #4 : mettre à jour le récapitulatif immédiatement
+    updSum();
+}
 
 function calcDur(){
     var s=document.getElementById('fDebut').value,e=document.getElementById('fFin').value;
-    var cards=document.querySelectorAll('.dur-card');for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');dur='';
-    if(s&&e){var a=new Date(s),b=new Date(e);if(b>a){
-        var dy=Math.ceil((b-a)/864e5);
-        var t=dy+' jour'+(dy>1?'s':'');
-        dur = t;
-        document.getElementById('durTxt').textContent=t;document.getElementById('calcBox').classList.remove('hidden');return;
-    }}document.getElementById('calcBox').classList.add('hidden');
+    var cards=document.querySelectorAll('.dur-card');
+    for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
+    dur='';
+    document.getElementById('calcBox').classList.add('hidden');
+    document.getElementById('dateErrBox').classList.add('hidden');
+
+    if(s&&e){
+        var a=new Date(s),b=new Date(e);
+        if(b>a){
+            var dy=Math.ceil((b-a)/864e5);
+            var t=dy+' jour'+(dy>1?'s':'');
+            dur=t;
+            document.getElementById('durTxt').textContent=t;
+            document.getElementById('calcBox').classList.remove('hidden');
+        } else {
+            // FIX #3 : afficher une erreur si dates invalides
+            document.getElementById('dateErrBox').classList.remove('hidden');
+        }
+    }
+    // FIX #4 : synchroniser le récapitulatif
+    updSum();
 }
 
 // ===== SUMMARY =====
@@ -384,7 +452,7 @@ function updSum(){
     document.getElementById('rCIN').textContent=document.getElementById('fCIN').value.trim()||'—';
     document.getElementById('rFil').textContent=document.getElementById('fOption').value||'—';
     document.getElementById('rFile').innerHTML=uFile?'<span class="iconify text-green-400 text-xs" data-icon="mdi:check-circle"></span> '+uFile.name:'<span class="text-slate-600">—</span>';
-    document.getElementById('rDur').textContent=dur||document.getElementById('durTxt').textContent||'—';
+    document.getElementById('rDur').textContent=dur||'—';
     var sd=document.getElementById('fDebut').value,ed=document.getElementById('fFin').value;
     document.getElementById('rDeb').textContent=sd?new Date(sd).toLocaleDateString('fr-FR'):'—';
     document.getElementById('rFin').textContent=ed?new Date(ed).toLocaleDateString('fr-FR'):'—';
@@ -393,8 +461,11 @@ function updSum(){
 // ===== SEND =====
 async function send(){
     if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
-    if(!URL_){toast('error','Erreur de configuration','Le formulaire n\'est pas encore connecté.');return}
-    
+    // FIX #1 : vérifier que l'URL est bien configurée (pas la valeur par défaut)
+    if(!URL_ || URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){
+        toast('error','Erreur de configuration','Le formulaire n\'est pas encore connecté à un serveur.');
+        return;
+    }
     var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
     btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
     var ct=document.querySelector('input[name="cType"]:checked');
@@ -410,7 +481,7 @@ async function send(){
         certFileName:uFile?uFile.name:'',
         certFileBase64:b64||'',
         certMimeType:MIME||'',
-        duree:dur||document.getElementById('durTxt').textContent||'',
+        duree:dur||'',
         dateDebut:document.getElementById('fDebut').value||'',
         dateFin:document.getElementById('fFin').value||'',
         typeCertificat:ct?ct.value:''
@@ -421,7 +492,7 @@ async function send(){
         btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
         if(d.status==='success'){showOk()}else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
     }catch(err){
-        if(err.message&&err.message.indexOf('Failed to fetch')!==-1||err.name==='TypeError'){
+        if(err.message&&(err.message.indexOf('Failed to fetch')!==-1||err.name==='TypeError')){
             try{
                 await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
                 btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';showOk();
@@ -429,36 +500,46 @@ async function send(){
         }else{btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur',err.message||'Erreur inconnue')}
     }
 }
+
 function showOk(){
     document.getElementById('mTime').textContent='Soumis le '+new Date().toLocaleString('fr-FR',{dateStyle:'full',timeStyle:'short'});
-    document.getElementById('okModal').classList.remove('hidden');document.getElementById('okModal').classList.add('flex');
+    document.getElementById('okModal').classList.remove('hidden');
+    document.getElementById('okModal').classList.add('flex');
 }
-function closeOk(){document.getElementById('okModal').classList.add('hidden');document.getElementById('okModal').classList.remove('flex');location.reload()}
+
+function closeOk(){
+    document.getElementById('okModal').classList.add('hidden');
+    document.getElementById('okModal').classList.remove('flex');
+    location.reload();
+}
 
 // ===== TOAST =====
-function toast(type, title, msg) {
-    var el = document.getElementById('toast');
-    var ico = document.getElementById('tIco');
-    if (type === 'error') {
-        el.style.borderColor = 'rgba(239,68,68,0.25)';
-        ico.style.background = 'rgba(239,68,68,0.1)';
-        ico.innerHTML = '<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
-    } else {
-        el.style.borderColor = 'rgba(34,197,94,0.25)';
-        ico.style.background = 'rgba(34,197,94,0.1)';
-        ico.innerHTML = '<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
+function toast(type,title,msg){
+    var el=document.getElementById('toast');
+    var ico=document.getElementById('tIco');
+    if(type==='error'){
+        el.style.borderColor='rgba(239,68,68,0.25)';
+        ico.style.background='rgba(239,68,68,0.1)';
+        ico.innerHTML='<span class="iconify text-red-400 text-sm" data-icon="mdi:alert-circle-outline"></span>';
+    }else{
+        el.style.borderColor='rgba(34,197,94,0.25)';
+        ico.style.background='rgba(34,197,94,0.1)';
+        ico.innerHTML='<span class="iconify text-green-400 text-sm" data-icon="mdi:check-circle-outline"></span>';
     }
-    document.getElementById('tTitle').textContent = title;
-    document.getElementById('tMsg').textContent = msg;
+    if(window.Iconify) window.Iconify.scan(ico);
+    document.getElementById('tTitle').textContent=title;
+    document.getElementById('tMsg').textContent=msg;
     el.classList.add('show');
     clearTimeout(el._t);
-    el._t = setTimeout(function() { el.classList.remove('show'); }, 3500);
+    el._t=setTimeout(function(){el.classList.remove('show')},3500);
 }
 
 // ===== INIT DATES =====
-var td = new Date().toISOString().split('T')[0];
-document.getElementById('fDebut').setAttribute('min', td);
-document.getElementById('fFin').setAttribute('min', td);
+var td=new Date().toISOString().split('T')[0];
+document.getElementById('fDebut').setAttribute('min',td);
+document.getElementById('fFin').setAttribute('min',td);
+// FIX #6 : date de naissance ne peut pas être dans le futur
+document.getElementById('fNaiss').setAttribute('max',td);
 </script>
 </body>
 </html>
