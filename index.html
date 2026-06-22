@@ -460,44 +460,44 @@ function updSum(){
 
 // ===== SEND =====
 async function send(){
-    if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'ajoute.');return}
-    // FIX #1 : vérifier que l'URL est bien configurée (pas la valeur par défaut)
-    if(!URL_ || URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){
-        toast('error','Erreur de configuration','Le formulaire n\'est pas encore connecté à un serveur.');
-        return;
-    }
+    if(!document.getElementById('fTerms').checked){toast('error','Conditions','Acceptez les conditions d\'inscription.');return}
+    if(!URL_||URL_==='COLLEZ_LA_NOUVELLE_URL_ICI'){toast('error','Configuration','Le formulaire n\'est pas encore connecté à un script.');return}
+
     var btn=document.getElementById('sendBtn'),orig=btn.innerHTML;
     btn.disabled=true;btn.innerHTML='<span class="spin"></span> Envoi…';btn.style.opacity='.6';
+
     var ct=document.querySelector('input[name="cType"]:checked');
-    var payload={
-        nom:document.getElementById('fNom').value.trim(),
-        prenom:document.getElementById('fPrenom').value.trim(),
-        email:document.getElementById('fEmail').value.trim(),
-        telephone:document.getElementById('fTel').value.trim(),
-        naissance:document.getElementById('fNaiss').value||'',
-        cin:document.getElementById('fCIN').value.trim()||'',
-        option:document.getElementById('fOption').value||'',
-        genre:genre||'',
-        certFileName:uFile?uFile.name:'',
-        certFileBase64:b64||'',
-        certMimeType:MIME||'',
-        duree:dur||'',
-        dateDebut:document.getElementById('fDebut').value||'',
-        dateFin:document.getElementById('fFin').value||'',
-        typeCertificat:ct?ct.value:''
-    };
+
+    // ── Encodage URL (simple request = pas de preflight CORS) ──
+    var params=new URLSearchParams();
+    params.append('nom',document.getElementById('fNom').value.trim());
+    params.append('prenom',document.getElementById('fPrenom').value.trim());
+    params.append('email',document.getElementById('fEmail').value.trim());
+    params.append('telephone',document.getElementById('fTel').value.trim());
+    params.append('naissance',document.getElementById('fNaiss').value||'');
+    params.append('cin',document.getElementById('fCIN').value.trim()||'');
+    params.append('option',document.getElementById('fOption').value||'');
+    params.append('genre',genre||'');
+    params.append('duree',dur||document.getElementById('durTxt').textContent||'');
+    params.append('dateDebut',document.getElementById('fDebut').value||'');
+    params.append('dateFin',document.getElementById('fFin').value||'');
+    params.append('typeCertificat',ct?ct.value:'');
+    params.append('certFileName',uFile?uFile.name:'');
+    params.append('certFileBase64',b64||'');
+    params.append('certMimeType',MIME||'');
+
     try{
-        var r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        var d=await r.json();
+        await fetch(URL_,{
+            method:'POST',
+            headers:{'Content-Type':'application/x-www-form-urlencoded'},
+            body:params.toString(),
+            mode:'no-cors'
+        });
         btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
-        if(d.status==='success'){showOk()}else{toast('error','Erreur serveur',d.message||'Réponse inattendue.')}
+        showOk();
     }catch(err){
-        if(err.message&&(err.message.indexOf('Failed to fetch')!==-1||err.name==='TypeError')){
-            try{
-                await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-                btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';showOk();
-            }catch(e2){btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur réseau','Vérifiez votre connexion.')}
-        }else{btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';toast('error','Erreur',err.message||'Erreur inconnue')}
+        btn.disabled=false;btn.innerHTML=orig;btn.style.opacity='1';
+        toast('error','Erreur réseau','Vérifiez votre connexion internet.');
     }
 }
 
