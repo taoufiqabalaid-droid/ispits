@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISPITS — attestation</title>
+    <title>ISPITS — certificat medical</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@
         <p class="text-base font-light text-slate-500 max-w-lg mx-auto">Complétez chaque étape pour soumettre votre dossier</p>
     </div>
 
-    <!-- ===== STEP 1 ===== -->
+    <!-- ===== ETAPE 1 ===== -->
     <div id="p1" class="anim d1">
         <div class="card">
             <div class="flex items-center gap-3 mb-5">
@@ -138,7 +138,7 @@
         <div class="flex justify-end"><button onclick="go(2)" class="px-7 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-medium text-sm rounded-xl transition-all flex items-center gap-2" style="box-shadow:0 0 20px rgba(6,182,212,0.2)">Suivant <span class="iconify" data-icon="mdi:arrow-right"></span></button></div>
     </div>
 
-    <!-- ===== STEP 2 ===== -->
+    <!-- ===== ETAPE 2 ===== -->
     <div id="p2" class="hidden">
         <div class="card anim">
             <div class="flex items-center gap-3 mb-2">
@@ -184,11 +184,12 @@
                 <div id="dateErrBox" class="hidden mt-3 p-3 rounded-xl bg-red-50 border border-red-200 flex items-center gap-2.5"><span class="iconify text-red-500" data-icon="mdi:alert-circle-outline"></span><p class="text-xs text-red-600">La date de fin doit être postérieure à la date de début.</p></div>
             </div>
 
+            <!-- SECTION MODIFIEE : Type de certificat = "certificat medical" au lieu de "aptitude" -->
             <div>
                 <label class="block text-xs font-medium text-slate-600 mb-2">Type de certificat <span class="text-cyan-600">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
-                    <label class="radio-card"><input type="radio" name="cType" value="Maladie" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Certificat Médical</p><p class="text-[11px] text-slate-400">Medical</p></div></label>
-                    <label class="radio-card"><input type="radio" name="cType" value="Autre" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Autre</p><p class="text-[11px] text-slate-400">Autre/p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="certificat medical" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Certificat medical</p><p class="text-[11px] text-slate-400">Certificat medical</p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="Autre" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Autre</p><p class="text-[11px] text-slate-400">Autre</p></div></label>
                 </div>
             </div>
         </div>
@@ -198,7 +199,7 @@
         </div>
     </div>
 
-    <!-- ===== STEP 3 ===== -->
+    <!-- ===== ETAPE 3 ===== -->
     <div id="p3" class="hidden">
         <div class="card anim">
             <div class="flex items-center gap-3 mb-5">
@@ -222,12 +223,13 @@
                     </div>
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-600 text-sm" data-icon="mdi:certificate-outline"></span><span class="text-xs font-medium text-slate-500">Certificat médical</span></div>
+                    <div class="flex items-center gap-2 mb-2.5"><span class="iconify text-cyan-600 text-sm" data-icon="mdi:certificate-outline"></span><span class="text-xs font-medium text-slate-500">Certificat medical</span></div>
                     <div class="grid grid-cols-2 gap-y-1.5 gap-x-5 text-[13px]">
                         <div><span class="text-[11px] text-slate-400 block">Fichier</span><span id="rFile" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Durée</span><span id="rDur" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Date début</span><span id="rDeb" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Date fin</span><span id="rFin" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Type</span><span id="rType" class="text-slate-900 font-medium">—</span></div>
                     </div>
                 </div>
             </div>
@@ -267,7 +269,7 @@
         <div class="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-5"><span class="iconify text-3xl text-green-500" data-icon="mdi:check-circle-outline"></span></div>
         <h3 class="text-xl font-semibold text-slate-900 mb-2">Ajout validé !</h3>
         <p class="text-xs text-slate-500 mb-1">Vos informations ont été enregistrées</p>
-        <p class="text-xs text-slate-500 mb-1">Votre certificat a été ajouté à votre dossier</p>
+        <p class="text-xs text-slate-500 mb-1">Votre certificat medical a été ajouté à votre dossier</p>
         <p id="mTime" class="text-[11px] text-slate-400 mb-6"></p>
         <button onclick="closeOk()" class="w-full px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-medium rounded-xl transition-all">Terminer</button>
     </div>
@@ -290,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fFin').setAttribute('min', td);
 });
 
-function go(s) {$
+function go(s) {
     if (s > cur) {
         if (cur === 1 && !v1()) return;
         if (cur === 2 && !v2()) return;
@@ -444,6 +446,9 @@ function updSum() {
     var sd = document.getElementById('fDebut').value, ed = document.getElementById('fFin').value;
     document.getElementById('rDeb').textContent = sd ? new Date(sd).toLocaleDateString('fr-FR') : '—';
     document.getElementById('rFin').textContent = ed ? new Date(ed).toLocaleDateString('fr-FR') : '—';
+    /* Affiche le type de certificat sélectionné dans le récapitulatif */
+    var ct = document.querySelector('input[name="cType"]:checked');
+    document.getElementById('rType').textContent = ct ? ct.value : '—';
 }
 
 async function send() {
