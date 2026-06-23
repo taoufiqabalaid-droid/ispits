@@ -188,7 +188,7 @@
                 <label class="block text-xs font-medium text-slate-600 mb-2">Type de certificat <span class="text-cyan-600">*</span></label>
                 <div class="grid sm:grid-cols-2 gap-2.5">
                     <label class="radio-card"><input type="radio" name="cType" value="Maladie" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Certificat Médical</p><p class="text-[11px] text-slate-400">Medical</p></div></label>
-                    <label class="radio-card"><input type="radio" name="cType" value="Autorisation D'absence" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Autorisation D'absence</p><p class="text-[11px] text-slate-400">Autorisation D'absence</p></div></label>
+                    <label class="radio-card"><input type="radio" name="cType" value="Autre" class="accent-cyan-500"><div><p class="text-sm font-medium text-slate-900">Autre</p><p class="text-[11px] text-slate-400">Autre/p></div></label>
                 </div>
             </div>
         </div>
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fFin').setAttribute('min', td);
 });
 
-function go(s) {
+function go(s) {$
     if (s > cur) {
         if (cur === 1 && !v1()) return;
         if (cur === 2 && !v2()) return;
