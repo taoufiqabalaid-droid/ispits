@@ -122,7 +122,7 @@
                 <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-600 mb-1.5">Email <span class="text-cyan-600">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="mdi:email-outline"></span><input type="email" id="fEmail" placeholder="votre@email.com" class="inp" style="padding-left:36px"></div></div>
                 <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Téléphone <span class="text-cyan-600">*</span></label><div class="relative"><span class="iconify absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="mdi:phone-outline"></span><input type="tel" id="fTel" placeholder="+212 6XX XXX XXX" class="inp" style="padding-left:36px"></div></div>
                 <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Date de naissance <span class="text-cyan-600">*</span></label><input type="date" id="fNaiss" class="inp"></div>
-                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">CIN <span class="text-slate-400">(optionnel)</span></label><input type="text" id="fCIN" placeholder="Numéro CIN" class="inp"></div>
+                <div><label class="block text-xs font-medium text-slate-600 mb-1.5">MASSAR <span class="text-slate-400">(optionnel)</span></label><input type="text" id="fMASSAR" placeholder="Numéro MASSAR" class="inp"></div>
                 <div><label class="block text-xs font-medium text-slate-600 mb-1.5">Option <span class="text-cyan-600">*</span></label>
                     <select id="fOption" class="inp">
                         <option value="">Sélectionner une option</option>
@@ -233,7 +233,7 @@
                         <div><span class="text-[11px] text-slate-400 block">Email</span><span id="rEmail" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Téléphone</span><span id="rTel" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Naissance</span><span id="rNaiss" class="text-slate-900 font-medium">—</span></div>
-                        <div><span class="text-[11px] text-slate-400 block">CIN</span><span id="rCIN" class="text-slate-900 font-medium">—</span></div>
+                        <div><span class="text-[11px] text-slate-400 block">Massar</span><span id="rmassar" class="text-slate-900 font-medium">—</span></div>
                         <div><span class="text-[11px] text-slate-400 block">Option</span><span id="rFil" class="text-slate-900 font-medium">—</span></div>
                     </div>
                 </div>
@@ -452,7 +452,7 @@ function updSum() {
     document.getElementById('rTel').textContent = document.getElementById('fTel').value.trim() || '—';
     var na = document.getElementById('fNaiss').value;
     document.getElementById('rNaiss').textContent = na ? new Date(na).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
-    document.getElementById('rCIN').textContent = document.getElementById('fCIN').value.trim() || '—';
+    document.getElementById('rMASSAR').textContent = document.getElementById('fMASSAR').value.trim() || '—';
     document.getElementById('rFil').textContent = document.getElementById('fOption').value || '—';
     document.getElementById('rFile').innerHTML = uFile
         ? '<span class="iconify text-green-500 text-xs" data-icon="mdi:check-circle"></span> ' + uFile.name
@@ -474,7 +474,7 @@ async function send() {
     var payload = {
         nom: document.getElementById('fNom').value.trim(), prenom: document.getElementById('fPrenom').value.trim(),
         email: document.getElementById('fEmail').value.trim(), telephone: document.getElementById('fTel').value.trim(),
-        naissance: document.getElementById('fNaiss').value || '', cin: document.getElementById('fCIN').value.trim() || '',
+        naissance: document.getElementById('fNaiss').value || '', MASSAR: document.getElementById('fMASSAR').value.trim() || '',
         option: document.getElementById('fOption').value || '', genre: genre || '',
         duree: dur || document.getElementById('durTxt').textContent || '',
         dateDebut: document.getElementById('fDebut').value || '', dateFin: document.getElementById('fFin').value || '',
